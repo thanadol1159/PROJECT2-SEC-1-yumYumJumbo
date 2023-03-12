@@ -6,6 +6,9 @@ module.exports = {
   ],
   theme: {
     extend: {},
+    fontFamily: {
+      'heading': ['Kanit','sans-serif']
+    }
   },
   plugins: [require("daisyui")]
 }
