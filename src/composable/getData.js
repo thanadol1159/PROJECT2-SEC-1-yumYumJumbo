@@ -1,6 +1,5 @@
 import db from '../../data/product.json'
 const getData = () => {
-    return db
+    return db.items
 }
-
 export { getData }
