@@ -2,8 +2,7 @@
 module.exports = {
   content: [
     "./index.html",
-    "./src/**/*.{vue,js,ts,jsx,tsx}",
-    "./node_modules/flowbite/**/*.js"
+    "./src/**/*.{vue,js,ts,jsx,tsx}"
   ],
   theme: {
     extend: {},
@@ -11,7 +10,7 @@ module.exports = {
       'heading': ['Kanit','sans-serif']
     }
   },
-  plugins: [require("daisyui"), ('flowbite/plugin')],
+  plugins: [require("daisyui")],
   daisyui: {
     themes: false
   },
