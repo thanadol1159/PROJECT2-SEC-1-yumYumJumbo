@@ -1,11 +1,15 @@
 <script setup>
 import Navbar from './components/Navbar.vue'
 import ProductPreview from './components/ProductPreview.vue';
-
+import Slide from './components/Slide.vue';
 </script>
 <template>
     <Navbar/>
-    <ProductPreview/>
+    <ProductPreview>
+        <Slide>
+            
+        </Slide>
+    </ProductPreview>
 </template>
 
 <style scoped>
