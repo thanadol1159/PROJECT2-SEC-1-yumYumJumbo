@@ -18,11 +18,11 @@ const searchFilter = computed(() => {
 </script>
  
 <template>
-    <div class="sticky top-0">
+    <div class="sticky top-0 z-50">
         <!-- navbar -->
         <div class="navbar w-full drop-shadow-lg ">
             <nav class="w-full flex justify-between">
-                <img src="../" alt="logoApp" width="24px" height="24px" class="flex justify-start">
+                <img src="../assets/logo.png" alt="logoApp" width="52" height="36" class="ml-3 flex justify-start">
 
                 <label class="relative block">
                     <input
