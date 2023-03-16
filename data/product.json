@@ -1,4 +1,22 @@
 {
+  "size":[
+    {
+        "sizeid": 1,
+        "sizename": "S"
+    },
+    {
+      "sizeid": 2,
+      "sizename": "M"
+    },
+    {
+      "sizeid": 3,
+      "sizename": "L"
+    },
+    {
+      "sizeid": 4,
+      "sizename": "XL"
+    }
+],
   "items": [
     {
       "id": 1,
