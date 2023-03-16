@@ -26,7 +26,7 @@ const randomPreview = () => {
 }
 </script>
 <template>
-  <Navbar />
+  <!-- <Navbar />
   <ContentSection>
     <Carousel :item-list="randomPreview()" :full="true"> </Carousel>
   </ContentSection>
@@ -37,7 +37,7 @@ const randomPreview = () => {
 
   <ContentSection>
     <div class="w-full h-60 bg-red-400"></div>
-  </ContentSection>
+  </ContentSection> -->
 </template>
 
 <style scoped>
