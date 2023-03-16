@@ -56,20 +56,12 @@ const clickPageHandler = (e) => {
       </button>
     </div>
     <div class="absolute w-[48rem] h-80 z-0">
-    <transition-group 
-      name="slide"
-      mode="out-in"
-      enter-class="slide-in"
-      leave-class="slide-out"
-      enter-active-class="animated slide-in-active"
-      leave-active-class="animated slide-out-active"
-    >
+    
       <div
         class="absolute w-[48rem] h-80 border rounded-2xl bg-contain bg-no-repeat bg-center tra"
         :style="{ backgroundImage: 'url(' + currentItem.images[0] + ')' }"
       ></div>
-    </transition-group>
-      <div class="absolute h-full flex flex-col justify-end p-3.5 w-full z-10">
+        <div class="absolute h-full flex flex-col justify-end p-3.5 w-full z-10">
         <div class="flex flex-row gap-5 justify-center w-full">
           <button
             v-for="(item, index) in itemList"
@@ -101,4 +93,3 @@ const clickPageHandler = (e) => {
   </div>
 </template>
 
-<style scoped></style>

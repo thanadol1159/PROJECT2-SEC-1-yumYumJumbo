@@ -199,7 +199,9 @@
       "price": 59,
       "description": "Cosco เสื้อยืดผู้หญิงสาวลายการ์ตูนน่ารัก#8852",
       "category": "women's clothing",
-      "images": "https://cf.shopee.co.th/file/2d9a6cda75802bac16c34538ee967822",
+      "images": [
+        "https://cf.shopee.co.th/file/2d9a6cda75802bac16c34538ee967822"
+      ],
       "rating": {
         "rate": 4.2,
         "count": 240

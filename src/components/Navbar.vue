@@ -1,18 +1,18 @@
 <script setup>
 import { ref, computed } from 'vue'
-import products from '../../data/product.json'
+import { getData } from '../composable/getData.js'
 
-const items = products.items
+const items = getData()
 const searchKeyword = ref('')
 const dropdown = ref(false)
 const showSeach = ref(false)
-
-const filterCategory = items.filter((p, index) => items.findIndex((item) => item.category === p.category) === index)
+console.log(items.value.name)
+const filterCategory = items.filter((p, index) => items.findIndex((item) => item.name === p.name) === index)
 
 const searchFilter = computed(() => {
         dropdown.value = true
         return filterCategory.filter((product) =>
-            product.category.toLowerCase().includes(searchKeyword.value.toLowerCase()))
+            product.name.toLowerCase().includes(searchKeyword.value.toLowerCase()))
 })
 
 </script>
