@@ -1,5 +1,7 @@
 <script setup>
-
+import { ref, computed } from 'vue'
+import products from '../../data/product.json'
+const size = ref([])
 </script>
  
 <template>
@@ -19,8 +21,8 @@
                 <p class="flex justify-center">สวัสดีจ้านี่คือdescriptionน้าทำไมมันไม่ขยับว้าขยับหน่อยเด้โห้ขยับหน่อยพี่เห้ขยับหน่อยๆๆๆ</p>
             </div>
             <div class="size pl-24 pt-60">
-                <span class="bg-gray-200 text-3xl p-7 hover:bg-slate-400 rounded-lg m-2" v-for="size in size" :key="size.sizeid">
-                {{ size.sizename }}
+                <span class="bg-gray-200 text-3xl p-7 hover:bg-slate-400 rounded-lg m-2" v-for="sizes in size.sizename" :key="size.sizeid">
+                {{ sizes }}
                 </span>
             </div>
             <div class="pt-16 pl-24">
