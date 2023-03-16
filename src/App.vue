@@ -5,6 +5,7 @@ import PopuparItem from './components/PopularItem.vue';
 import Buying from './components/Buying.vue';
 import Cart from './components/Cart.vue';
 import PaymentMethod from './components/PaymentMethod.vue';
+import ProductDetail from './components/ProductDetail.vue';
 </script>
 
 <template>
@@ -12,10 +13,11 @@ import PaymentMethod from './components/PaymentMethod.vue';
     <div>
         <!-- <Category />
         <PopuparItem /> -->
-        <Buying />
+        <!-- <Buying /> -->
         <!-- <Cart />
         <PaymentMethod /> -->
-        
+        <ProductDetail></ProductDetail>
+
     </div>
 
 </div>
