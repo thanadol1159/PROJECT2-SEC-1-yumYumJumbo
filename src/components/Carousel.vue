@@ -72,7 +72,7 @@ const clickPageHandler = (e) => {
             :key="index"
             :id="index"
             @click="clickPageHandler"
-            class="h-3.5 w-3.5 bg-white rounded-full border"
+            class="h-3.5 w-3.5 rounded-full border"
             :class="index === currentIndex ? ['bg-white', 'border-[#9263B1]'] : 'bg-[#9263B1]'"
           ></button>
         </div> 
