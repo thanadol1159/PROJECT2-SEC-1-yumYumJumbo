@@ -6,14 +6,14 @@ const items = getData()
 const searchKeyword = ref('')
 const dropdown = ref(false)
 const showSeach = ref(false)
-console.log(items.value.name)
-const filterCategory = items.filter((p, index) => items.findIndex((item) => item.name === p.name) === index)
+// console.log(items.value.name)
+// const filterCategory = items.filter((p, index) => items.findIndex((item) => item.name === p.name) === index)
 
-const searchFilter = computed(() => {
-        dropdown.value = true
-        return filterCategory.filter((product) =>
-            product.name.toLowerCase().includes(searchKeyword.value.toLowerCase()))
-})
+// const searchFilter = computed(() => {
+//         dropdown.value = true
+//         return filterCategory.filter((product) =>
+//             product.name.toLowerCase().includes(searchKeyword.value.toLowerCase()))
+// })
 
 </script>
  
@@ -22,7 +22,7 @@ const searchFilter = computed(() => {
         <!-- navbar -->
         <div class="navbar w-full drop-shadow-lg ">
             <nav class="w-full flex justify-between">
-                <img src="../assets/logo.png" alt="logoApp" width="52" height="36" class="ml-3 flex justify-start">
+                <img src="../assets/logo.png" alt="logoApp" width="52" height="36" class="ml-8 flex justify-start">
 
                 <label class="relative block">
                     <input
@@ -87,14 +87,14 @@ const searchFilter = computed(() => {
         </div>
 
         <!-- dropdown -->
-        <div v-show="showSeach" class="absolute w-full">
-            <div v-if="searchFilter.length && dropdown" class="w-full">
-                <div v-for="(p, index) in searchFilter" :key="index" :class="index % 2 === 0 ? 'bg-white' : 'bg-slate-50'" class="pl-5 py-2 text-xl">
-                    {{ p.category }}
+        <!-- <div v-show="showSeach" class="absolute w-full">
+            <div v-if="dropdown" class="w-full">
+                <div v-for="(p, index) in items" :key="index" :class="index % 2 === 0 ? 'bg-white' : 'bg-slate-50'" class="pl-5 py-2 text-xl">
+                    {{ p.name }}
                 </div>
             </div>
             <p v-else class="pl-5 py-2 text-xl">Searching for {{ searchKeyword }}</p>
-        </div>
+        </div> -->
     </div>
 </template>
  

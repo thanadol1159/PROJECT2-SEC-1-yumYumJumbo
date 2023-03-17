@@ -6,4 +6,4 @@ import Carousel from "./Carousel.vue";
   <Carousel :item-list="items" :full="true"> </Carousel>
 </template>
 
-<style scoped></style>
+
