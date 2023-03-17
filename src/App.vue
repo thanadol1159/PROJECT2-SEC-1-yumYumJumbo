@@ -10,7 +10,7 @@ import ProductDetail from './components/ProductDetail.vue';
 
 <template>
 <div>
-    <div>
+    <div>   
         <!-- <Category />
         <PopuparItem /> -->
         <!-- <Buying /> -->
