@@ -1,11 +1,23 @@
-<script setup>
+<script>
 import { ref, computed, onMounted } from 'vue'
 import { getData } from '../composable/getData.js'
 
 
 const product = ref(getData())
 
-const producttest = ref(product.id)
+const productdata = ref(0)
+
+export default{
+    data(){
+        return {
+            products: null
+        }
+    },
+    created(){
+        const productId = this.$route.params.id
+        this.products = product.find((products) => products.id === productId)
+    }
+}
 
 </script>
  
@@ -17,7 +29,7 @@ const producttest = ref(product.id)
         </div>
         <div class="content">
             <div class="flex flex-col space-y-5 text-5xl py-14 px-7 font-bold">
-                <h1 class="flex justify-end">เนี้ยๆๆๆ</h1>
+                <h1 class="flex justify-end">{{ products.name }}</h1>
                 <h1 class="font-bold flex justify-end">660$</h1>
             </div>
             <div class="flex flex-col px-16">

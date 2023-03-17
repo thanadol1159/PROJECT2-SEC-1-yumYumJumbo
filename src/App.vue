@@ -6,6 +6,10 @@ import Buying from './components/Buying.vue';
 import Cart from './components/Cart.vue';
 import PaymentMethod from './components/PaymentMethod.vue';
 import ProductDetail from './components/ProductDetail.vue';
+import { getData } from './composable/getData';
+
+const item = getData()
+
 </script>
 
 <template>
@@ -16,7 +20,9 @@ import ProductDetail from './components/ProductDetail.vue';
         <!-- <Buying /> -->
         <!-- <Cart />
         <PaymentMethod /> -->
+        
         <ProductDetail></ProductDetail>
+        <router-view></router-view>
 
     </div>
 
