@@ -2,25 +2,34 @@
 import { ref } from "vue";
 import { getData } from '../composable/getData.js'
 
-const datas = ref(getData())
+// const datas = ref(getData())
 
+const datas = ref(getData().sort((a, b) => b.rating.rate - a.rating.rate))
+
+console.log(datas.value);
 
 </script>
  
 <template>
-    <div
-        class="pop  bg-purple-800 border border-black w-9/12 float-right mx-11 rounded-lg overflow-x-scroll overflow-y-hidden ">
-        <h1 class="text-3xl pt-4 pl-10 text-white">Popular</h1>
-        <div class="flex pl-18 pt-8">
+    <div class="pop border border-black w-9/12 m-auto rounded-lg truncate mt-8">
+        <h1 class="text-4xl mt-2 pl-10 text-white">Popular</h1>
+        <div class="flex overflow-y-auto mt-2 pb-2">
             <div v-for="data in datas" :key="data.id">
-                <div class="cursor-pointer bg-white -mt-5 h-60 w-48 rounded-2xl mx-3 shadow drop-shadow-2xl border border-black hover:border-green-500 hover:shadow-2xl hover:border-2 "
-                    v-show="data.rating.rate > 4.5">
-                    <div v-on:click="">
-                        <img class="m-auto w-40 mt-6 overflow-hidden border rounded-lg border-black shadow shadow-violet-600"
+                <div v-show="data.rating.rate > 4.7">
+                    <div class="cursor-pointer bg-white h-60 w-48 rounded-2xl mx-3 shadow drop-shadow-2xl border border-black hover:border-red-500 hover:shadow-2xl hover:border-2 overflow-hidden "
+                        v-on:click="">
+                        <img class="m-auto w-40 mt-4 border rounded-lg border-black shadow shadow-violet-600"
                             :src="data.images" />
-                        <h1 class="text-xs px-5 bg-black h-8 text-white mt-3 py-2 break-words truncate rounded-md">{{
-                            data.name }}
-                        </h1>
+                        <p
+                            class="text-xs pl-5 mt-1 bg-slate-500 border border-red-600 border-l-0 border-r-0 text-slate-200">
+                            rating : <span class="rateData">{{
+                                data.rating.rate
+                            }}</span></p>
+                        <div class="mt-1 bg-black h-12">
+                            <h1 class="text-xs px-5 text-white py-2 truncate ">{{
+                                data.name }}
+                            </h1>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -31,7 +40,12 @@ const datas = ref(getData())
 <style scoped>
 .pop {
     background-color: #754A8F;
-    height: 340px;
+    height: 320px;
+}
+
+.rateData {
+    color: #fddf00;
+    text-shadow: 0 0 3px rgb(0, 0, 0);
 }
 
 ::-webkit-scrollbar {
