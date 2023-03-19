@@ -1,6 +1,9 @@
 <script setup>
-
+// function popUpAddress() {
+//     prompt("กรอก")
+// }
 </script>
+
 <template>
     <div class="m-12 flex">
         <div class="w-7/12">
@@ -12,16 +15,21 @@
                 <span class="text-xl"> ขั้นตอนการสั่งซื้อ</span>
             </div>
 
-            <div class=" mb-48">
+            <div class="w-full">
                 <p class="bg-[#EFEFEF] text-xl p-3 pl-8">ที่อยู่การจัดส่งสินค้า</p>
-                <div class="pt-4" @click=""><span class="text-lg text-white bg-[#602F7E] py-3 px-10">เพิ่มที่อยู่</span>
+                <div class="pt-4 w-full h-80 pb-4">
+                    <button type="button"
+                        class="text-lg text-white bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 px-10"
+                        @click="popUpAddress">เพิ่มที่อยู่</button>
                 </div>
             </div>
 
             <div class="mb-6">
                 <p class="bg-[#EFEFEF] text-xl p-3 pl-8 mb-3">วิธีการชำระเงิน</p>
                 <div class="pt-4 inline">
-                    <span class="text-lg bg-[#F6F6F6] py-3 px-10 mr-6" @click="">
+                    <button type="button"
+                        class="py-3 px-10 mr-6 text-lg rounded-lg bg-[#F6F6F6] text-black hover:bg-slate-500  hover:text-white active:bg-slate-700 "
+                        @click="">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 inline mr-2">
                             <path fill="none" d="M0 0h24v24H0z" />
                             <path
@@ -29,8 +37,10 @@
                                 fill="rgba(96,47,126,1)" />
                         </svg>
                         บัญชีธนาคาร
-                    </span>
-                    <span class="text-lg bg-[#F6F6F6] py-3 px-10 mr-6" @click="">
+                    </button>
+                    <button type="button"
+                        class="py-3 px-10 mr-6 text-lg rounded-lg bg-[#F6F6F6] text-black hover:bg-slate-500  hover:text-white active:bg-slate-700 "
+                        @click="">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 inline mr-2">
                             <path fill="none" d="M0 0h24v24H0z" />
                             <path
@@ -38,20 +48,30 @@
                                 fill="rgba(96,47,126,1)" />
                         </svg>
                         พร้อมเพย์
-                    </span>
+                    </button>
                 </div>
             </div>
 
         </div>
 
-        <div class="w-5/12">
-            <div class="bg-[#EFEFEF] w-7/12 h-5/6 m-8 flex justify-center">
-                <span class="text-xl mt-6">รายการสินค้า</span>
-                
+        <div class="w-5/12 pt-12">
+            <div class="bg-[#EFEFEF] w-7/12 mx-32 text-center">
+                <span class="text-2xl">รายการสินค้า</span>
+                <div class="mt-6 h-80">
+                    <div class="grid grid-cols-2">
+                        <span class="text-lg font-sans">เสื้อตัวที่หนึ่ง</span>
+                        <span class="text-lg">THB 150</span>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 pb-6">
+                    <span class="text-2xl">รวมทั้งหมด</span>
+                    <span class="text-2xl text-[#602F7E]">THB 150</span>
+                </div>
             </div>
-            <div>
-                <span>รวมทั้งหมด</span>
-                <span>{{  }}</span>
+            <div class="pt-4 mx-40 text-center">
+                <button type="button"
+                    class="text-lg text-white bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 w-52"
+                    @click="">ยืนยันคำสั่งซื้อ</button>
             </div>
         </div>
     </div>
