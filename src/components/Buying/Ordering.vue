@@ -1,26 +1,53 @@
 <script setup>
-// function popUpAddress() {
-//     prompt("กรอก")
-// }
+import { ref } from 'vue';
+import AddressForm from './AddressForm.vue';
+
+let userForm = ref('')
+let showPopUp = ref(false)
+function popUpForm() {
+    return showPopUp.value = true
+}
+let showBank = ref(false)
+function popUpBank() {
+    return showBank.value = !showBank.value
+}
 </script>
 
 <template>
     <div class="m-12 flex">
         <div class="w-7/12">
-            <div class="pb-4" @click="">
+            <button class="pb-4" @click="">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="inline w-12 h-12">
                     <path fill="none" d="M0 0h24v24H0z" />
                     <path d="M10.828 12l4.95 4.95-1.414 1.414L8 12l6.364-6.364 1.414 1.414z" fill="rgba(96,47,126,1)" />
                 </svg>
                 <span class="text-xl"> ขั้นตอนการสั่งซื้อ</span>
-            </div>
+            </button>
 
             <div class="w-full">
                 <p class="bg-[#EFEFEF] text-xl p-3 pl-8">ที่อยู่การจัดส่งสินค้า</p>
-                <div class="pt-4 w-full h-80 pb-4">
+                <div class="pt-4 w-full h-80 pb-4" v-show="userForm !== ''">
                     <button type="button"
                         class="text-lg text-white bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 px-10"
-                        @click="popUpAddress">เพิ่มที่อยู่</button>
+                        @click="popUpForm">เพิ่มที่อยู่</button>
+                    <AddressForm v-show="showPopUp" />
+                </div>
+                <div v-show="userForm === ''">
+                    <div class="pt-4 w-full h-80 pb-4">
+                        <div class="bg-[#F6F6F6] w-96 h-full p-4">
+                            <div class=" h-48 w-auto">
+                                <p class="text-xl">ภคพล ทาอุบล</p>
+                                <p class="text-lg pt-2">28/6 ซอย 9 แยก 4
+                                    ปากเพรียว , เมืองสระบุรี , สระบุรี
+                                    18000</p>
+                                <p class="text-xl pt-4">0922165424</p>
+                            </div>
+                            <button type="button"
+                                class="text-lg text-white bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 px-10"
+                                @click="popUpForm">แก้ไข</button>
+                            <AddressForm v-show="showPopUp" />
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -29,7 +56,7 @@
                 <div class="pt-4 inline">
                     <button type="button"
                         class="py-3 px-10 mr-6 text-lg rounded-lg bg-[#F6F6F6] text-black hover:bg-slate-500  hover:text-white active:bg-slate-700 "
-                        @click="">
+                        @click="popUpBank">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 inline mr-2">
                             <path fill="none" d="M0 0h24v24H0z" />
                             <path
@@ -38,9 +65,17 @@
                         </svg>
                         บัญชีธนาคาร
                     </button>
+                    <div class="fixed top-0 left-0 w-screen h-screen bg-gray-900 bg-opacity-80 flex items-center justify-center z-50"
+                        v-show="showBank" @click="popUpBank">
+                        <div class="bg-white rounded-lg p-8 mx-auto h-auto w-3/12 text-2xl">
+                            <img src="https://mpics.mgronline.com/pics/Images/564000004884401.JPEG">
+                            <p class="pt-4">อาร์มิน อาร์เลอร์ท</p>
+                            <p class="pt-1 text-[#602F7E]">0123456789</p>
+                        </div>
+                    </div>
                     <button type="button"
                         class="py-3 px-10 mr-6 text-lg rounded-lg bg-[#F6F6F6] text-black hover:bg-slate-500  hover:text-white active:bg-slate-700 "
-                        @click="">
+                        @click="popUpBank">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 inline mr-2">
                             <path fill="none" d="M0 0h24v24H0z" />
                             <path
@@ -49,6 +84,7 @@
                         </svg>
                         พร้อมเพย์
                     </button>
+
                 </div>
             </div>
 
