@@ -2,20 +2,39 @@
 import { ref } from 'vue';
 import AddressForm from './AddressForm.vue';
 
-let userForm = ref('')
-let showPopUp = ref(false)
-function popUpForm() {
-    return showPopUp.value = true
+const userForm = ref('')
+let popup = ref('')
+function setNewPopup(newPopup) {
+    popup.value = newPopup
 }
-let showBank = ref(false)
-function popUpBank() {
-    return showBank.value = !showBank.value
+const addNewForm = async (newForm) => {
+    console.log(newForm);
+    try {
+        const res = await fetch('http://localhost:5000/userForm', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: newForm.name,
+                address: newForm.address,
+                phone: newForm.phone
+            })
+        })
+        if (res.status === 201) {
+            console.log('add Successfully');            
+        }
+    }
+    catch (err) {
+        console.log(err);
+    }
 }
 </script>
 
 <template>
     <div class="m-12 flex">
         <div class="w-7/12">
+            <!-- กดกลับหน้าตระกร้า -->
             <button class="pb-4" @click="">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="inline w-12 h-12">
                     <path fill="none" d="M0 0h24v24H0z" />
@@ -23,16 +42,15 @@ function popUpBank() {
                 </svg>
                 <span class="text-xl"> ขั้นตอนการสั่งซื้อ</span>
             </button>
-
+            <!-- ฟอร์ม -->
             <div class="w-full">
                 <p class="bg-[#EFEFEF] text-xl p-3 pl-8">ที่อยู่การจัดส่งสินค้า</p>
-                <div class="pt-4 w-full h-80 pb-4" v-show="userForm !== ''">
+                <div class="pt-4 w-full h-80 pb-4" v-show="userForm === ''">
                     <button type="button"
                         class="text-lg text-white bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 px-10"
-                        @click="popUpForm">เพิ่มที่อยู่</button>
-                    <AddressForm v-show="showPopUp" />
+                        @click="setNewPopup('AddressForm')">เพิ่มที่อยู่</button>
                 </div>
-                <div v-show="userForm === ''">
+                <div v-show="userForm !== ''">
                     <div class="pt-4 w-full h-80 pb-4">
                         <div class="bg-[#F6F6F6] w-96 h-full p-4">
                             <div class=" h-48 w-auto">
@@ -44,19 +62,21 @@ function popUpBank() {
                             </div>
                             <button type="button"
                                 class="text-lg text-white bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 px-10"
-                                @click="popUpForm">แก้ไข</button>
-                            <AddressForm v-show="showPopUp" />
+                                @click="setNewPopup('AddressForm')">แก้ไข</button>
                         </div>
                     </div>
                 </div>
+                <AddressForm @add="addNewForm" v-if="popup === 'AddressForm'" />
             </div>
 
+            <!-- ช่องทางชำระ -->
             <div class="mb-6">
                 <p class="bg-[#EFEFEF] text-xl p-3 pl-8 mb-3">วิธีการชำระเงิน</p>
                 <div class="pt-4 inline">
+                    <!-- ปุ่มบัญชี -->
                     <button type="button"
                         class="py-3 px-10 mr-6 text-lg rounded-lg bg-[#F6F6F6] text-black hover:bg-slate-500  hover:text-white active:bg-slate-700 "
-                        @click="popUpBank">
+                        @click="setNewPopup('Bank Account')">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 inline mr-2">
                             <path fill="none" d="M0 0h24v24H0z" />
                             <path
@@ -65,17 +85,11 @@ function popUpBank() {
                         </svg>
                         บัญชีธนาคาร
                     </button>
-                    <div class="fixed top-0 left-0 w-screen h-screen bg-gray-900 bg-opacity-80 flex items-center justify-center z-50"
-                        v-show="showBank" @click="popUpBank">
-                        <div class="bg-white rounded-lg p-8 mx-auto h-auto w-3/12 text-2xl">
-                            <img src="https://mpics.mgronline.com/pics/Images/564000004884401.JPEG">
-                            <p class="pt-4">อาร์มิน อาร์เลอร์ท</p>
-                            <p class="pt-1 text-[#602F7E]">0123456789</p>
-                        </div>
-                    </div>
+
+                    <!-- ปุ่มพร้อมเพย์ -->
                     <button type="button"
                         class="py-3 px-10 mr-6 text-lg rounded-lg bg-[#F6F6F6] text-black hover:bg-slate-500  hover:text-white active:bg-slate-700 "
-                        @click="popUpBank">
+                        @click="setNewPopup('Bank Account')">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 inline mr-2">
                             <path fill="none" d="M0 0h24v24H0z" />
                             <path
@@ -85,11 +99,20 @@ function popUpBank() {
                         พร้อมเพย์
                     </button>
 
+                    <!-- popup บัญชี -->
+                    <div class="fixed top-0 left-0 w-screen h-screen bg-gray-900 bg-opacity-80 flex items-center justify-center z-50"
+                        v-if="popup === 'Bank Account'" @click="setNewPopup('')">
+                        <div class="bg-white rounded-lg p-8 mx-auto h-auto w-3/12 text-2xl">
+                            <img src="https://mpics.mgronline.com/pics/Images/564000004884401.JPEG">
+                            <p class="pt-4">อาร์มิน อาร์เลอร์ท</p>
+                            <p class="pt-1 text-[#602F7E]">0123456789</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-
         </div>
 
+        <!-- ใบบอกจำนวน -->
         <div class="w-5/12 pt-12">
             <div class="bg-[#EFEFEF] w-7/12 mx-32 text-center">
                 <span class="text-2xl">รายการสินค้า</span>
