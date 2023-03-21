@@ -15,7 +15,7 @@ console.log(datas.value);
         <h1 class="text-4xl mt-2 pl-10 text-white ">Top Sale</h1>
         <div class="flex overflow-y-auto mt-2 pb-2">
             <div v-for="data in datas" :key="data.id">
-                <div v-show="data.rating.count > 5000">
+                <div v-show="data.rating.count > 1000">
                     <div class="cursor-pointer bg-white h-60 w-48 rounded-2xl mx-3 shadow drop-shadow-2xl border border-black hover:border-red-500 hover:shadow-2xl hover:border-2 overflow-hidden "
                         v-on:click="">
                         <img class="m-auto w-40 mt-4 border rounded-lg border-black shadow shadow-violet-600"
