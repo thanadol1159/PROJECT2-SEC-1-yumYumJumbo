@@ -30,11 +30,17 @@ const addNewForm = async (newForm) => {
             const addedNewForm = await res.json()
             userFormSuccess.value = addedNewForm
             // console.log(userFormSuccess.value);
+        } else {
+            throw new Error('cannot add!')
         }
     }
     catch (err) {
         console.log(err);
     }
+}
+
+const setEditMode = (newForm) => {
+    setNewPopup('AddressForm')
 }
 </script>
 
@@ -67,11 +73,11 @@ const addNewForm = async (newForm) => {
                             </div>
                             <button type="button"
                                 class="text-lg text-white btn border-none bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 px-10"
-                                @click="setNewPopup('AddressForm')">แก้ไข</button>
+                                @click="setEditMode()">แก้ไข</button>
                         </div>
                     </div>
                 </div>
-                <AddressForm @add="addNewForm" v-if="popup === 'AddressForm'" />
+                <AddressForm @add="addNewForm" @close="setNewPopup" v-if="popup === 'AddressForm'" />
             </div>
 
             <!-- ช่องทางชำระ -->
