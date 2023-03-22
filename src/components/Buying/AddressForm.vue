@@ -62,7 +62,8 @@ onMounted(() => {
                         v-model="updatedUserFrom.phone" />
                 </div>
                 <!-- Submit -->
-                <button @click="$emit('add', updatedUserFrom) , popup === ''" class="text-lg text-white bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 px-10">
+                <button @click="$emit('add', updatedUserFrom)"
+                    class="text-lg text-white bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 px-10">
                     ตกลง
                 </button>
             </div>

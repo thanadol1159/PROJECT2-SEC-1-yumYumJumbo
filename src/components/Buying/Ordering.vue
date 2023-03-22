@@ -2,13 +2,16 @@
 import { ref } from 'vue';
 import AddressForm from './AddressForm.vue';
 
-const userForm = ref('')
+let userFormSuccess = ref(undefined)
+console.log(userFormSuccess.value);
 let popup = ref('')
 function setNewPopup(newPopup) {
     popup.value = newPopup
 }
+
+// Json Sever
 const addNewForm = async (newForm) => {
-    console.log(newForm);
+    // console.log(newForm);
     try {
         const res = await fetch('http://localhost:5000/userForm', {
             method: 'POST',
@@ -22,7 +25,9 @@ const addNewForm = async (newForm) => {
             })
         })
         if (res.status === 201) {
-            console.log('add Successfully');            
+            const addedNewForm = await res.json()
+            userFormSuccess.value = addedNewForm
+            console.log(userFormSuccess.value);
         }
     }
     catch (err) {
@@ -45,20 +50,18 @@ const addNewForm = async (newForm) => {
             <!-- ฟอร์ม -->
             <div class="w-full">
                 <p class="bg-[#EFEFEF] text-xl p-3 pl-8">ที่อยู่การจัดส่งสินค้า</p>
-                <div class="pt-4 w-full h-80 pb-4" v-show="userForm === ''">
+                <div class="pt-4 w-full h-80 pb-4" v-if="userFormSuccess === undefined">
                     <button type="button"
                         class="text-lg text-white bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 px-10"
                         @click="setNewPopup('AddressForm')">เพิ่มที่อยู่</button>
                 </div>
-                <div v-show="userForm !== ''">
+                <div v-else>
                     <div class="pt-4 w-full h-80 pb-4">
                         <div class="bg-[#F6F6F6] w-96 h-full p-4">
                             <div class=" h-48 w-auto">
-                                <p class="text-xl">ภคพล ทาอุบล</p>
-                                <p class="text-lg pt-2">28/6 ซอย 9 แยก 4
-                                    ปากเพรียว , เมืองสระบุรี , สระบุรี
-                                    18000</p>
-                                <p class="text-xl pt-4">0922165424</p>
+                                <p class="text-xl"> {{ userFormSuccess.name }}</p>
+                                <p class="text-lg pt-2"> {{ userFormSuccess.address }}</p>
+                                <p class="text-xl pt-4"> {{ userFormSuccess.phone }}</p>
                             </div>
                             <button type="button"
                                 class="text-lg text-white bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 px-10"
