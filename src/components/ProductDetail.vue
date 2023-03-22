@@ -1,39 +1,41 @@
-<script>
-import { ref, computed, onMounted } from 'vue'
+<script setup>
+import { ref, onMounted, defineProps } from 'vue'
 import { getData } from '../composable/getData.js'
 import {RouterLink, useRoute} from 'vue-router' 
 
-
-const product = ref(getData())
-
-
+const queryProduct = ref({})
+const route = useRoute()
 
 
+onMounted(async() => {
+    const result = await fetch(`https://localhost:5000/products/${route.params.id}`)
+    const response = await result.json()
+    queryProduct.value = response
+})
 // const props = defineProps({
-//   itemList: {
-//     type: Array,
-//     required: true,
-//   }
+//     items: Object
 // })
 
-// const currentId= computed(() => props.itemList.id)
+
 
 </script>
  
 <template>
 <div>
-    <div class="product flex flex-row justify-center">
+    
+    <!-- <h1>Product {{ $route.params.id }} Detail</h1> -->
+     <div class="product flex flex-row justify-center">
         <div class="image p-40">
                 <img src="../../public/6efbef3de02dd40d88c28a30be279b4c.png" alt="">
         </div>
         <div class="content">   
                 <div class="flex flex-col space-y-5 text-5xl py-14 px-7 font-bold">
-                <h1 class="flex justify-end"></h1>
+                <h1 class="flex justify-end">{{ queryProduct.name }}</h1>
                 <h1 class="font-bold flex justify-end"></h1>
             </div>
             <div class="flex flex-col px-16">
                 <h1 class="flex justify-start text-3xl font-bold">Description</h1>
-                <p class="flex justify-end">สวัสดีจ้านี่คือdescriptionน้าทำไมมันไม่ขยับว้า</p>
+                <p class="flex justify-end">{{ queryProduct.description }}</p>
             </div>
             <div class="flex">
                 <div class="size pl-12 pt-44 space-x-6">
@@ -49,7 +51,7 @@ const product = ref(getData())
                 </button>
             </div>
         </div>
-    </div>
+    </div> 
     
   </div>
 </template>
