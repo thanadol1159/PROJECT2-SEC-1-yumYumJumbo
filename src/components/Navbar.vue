@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue'
 import { getData } from '../composable/getData.js'
 
-const items = getData()
+// const items = getData()
 const searchKeyword = ref('')
 const dropdown = ref(false)
 const showSeach = ref(false)

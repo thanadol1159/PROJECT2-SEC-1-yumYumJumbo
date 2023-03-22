@@ -23,7 +23,7 @@ onMounted(() => {
 
 </script>
 <template>
-    <div class="fixed top-0 left-0 w-screen h-screen bg-gray-900 bg-opacity-80 flex items-center justify-center z-50">
+    <div class="fixed top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-80 flex items-center justify-center z-50">
         <div class="bg-white rounded-lg p-4 h-auto w-5/12">
             <!-- GoBack -->
             <button class="" @click="">
@@ -63,8 +63,8 @@ onMounted(() => {
                 </div>
                 <!-- Submit -->
                 <button @click="$emit('add', updatedUserFrom)"
-                    class="text-lg text-white bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 px-10">
-                    ตกลง
+                    class="text-lg btn border-none text-white bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 px-10">
+                    ยืนยัน
                 </button>
             </div>
         </div>

@@ -1,9 +1,10 @@
 <script setup>
 import { ref } from 'vue';
 import AddressForm from './AddressForm.vue';
+import SendOrder from './SendOrder.vue';
 
 let userFormSuccess = ref(undefined)
-console.log(userFormSuccess.value);
+// console.log(userFormSuccess.value);
 let popup = ref('')
 function setNewPopup(newPopup) {
     popup.value = newPopup
@@ -11,10 +12,11 @@ function setNewPopup(newPopup) {
 
 // Json Sever
 const addNewForm = async (newForm) => {
+    setNewPopup('')
     // console.log(newForm);
     try {
         const res = await fetch('http://localhost:5000/userForm', {
-            method: 'POST',
+            method: 'PATCH',
             headers: {
                 'content-type': 'application/json'
             },
@@ -24,10 +26,10 @@ const addNewForm = async (newForm) => {
                 phone: newForm.phone
             })
         })
-        if (res.status === 201) {
+        if (res.status === 200) {
             const addedNewForm = await res.json()
             userFormSuccess.value = addedNewForm
-            console.log(userFormSuccess.value);
+            // console.log(userFormSuccess.value);
         }
     }
     catch (err) {
@@ -37,7 +39,7 @@ const addNewForm = async (newForm) => {
 </script>
 
 <template>
-    <div class="m-12 flex">
+    <div class="m-8 ml-32 flex">
         <div class="w-7/12">
             <!-- กดกลับหน้าตระกร้า -->
             <button class="pb-4" @click="">
@@ -50,21 +52,21 @@ const addNewForm = async (newForm) => {
             <!-- ฟอร์ม -->
             <div class="w-full">
                 <p class="bg-[#EFEFEF] text-xl p-3 pl-8">ที่อยู่การจัดส่งสินค้า</p>
-                <div class="pt-4 w-full h-80 pb-4" v-if="userFormSuccess === undefined">
+                <div class="w-full h-80 py-4" v-if="userFormSuccess === undefined">
                     <button type="button"
-                        class="text-lg text-white bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 px-10"
+                        class="text-lg text-white btn border-none bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 px-10"
                         @click="setNewPopup('AddressForm')">เพิ่มที่อยู่</button>
                 </div>
                 <div v-else>
-                    <div class="pt-4 w-full h-80 pb-4">
+                    <div class="w-full h-80 py-4">
                         <div class="bg-[#F6F6F6] w-96 h-full p-4">
                             <div class=" h-48 w-auto">
-                                <p class="text-xl"> {{ userFormSuccess.name }}</p>
-                                <p class="text-lg pt-2"> {{ userFormSuccess.address }}</p>
-                                <p class="text-xl pt-4"> {{ userFormSuccess.phone }}</p>
+                                <p class="text-xl"> {{ userFormSuccess?.name }}</p>
+                                <p class="text-lg pt-2"> {{ userFormSuccess?.address }}</p>
+                                <p class="text-xl pt-4"> {{ userFormSuccess?.phone }}</p>
                             </div>
                             <button type="button"
-                                class="text-lg text-white bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 px-10"
+                                class="text-lg text-white btn border-none bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 px-10"
                                 @click="setNewPopup('AddressForm')">แก้ไข</button>
                         </div>
                     </div>
@@ -74,11 +76,11 @@ const addNewForm = async (newForm) => {
 
             <!-- ช่องทางชำระ -->
             <div class="mb-6">
-                <p class="bg-[#EFEFEF] text-xl p-3 pl-8 mb-3">วิธีการชำระเงิน</p>
+                <p class="bg-[#EFEFEF] text-xl p-3 pl-8 mb-5">ช่องทางชำระเงิน</p>
                 <div class="pt-4 inline">
                     <!-- ปุ่มบัญชี -->
                     <button type="button"
-                        class="py-3 px-10 mr-6 text-lg rounded-lg bg-[#F6F6F6] text-black hover:bg-slate-500  hover:text-white active:bg-slate-700 "
+                        class="py-3 px-10 mr-6 text-lg rounded-lg btn border-none bg-zinc-200 text-black hover:bg-slate-500  hover:text-white active:bg-slate-700 "
                         @click="setNewPopup('Bank Account')">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 inline mr-2">
                             <path fill="none" d="M0 0h24v24H0z" />
@@ -91,7 +93,7 @@ const addNewForm = async (newForm) => {
 
                     <!-- ปุ่มพร้อมเพย์ -->
                     <button type="button"
-                        class="py-3 px-10 mr-6 text-lg rounded-lg bg-[#F6F6F6] text-black hover:bg-slate-500  hover:text-white active:bg-slate-700 "
+                        class="py-3 px-10 mr-6 text-lg rounded-lg btn border-none bg-zinc-200 text-black hover:bg-slate-500  hover:text-white active:bg-slate-700 "
                         @click="setNewPopup('Bank Account')">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 inline mr-2">
                             <path fill="none" d="M0 0h24v24H0z" />
@@ -103,8 +105,8 @@ const addNewForm = async (newForm) => {
                     </button>
 
                     <!-- popup บัญชี -->
-                    <div class="fixed top-0 left-0 w-screen h-screen bg-gray-900 bg-opacity-80 flex items-center justify-center z-50"
-                        v-if="popup === 'Bank Account'" @click="setNewPopup('')">
+                    <div class="fixed top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-80 flex items-center justify-center z-50"
+                        v-if="popup === 'Bank Account'" @click="setNewPopup(undefined)">
                         <div class="bg-white rounded-lg p-8 mx-auto h-auto w-3/12 text-2xl">
                             <img src="https://mpics.mgronline.com/pics/Images/564000004884401.JPEG">
                             <p class="pt-4">อาร์มิน อาร์เลอร์ท</p>
@@ -117,24 +119,7 @@ const addNewForm = async (newForm) => {
 
         <!-- ใบบอกจำนวน -->
         <div class="w-5/12 pt-12">
-            <div class="bg-[#EFEFEF] w-7/12 mx-32 text-center">
-                <span class="text-2xl">รายการสินค้า</span>
-                <div class="mt-6 h-80">
-                    <div class="grid grid-cols-2">
-                        <span class="text-lg font-sans">เสื้อตัวที่หนึ่ง</span>
-                        <span class="text-lg">THB 150</span>
-                    </div>
-                </div>
-                <div class="grid grid-cols-2 pb-6">
-                    <span class="text-2xl">รวมทั้งหมด</span>
-                    <span class="text-2xl text-[#602F7E]">THB 150</span>
-                </div>
-            </div>
-            <div class="pt-4 mx-40 text-center">
-                <button type="button"
-                    class="text-lg text-white bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 w-52"
-                    @click="">ยืนยันคำสั่งซื้อ</button>
-            </div>
+            <SendOrder />
         </div>
     </div>
 </template>
