@@ -52,7 +52,3 @@ const minusQuantity =() => {quantity.value--}
             </div>
     </div>
 </template>
-
-<style>
-
-</style>

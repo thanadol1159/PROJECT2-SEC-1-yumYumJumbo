@@ -2,24 +2,16 @@
 module.exports = {
   content: [
     "./index.html",
-    "./src/**/*.{vue,js,ts,jsx,tsx}",
+    "./src/**/*.{vue,js,ts,jsx,tsx}"
   ],
   theme: {
     extend: {},
     fontFamily: {
       'heading': ['Kanit','sans-serif']
     }
-    
   },
   plugins: [require("daisyui")],
   daisyui: {
-    styled: true,
-    themes: true,
-    base: true,
-    utils: true,
-    logs: true,
-    rtl: false,
-    prefix: "",
-    darkTheme: "white",
-  }
+    themes: false
+  },
 }
