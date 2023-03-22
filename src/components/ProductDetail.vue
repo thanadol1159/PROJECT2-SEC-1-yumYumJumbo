@@ -9,9 +9,9 @@ const product = ref(getData())
 
 
 
-export default{
+const props = defineProps({
     
-}
+})
 
 </script>
  
