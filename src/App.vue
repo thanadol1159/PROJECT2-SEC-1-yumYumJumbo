@@ -10,6 +10,8 @@ import { getData } from './composable/getData';
 import {RouterView} from 'vue-router'
 
 
+
+
 </script>
 
 <template>
@@ -20,8 +22,8 @@ import {RouterView} from 'vue-router'
         <!-- <Buying /> -->
         <!-- <Cart />
         <PaymentMethod /> -->
-        
-        <router-view></router-view>
+        <ProductDetail/>
+        <!-- <router-view></router-view> -->
 
     </div>
 

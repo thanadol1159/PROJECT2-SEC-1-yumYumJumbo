@@ -4,21 +4,13 @@ import { getData } from '../composable/getData.js'
 import {RouterLink, useRoute} from 'vue-router' 
 
 
-import products from '../../data/product.json'
+const product = ref(getData())
 
 
 
 
 export default{
-    data() {
-    return {
-      product: {}
-    }
-  },
-  created() {
-    const productId = this.$route.params.id
-    this.product = products.find(p => p.id === productId)
-  }
+    
 }
 
 </script>
@@ -31,21 +23,21 @@ export default{
         </div>
         <div class="content">   
                 <div class="flex flex-col space-y-5 text-5xl py-14 px-7 font-bold">
-                <h1 class="flex justify-end">{{ products.name }}</h1>
-                <h1 class="font-bold flex justify-end">{{ product.price }}</h1>
+                <h1 class="flex justify-end"></h1>
+                <h1 class="font-bold flex justify-end"></h1>
             </div>
             <div class="flex flex-col px-16">
                 <h1 class="flex justify-start text-3xl font-bold">Description</h1>
                 <p class="flex justify-end">สวัสดีจ้านี่คือdescriptionน้าทำไมมันไม่ขยับว้า</p>
             </div>
             <div class="flex">
-                <div class="size pl-12 pt-60" v-for="sizes in product.size">
-                <span class="bg-gray-200 text-3xl p-5 hover:bg-slate-400 rounded-lg" >
-                {{ sizes.sizename }}
-                </span>
+                <div class="size pl-12 pt-44 space-x-6">
+                <button class="bg-gray-200 text-3xl p-5 hover:bg-slate-400 rounded-lg">S</button>
+                <button class="bg-gray-200 text-3xl p-5 hover:bg-slate-400 rounded-lg">M</button>
+                <button class="bg-gray-200 text-3xl p-5 hover:bg-slate-400 rounded-lg">L</button>
+                <button class="bg-gray-200 text-3xl p-5 hover:bg-slate-400 rounded-lg">XL</button>
             </div>
         </div>
-            
             <div class="pt-16 pl-12">
                 <button class="bg-red-200 rounded-lg p-3 hover:bg-red-600">
                 <p>Add to cart</p>  
