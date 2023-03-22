@@ -1,20 +1,23 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import {createRouter,createWebHistory} from 'vue-router'
 import ProductDetail from '../src/components/ProductDetail.vue'
+import App from '../src/App.vue'
+const router = createRouter({
+    history:createWebHistory(),
+    routes:[
+        {
+            path: "/",
+            name:"home",
+            component: App,
+          },
+        {
+            path: "/products/:id",
+            name: "ProductDetail",
+            component: ProductDetail,
+          }
+    ]
+    
+})
+    
 
-Vue.useAttrs(VueRouter)
-
-const routes = [
-    {
-        path: "/products/:id",
-        component: ProductDetail,
-      }
-]
-
-const router = new VueRouter({
-    mode: "history",
-    base: process.env.BASE_URL,
-    routes,
-});
 
 export default router

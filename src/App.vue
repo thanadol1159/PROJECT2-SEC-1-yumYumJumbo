@@ -7,8 +7,8 @@ import Cart from './components/Cart.vue';
 import PaymentMethod from './components/PaymentMethod.vue';
 import ProductDetail from './components/ProductDetail.vue';
 import { getData } from './composable/getData';
+import {RouterView} from 'vue-router'
 
-const item = getData()
 
 </script>
 
@@ -21,7 +21,6 @@ const item = getData()
         <!-- <Cart />
         <PaymentMethod /> -->
         
-        <ProductDetail></ProductDetail>
         <router-view></router-view>
 
     </div>

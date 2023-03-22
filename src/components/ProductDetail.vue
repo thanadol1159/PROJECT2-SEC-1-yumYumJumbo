@@ -1,22 +1,24 @@
 <script>
 import { ref, computed, onMounted } from 'vue'
 import { getData } from '../composable/getData.js'
+import {RouterLink, useRoute} from 'vue-router' 
 
 
-const product = ref(getData())
+import products from '../../data/product.json'
 
-const productdata = ref(0)
+
+
 
 export default{
-    data(){
-        return {
-            products: null
-        }
-    },
-    created(){
-        const productId = this.$route.params.id
-        this.products = product.find((products) => products.id === productId)
+    data() {
+    return {
+      product: {}
     }
+  },
+  created() {
+    const productId = this.$route.params.id
+    this.product = products.find(p => p.id === productId)
+  }
 }
 
 </script>
@@ -27,10 +29,10 @@ export default{
         <div class="image p-40">
                 <img src="../../public/6efbef3de02dd40d88c28a30be279b4c.png" alt="">
         </div>
-        <div class="content">
-            <div class="flex flex-col space-y-5 text-5xl py-14 px-7 font-bold">
+        <div class="content">   
+                <div class="flex flex-col space-y-5 text-5xl py-14 px-7 font-bold">
                 <h1 class="flex justify-end">{{ products.name }}</h1>
-                <h1 class="font-bold flex justify-end">660$</h1>
+                <h1 class="font-bold flex justify-end">{{ product.price }}</h1>
             </div>
             <div class="flex flex-col px-16">
                 <h1 class="flex justify-start text-3xl font-bold">Description</h1>
