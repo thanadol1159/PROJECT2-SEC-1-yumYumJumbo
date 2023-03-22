@@ -9,9 +9,14 @@ const product = ref(getData())
 
 
 
-const props = defineProps({
-    
-})
+// const props = defineProps({
+//   itemList: {
+//     type: Array,
+//     required: true,
+//   }
+// })
+
+// const currentId= computed(() => props.itemList.id)
 
 </script>
  
