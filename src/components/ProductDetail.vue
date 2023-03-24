@@ -21,13 +21,14 @@ const image = ref([])
 onMounted(async () => {
     try {
         const result = await fetch(`http://localhost:5000/items/${1}`)
+        console.log("nsme")
         if (result.status === 200) {
+            console.log("nsmeed")
             const response = await result.json()
             // console.log(response);
             queryProduct.value = response
             image.value = queryProduct.value.images
         }
-        console.log(image);
     }
     catch (err) {
         console.log(err);
@@ -44,22 +45,23 @@ onMounted(async () => {
      <div class="product flex flex-row justify-center">
         <div class="image p-40">
             <div class="image" v-for="picture in image">
-                <!-- <img :src="`${ picture }`" alt=""> -->
-                <!-- <Carousel :itemList="picture"></Carousel> -->
+                <img :src="`${ picture }`" alt="">
+                <!-- <Carousel :itemList="picture" :full="true"></Carousel> -->
             </div>
             
         </div>
         <div class="content">   
                 <div class="flex flex-col space-y-5 text-5xl py-14 px-7 font-bold">
-                <h1 class="flex justify-end">{{ queryProduct.name }}</h1>
+                <h1 class="flex justify-end leading-[70px]">{{ queryProduct.name }}</h1>
                 <h1 class="font-bold flex justify-end"></h1>
-            </div>
+            </div>  
             <div class="flex flex-col px-16">
                 <h1 class="flex justify-start text-3xl font-bold">Description</h1>
                 <p class="flex justify-end">{{ queryProduct.description }}</p>
+                <p>{{ queryProduct?.rating?.rate }}</p>
             </div>
             <div class="flex">
-                <div class="size pl-12 pt-44 space-x-6">
+                <div class="size pl-12 pt-24 space-x-6">
                 <button class="bg-gray-200 text-3xl p-5 hover:bg-slate-400 rounded-lg">S</button>
                 <button class="bg-gray-200 text-3xl p-5 hover:bg-slate-400 rounded-lg">M</button>
                 <button class="bg-gray-200 text-3xl p-5 hover:bg-slate-400 rounded-lg">L</button>
