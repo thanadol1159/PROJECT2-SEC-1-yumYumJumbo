@@ -2,9 +2,12 @@
 import { ref, onMounted, defineProps } from 'vue'
 import { getData } from '../composable/getData.js'
 import {RouterLink, useRoute} from 'vue-router' 
+import Carousel from './Carousel.vue';
 
 const queryProduct = ref({})
 const route = useRoute()
+const image = ref([])
+
 
 
 // onMounted(async() => {
@@ -22,7 +25,9 @@ onMounted(async () => {
             const response = await result.json()
             // console.log(response);
             queryProduct.value = response
+            image.value = queryProduct.value.images
         }
+        console.log(image);
     }
     catch (err) {
         console.log(err);
@@ -38,7 +43,11 @@ onMounted(async () => {
     <!-- <h1>Product {{ $route.params.id }} Detail</h1> -->
      <div class="product flex flex-row justify-center">
         <div class="image p-40">
-                <img :src="queryProduct.images" alt="">
+            <div class="image" v-for="picture in image">
+                <!-- <img :src="`${ picture }`" alt=""> -->
+                <!-- <Carousel :itemList="picture"></Carousel> -->
+            </div>
+            
         </div>
         <div class="content">   
                 <div class="flex flex-col space-y-5 text-5xl py-14 px-7 font-bold">

@@ -22,6 +22,7 @@ import ProductDetail from "./components/ProductDetail.vue";
         <!-- <Buying /> -->
         <!-- <Cart />
         <PaymentMethod /> -->
+        <Navbar/>
         <ProductDetail/>
         <!-- <router-view></router-view> -->
 
