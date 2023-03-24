@@ -1,13 +1,17 @@
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
-window.onload = function () {
+onMounted(() => {
     calOrderSum();
-};
+})
+const orderSum = ref(0)
+const calOrderSum = () => {
+    for (const item of test.items) {
+        let prices = item.price
+        orderSum.value += prices
+    }
+}
 
-
-
-let orderSum = ref(0)
 let test = {
     "items": [
         {
@@ -50,13 +54,6 @@ let test = {
             }
         }
     ]
-}
-
-const calOrderSum = () => {
-    for (const item of test.items) {
-        let prices = item.price
-        orderSum.value += prices
-    }
 }
 
 </script>

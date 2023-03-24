@@ -3,11 +3,11 @@ import { ref } from 'vue';
 import AddressForm from './AddressForm.vue';
 import SendOrder from './SendOrder.vue';
 
-let userFormSuccess = ref(undefined)
+const userFormSuccess = ref(undefined)
 // console.log(userFormSuccess.value);
 
 // PopUp
-let popup = ref('')
+const popup = ref('')
 function setNewPopup(newPopup) {
     popup.value = newPopup
 }
@@ -71,9 +71,9 @@ const setEditMode = (oldForm) => {
                     <div class="w-full h-80 py-4">
                         <div class="bg-[#F6F6F6] w-96 h-full p-4">
                             <div class=" h-48 w-auto">
-                                <p class="text-xl"> {{ userFormSuccess?.name }}</p>
-                                <p class="text-lg pt-2"> {{ userFormSuccess?.address }}</p>
-                                <p class="text-xl pt-4"> {{ userFormSuccess?.phone }}</p>
+                                <p class="text-xl">ชื่อ: {{ userFormSuccess?.name }}</p>
+                                <p class="text-lg pt-2">ที่อยู่: {{ userFormSuccess?.address }}</p>
+                                <p class="text-xl pt-4">เบอร์: {{ userFormSuccess?.phone }}</p>
                             </div>
                             <button type="button"
                                 class="text-lg text-white btn border-none bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 px-10"
