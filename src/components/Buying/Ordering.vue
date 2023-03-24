@@ -5,6 +5,8 @@ import SendOrder from './SendOrder.vue';
 
 let userFormSuccess = ref(undefined)
 // console.log(userFormSuccess.value);
+
+// PopUp
 let popup = ref('')
 function setNewPopup(newPopup) {
     popup.value = newPopup
@@ -16,7 +18,7 @@ const addNewForm = async (newForm) => {
     // console.log(newForm);
     try {
         const res = await fetch('http://localhost:5000/userForm', {
-            method: 'PATCH',
+            method: 'POST',
             headers: {
                 'content-type': 'application/json'
             },
@@ -26,7 +28,7 @@ const addNewForm = async (newForm) => {
                 phone: newForm.phone
             })
         })
-        if (res.status === 200) {
+        if (res.status === 201) {
             const addedNewForm = await res.json()
             userFormSuccess.value = addedNewForm
             // console.log(userFormSuccess.value);
@@ -38,8 +40,10 @@ const addNewForm = async (newForm) => {
         console.log(err);
     }
 }
-
-const setEditMode = (newForm) => {
+// EDIT
+const editForm = ref(undefined)
+const setEditMode = (oldForm) => {
+    editForm.value = oldForm
     setNewPopup('AddressForm')
 }
 </script>
@@ -73,11 +77,11 @@ const setEditMode = (newForm) => {
                             </div>
                             <button type="button"
                                 class="text-lg text-white btn border-none bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 px-10"
-                                @click="setEditMode()">แก้ไข</button>
+                                @click="setEditMode(userFormSuccess)">แก้ไข</button>
                         </div>
                     </div>
                 </div>
-                <AddressForm @add="addNewForm" @close="setNewPopup" v-if="popup === 'AddressForm'" />
+                <AddressForm @add="addNewForm" @close="setNewPopup" v-if="popup === 'AddressForm'" :userForm="editForm" />
             </div>
 
             <!-- ช่องทางชำระ -->
