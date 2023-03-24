@@ -7,15 +7,27 @@ const queryProduct = ref({})
 const route = useRoute()
 
 
-onMounted(async() => {
-    const result = await fetch(`https://localhost:5000/products/${route.params.id}`)
-    const response = await result.json()
-    queryProduct.value = response
-})
+// onMounted(async() => {
+//     const result = await fetch(`https://localhost:5000/items/${1}`)
+//     const response = await result.json()
+//     queryProduct.value = response
+// })
 // const props = defineProps({
 //     items: Object
 // })
-
+onMounted(async () => {
+    try {
+        const result = await fetch(`http://localhost:5000/items/${1}`)
+        if (result.status === 200) {
+            const response = await result.json()
+            // console.log(response);
+            queryProduct.value = response
+        }
+    }
+    catch (err) {
+        console.log(err);
+    }
+})
 
 
 </script>
@@ -26,7 +38,7 @@ onMounted(async() => {
     <!-- <h1>Product {{ $route.params.id }} Detail</h1> -->
      <div class="product flex flex-row justify-center">
         <div class="image p-40">
-                <img src="../../public/6efbef3de02dd40d88c28a30be279b4c.png" alt="">
+                <img :src="queryProduct.images" alt="">
         </div>
         <div class="content">   
                 <div class="flex flex-col space-y-5 text-5xl py-14 px-7 font-bold">
