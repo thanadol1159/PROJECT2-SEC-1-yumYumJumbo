@@ -22,7 +22,7 @@ const showSeach = ref(false)
         <!-- navbar -->
         <div class="navbar w-full drop-shadow-lg ">
             <nav class="w-full flex justify-between">
-                <img src="../assets/logo.png" alt="logoApp" width="52" height="36" class="ml-8 flex justify-start">
+                <img src="../assets/logo.svg" alt="logoApp" width="52" height="36" class="ml-8 flex justify-start">
 
                 <label class="relative block">
                     <input
