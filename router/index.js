@@ -1,5 +1,6 @@
 import {createRouter,createWebHistory} from 'vue-router'
 import ProductDetail from '../src/components/ProductDetail.vue'
+import TopSaleItem from '../src/components/TopSaleItem.vue'
 import App from '../src/App.vue'
 const router = createRouter({
     history:createWebHistory(),
@@ -7,12 +8,7 @@ const router = createRouter({
         {
             path: "/",
             name:"home",
-            component: App,
-          },
-          {
-            path: "/",
-            name:"home",
-            component: App,
+            component: TopSaleItem
           },
         {
             path: "/items/:id",

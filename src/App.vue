@@ -8,6 +8,7 @@ import Carousel from "./components/Carousel.vue";
 import Navbar from "./components/Navbar.vue";
 import ContentSection from "./components/ContentSection.vue";
 import ProductDetail from "./components/ProductDetail.vue";
+import TopSaleItem from "./components/TopSaleItem.vue";
 
 
 
@@ -17,15 +18,16 @@ import ProductDetail from "./components/ProductDetail.vue";
 <template>
 <div>
     <div>   
+      <RouterView/>
         <!-- <Category />
         <PopuparItem /> -->
         <!-- <Buying /> -->
         <!-- <Cart />
         <PaymentMethod /> -->
-        <Navbar/>
-        <ProductDetail/>
+        <!-- <Navbar/>
+        <ProductDetail/> -->
         <!-- <router-view></router-view> -->
-
+          <!-- <TopSaleItem/> -->
     </div>
   </div>
 </template>

@@ -3,10 +3,11 @@ import { ref, onMounted, defineProps } from 'vue'
 import { getData } from '../composable/getData.js'
 import {RouterLink, useRoute} from 'vue-router' 
 import Carousel from './Carousel.vue';
+import Navbar from './Navbar.vue';
 
 const queryProduct = ref({})
-const route = useRoute()
 const image = ref([])
+const route = useRoute()
 
 
 
@@ -20,15 +21,14 @@ const image = ref([])
 // })
 onMounted(async () => {
     try {
-        const result = await fetch(`http://localhost:5000/items/${1}`)
-        console.log("nsme")
+        const result = await fetch(`http://localhost:5000/items/${route.params.id}`)
         if (result.status === 200) {
-            console.log("nsmeed")
             const response = await result.json()
-            // console.log(response);
+            console.log(response)
             queryProduct.value = response
             image.value = queryProduct.value.images
         }
+
     }
     catch (err) {
         console.log(err);
@@ -40,7 +40,7 @@ onMounted(async () => {
  
 <template>
 <div>
-    
+    <Navbar/>
     <!-- <h1>Product {{ $route.params.id }} Detail</h1> -->
      <div class="product flex flex-row justify-center">
         <div class="image p-40">
@@ -48,7 +48,6 @@ onMounted(async () => {
                 <img :src="`${ picture }`" alt="">
                 <!-- <Carousel :itemList="picture" :full="true"></Carousel> -->
             </div>
-            
         </div>
         <div class="content">   
                 <div class="flex flex-col space-y-5 text-5xl py-14 px-7 font-bold">
