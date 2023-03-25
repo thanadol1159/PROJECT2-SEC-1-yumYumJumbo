@@ -18,16 +18,12 @@ const randomPreview = () => {
         <Carousel :item-list="randomPreview()" />
     </ContentSection>
 
-    <ContentSection class="w-full h-60 bg-blue-700 ">
-     
+    <ContentSection >
+        <div class="w-full h-60 bg-blue-400"></div>
     </ContentSection>
 
-    <ContentSection class="w-full h-60 bg-orange-500">
-      
+    <ContentSection>
+        <div class="w-full h-60 bg-orange-400"></div>
     </ContentSection>
 </div>
 </template>
- 
-<style scoped>
-
-</style>

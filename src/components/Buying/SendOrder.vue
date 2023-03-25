@@ -81,5 +81,3 @@ let test = {
         </div>
     </div>
 </template>
- 
-<style scoped></style>

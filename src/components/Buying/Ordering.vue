@@ -133,5 +133,3 @@ const setEditMode = (oldForm) => {
         </div>
     </div>
 </template>
-
-<style></style>
