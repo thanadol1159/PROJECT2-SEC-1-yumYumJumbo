@@ -4,6 +4,7 @@ import { getData } from '../composable/getData.js'
 import {RouterLink, useRoute} from 'vue-router' 
 import Carousel from './Carousel.vue';
 import Navbar from './Navbar.vue';
+import TablerStarFilled from '../../public/TablerStarFilled.vue'
 
 const queryProduct = ref({})
 const image = ref([])
@@ -57,6 +58,7 @@ onMounted(async () => {
             <div class="flex flex-col px-16">
                 <h1 class="flex justify-start text-3xl font-bold">Description</h1>
                 <p class="flex justify-end">{{ queryProduct.description }}</p>
+                <TablerStarFilled/>
                 <p>{{ queryProduct?.rating?.rate }}</p>
             </div>
             <div class="flex">
