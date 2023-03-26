@@ -43,7 +43,6 @@ const addSize =(size) =>{
 }
 
 
-
 </script>
  
 <template>
@@ -63,10 +62,11 @@ const addSize =(size) =>{
                 <h1 class="font-bold flex justify-end"></h1>
             </div>  
             <div class="flex flex-col px-16">
-                <h1 class="flex justify-start text-3xl font-bold">Description {{ id }}</h1>
-                <p class="flex justify-end">{{ queryProduct.description }}</p>
+                <h1 class="flex justify-start text-3xl font-bold">Description</h1>
+                <p class="flex">{{ queryProduct.description }}</p>
                 <TablerStarFilled/>
                 <p>{{ queryProduct?.rating?.rate }}</p>
+                <p>คงเหลือ: {{ queryProduct?.rating?.count }} ตัว</p>
             </div>
             <div class="flex">
                 <div class="size pl-12 pt-24 space-x-6">
