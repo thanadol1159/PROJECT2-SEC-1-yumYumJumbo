@@ -17,20 +17,33 @@ const dropdownHandler = (men) => {
 
 // Fetch Product
 const queryProduct = ref({})
-// const typesOfItems = ref([])
-const typesOfItems = ['ชุดเซ็ท','เสื้อ oversize' ,'เสื้อยืด' , 'เสื้อ minimal' , 'เสื้อเชิ้ต' , 'เสื้อแขนยาว' , 'เสื้อลาย' , 'เสื้อกันหนาว']
+const typesOfItemsMan = ref([])
+const typesOfItemsWoman = ref([])
 onMounted(async () => {
   try {
     const result = await fetch(`http://localhost:5000/items`)
     if (result.status === 200) {
       const response = await result.json()
       queryProduct.value = response
+      typeFilter(typesOfItemsMan, `men's clothing`)
+      typeFilter(typesOfItemsWoman, `women's clothing`)
     }
   }
   catch (err) {
     console.log(err);
   }
 })
+
+const typeFilter = (arr, sex) => {
+  const passArr = []
+  queryProduct.value.filter(x => x.category === sex).forEach(element => {
+    passArr.push(...element.type)
+  });
+  const set = new Set(passArr)
+  arr.value = [...set]
+  console.log(arr.value);
+}
+
 const filterWithTypes = (clothType, sex) => {
   const filteredSex = queryProduct.value.filter(x => x.category === sex)
   const filteredItems = filteredSex.filter(x => x.type.includes(clothType))
@@ -72,7 +85,7 @@ const filterWithSex = (sex) => {
             </button>
             <div @mouseover="dropdownHandler(true)" @mouseout="dropdownHandler(true)"
               class="p-3 mt-2 grid grid-cols-4 gap-4 absolute bg-[#9263B1] drop-shadow-2xl" v-show="mDropdown">
-              <div v-for="(types, index) of typesOfItems" :key="index" :id="index">
+              <div v-for="(types, index) of typesOfItemsMan" :key="index" :id="index">
                 <button @click="filterWithTypes(types, `men's clothing`)">{{ types }}</button>
               </div>
               <button @click="filterWithSex(`men's clothing`)">View All</button>
@@ -88,27 +101,16 @@ const filterWithSex = (sex) => {
             </button>
             <div @mouseover="dropdownHandler(false)" @mouseout="dropdownHandler(false)"
               class="p-3 mt-2 grid grid-cols-4 gap-4 absolute bg-[#9263B1] drop-shadow-2xl" v-show="wDropdown">
-              <div v-for="(types, index) of typesOfItems" :key="index" :id="index">
+              <div v-for="(types, index) of typesOfItemsWoman" :key="index" :id="index">
                 <button @click="filterWithTypes(types, `women's clothing`)">{{ types }}</button>
               </div>
-              <button @click="filterWithSex(`women's clothing`)">View All</button>
-            </div>
+            <button @click="filterWithSex(`women's clothing`)">View All</button>
           </div>
         </div>
-        <!-- <div class="dropdown dropdown-hover">
-            <label tabindex="0" class="btn m-1">MEN</label>
-            <label tabindex="0" class="btn m-1">WOMEN</label>
-            <ul
-              tabindex="0"
-              class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
-            >
-              <li><a>Item 1</a></li>
-                <li><a>Item 2</a></li>
-              </ul>
-            </div> -->
+      </div>
 
-        <!-- search bar -->
-        <div
+      <!-- search bar -->
+      <div
           class="flex text-[#ee6311] bg-white border border-slate-300 rounded-xl hover:border-slate-500 hover:bg-slate-50 max-sm:bg-[#602f7e] max-sm:border-none">
           <input class="placeholder:text-slate-400 bg-transparent px-4 py-2 outline-none sm:text-lg max-sm:hidden"
             placeholder="Search for anything..." type="text" name="search" v-model.trim="searchKeyword"
@@ -118,13 +120,13 @@ const filterWithSex = (sex) => {
             <svg class="cursor-pointer max-sm:fill-white" @click="showSearch = !showSearch" v-show="!showSearch"
               xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
               <path fill="none" d="M0 0h24v24H0z" />
-            <path
-              d="M11 2c4.968 0 9 4.032 9 9s-4.032 9-9 9-9-4.032-9-9 4.032-9 9-9zm0 16c3.867 0 7-3.133 7-7 0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7zm8.485.071l2.829 2.828-1.415 1.415-2.828-2.829 1.414-1.414z" />
-          </svg>
+              <path
+                d="M11 2c4.968 0 9 4.032 9 9s-4.032 9-9 9-9-4.032-9-9 4.032-9 9-9zm0 16c3.867 0 7-3.133 7-7 0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7zm8.485.071l2.829 2.828-1.415 1.415-2.828-2.829 1.414-1.414z" />
+            </svg>
 
-          <!-- close Icon -->
-          <svg class="cursor-pointer" @click="showSearch = !showSearch" v-show="showSearch"
-            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+            <!-- close Icon -->
+            <svg class="cursor-pointer" @click="showSearch = !showSearch" v-show="showSearch"
+              xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
               <path fill="none" d="M0 0h24v24H0z" />
               <path
                 d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"
@@ -171,13 +173,13 @@ const filterWithSex = (sex) => {
     </div>
 
     <!-- <div v-show="showSeach" class="absolute w-full">
-                <div v-if="dropdown" class="w-full">
-                    <div v-for="(p, index) in items" :key="index" :class="index % 2 === 0 ? 'bg-white' : 'bg-slate-50'" class="pl-5 py-2 text-xl">
-                        {{ p.name }}
-                    </div>
-                </div>
-                <p v-else class="pl-5 py-2 text-xl">Searching for {{ searchKeyword }}</p>
-            </div> -->
+      <div v-if="dropdown" class="w-full">
+        <div v-for="(p, index) in items" :key="index" :class="index % 2 === 0 ? 'bg-white' : 'bg-slate-50'" class="pl-5 py-2 text-xl">
+          {{ p.name }}
+        </div>
+        </div>
+          <p v-else class="pl-5 py-2 text-xl">Searching for {{ searchKeyword }}</p>
+      </div> -->
   </div>
 </template>
 
