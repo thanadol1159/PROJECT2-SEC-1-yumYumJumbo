@@ -5,27 +5,30 @@ import Category from "./components/Category.vue";
 import PopuparItem from "./components/PopularItem.vue";
 // import Buying from "./components/Buying.vue";
 import PaymentMethod from "./components/PaymentMethod.vue";
+import Carousel from "./components/Carousel.vue";
+import Navbar from "./components/Navbar.vue";
+import ContentSection from "./components/ContentSection.vue";
+import ProductDetail from "./components/ProductDetail.vue";
+import TopSaleItem from "./components/TopSaleItem.vue";
+
+
+
+
 </script>
 
 <template>
-  <div>
-    <div>
-      <Navbar />
+<div>
+    <div>   
       <RouterView/>
-      <!-- <ContentSection>
-        <Carousel :item-list="randomPreview()" :full="true"> </Carousel>
-      </ContentSection>
-      
-      <ContentSection >
-        <Category />
-      </ContentSection>
-      <ContentSection>
-        <PopuparItem />
-      </ContentSection> -->
-
-      <!-- <Buying />
-      <Cart />
+        <!-- <Category />
+        <PopuparItem /> -->
+        <!-- <Buying /> -->
+        <!-- <Cart />
         <PaymentMethod /> -->
+        <!-- <Navbar/>
+        <ProductDetail/> -->
+        <!-- <router-view></router-view> -->
+          <!-- <TopSaleItem/> -->
     </div>
   </div>
 </template>
