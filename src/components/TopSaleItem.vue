@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import { getData } from '../composable/getData.js'
+import Navbar from "./Navbar.vue";
 
 // const datas = ref(getData())
 
@@ -11,10 +12,12 @@ console.log(datas.value);
 </script>
  
 <template>
+    <Navbar/>
     <div class="pop border border-black w-9/12 m-auto rounded-lg truncate mt-8">
         <h1 class="text-4xl mt-2 pl-10 text-white ">Top Sale</h1>
         <div class="flex overflow-y-auto mt-2 pb-2">
             <div v-for="data in datas" :key="data.id">
+                <RouterLink :to="{name: 'ProductDetail', params: {id: data.id}}">
                 <div v-show="data.rating.count > 1000">
                     <div class="cursor-pointer bg-white h-60 w-48 rounded-2xl mx-3 shadow drop-shadow-2xl border border-black hover:border-red-500 hover:shadow-2xl hover:border-2 overflow-hidden "
                         v-on:click="">
@@ -32,6 +35,7 @@ console.log(datas.value);
                         </div>
                     </div>
                 </div>
+            </RouterLink>
             </div>
         </div>
     </div>
