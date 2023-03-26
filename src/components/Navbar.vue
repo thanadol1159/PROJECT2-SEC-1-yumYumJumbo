@@ -43,7 +43,7 @@ let test = {
       "name": "เสื้อยืดชาย oversize คอกลม แขนสั้น",
       "price": 85,
       "description": "เนื้อนุ่ม ใส่สบาย ระบายความร้อนดีเยี่ยม ผ้าไม่ติดตัว",
-      "category": "men's clothing",
+      "category": "women's clothing",
       "type": [
         "เสื้อยืด",
         "เสื้อ oversize"
@@ -59,9 +59,15 @@ let test = {
     }
   ]
 }
-const filterWithTypes = (type) => {
+const filterWithTypes = (clothType) => {
   // console.log(type);
-  const filteredItems = test.items.filter(x => x.type.includes(type))
+  const filteredItems = test.items.filter(x => x.type.includes(clothType))
+  console.log(filteredItems);
+}
+
+const filterWithSex = (sex) => {
+  // console.log(type);
+  const filteredItems = test.items.filter(x => x.category === sex)
   console.log(filteredItems);
 }
 // console.log(items.value.name)
@@ -95,7 +101,10 @@ const filterWithTypes = (type) => {
             </button>
             <div @mouseover="dropdownHandler(true)" @mouseout="dropdownHandler(true)"
               class="p-3 mt-2 grid grid-cols-4 gap-4 absolute bg-[#9263B1] drop-shadow-2xl" v-show="mDropdown">
-              <button>Button1</button>
+              <div v-for="(types, index) of typesOfItems" :key="index" :id="index">
+                <button @click="filterWithTypes(types)">{{ types }}</button>
+              </div>
+              <button @click="filterWithSex(`men's clothing`)">View All</button>
             </div>
           </div>
         </div>
@@ -111,6 +120,7 @@ const filterWithTypes = (type) => {
               <div v-for="(types, index) of typesOfItems" :key="index" :id="index">
                 <button @click="filterWithTypes(types)">{{ types }}</button>
               </div>
+              <button @click="filterWithSex(`women's clothing`)">View All</button>
             </div>
           </div>
         </div>
