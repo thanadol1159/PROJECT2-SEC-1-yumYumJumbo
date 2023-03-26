@@ -1,8 +1,8 @@
 <script setup>
 
-function filterItem() {
+// function filterItem() {
 
-}
+// }
 </script>
  
 <template>
@@ -40,4 +40,3 @@ function filterItem() {
     </div>
 </template>
  
-<style scoped></style>

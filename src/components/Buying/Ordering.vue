@@ -3,9 +3,11 @@ import { ref } from 'vue';
 import AddressForm from './AddressForm.vue';
 import SendOrder from './SendOrder.vue';
 
-let userFormSuccess = ref(undefined)
+const userFormSuccess = ref(undefined)
 // console.log(userFormSuccess.value);
-let popup = ref('')
+
+// PopUp
+const popup = ref('')
 function setNewPopup(newPopup) {
     popup.value = newPopup
 }
@@ -16,7 +18,7 @@ const addNewForm = async (newForm) => {
     // console.log(newForm);
     try {
         const res = await fetch('http://localhost:5000/userForm', {
-            method: 'PATCH',
+            method: 'POST',
             headers: {
                 'content-type': 'application/json'
             },
@@ -26,15 +28,23 @@ const addNewForm = async (newForm) => {
                 phone: newForm.phone
             })
         })
-        if (res.status === 200) {
+        if (res.status === 201) {
             const addedNewForm = await res.json()
             userFormSuccess.value = addedNewForm
             // console.log(userFormSuccess.value);
+        } else {
+            throw new Error('cannot add!')
         }
     }
     catch (err) {
         console.log(err);
     }
+}
+// EDIT
+const editForm = ref(undefined)
+const setEditMode = (oldForm) => {
+    editForm.value = oldForm
+    setNewPopup('AddressForm')
 }
 </script>
 
@@ -61,17 +71,17 @@ const addNewForm = async (newForm) => {
                     <div class="w-full h-80 py-4">
                         <div class="bg-[#F6F6F6] w-96 h-full p-4">
                             <div class=" h-48 w-auto">
-                                <p class="text-xl"> {{ userFormSuccess?.name }}</p>
-                                <p class="text-lg pt-2"> {{ userFormSuccess?.address }}</p>
-                                <p class="text-xl pt-4"> {{ userFormSuccess?.phone }}</p>
+                                <p class="text-xl">ชื่อ: {{ userFormSuccess?.name }}</p>
+                                <p class="text-lg pt-2">ที่อยู่: {{ userFormSuccess?.address }}</p>
+                                <p class="text-xl pt-4">เบอร์: {{ userFormSuccess?.phone }}</p>
                             </div>
                             <button type="button"
                                 class="text-lg text-white btn border-none bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 px-10"
-                                @click="setNewPopup('AddressForm')">แก้ไข</button>
+                                @click="setEditMode(userFormSuccess)">แก้ไข</button>
                         </div>
                     </div>
                 </div>
-                <AddressForm @add="addNewForm" v-if="popup === 'AddressForm'" />
+                <AddressForm @add="addNewForm" @close="setNewPopup" v-if="popup === 'AddressForm'" :userForm="editForm" />
             </div>
 
             <!-- ช่องทางชำระ -->
@@ -94,7 +104,7 @@ const addNewForm = async (newForm) => {
                     <!-- ปุ่มพร้อมเพย์ -->
                     <button type="button"
                         class="py-3 px-10 mr-6 text-lg rounded-lg btn border-none bg-zinc-200 text-black hover:bg-slate-500  hover:text-white active:bg-slate-700 "
-                        @click="setNewPopup('Bank Account')">
+                        @click="setNewPopup('PromptPay')">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 inline mr-2">
                             <path fill="none" d="M0 0h24v24H0z" />
                             <path
@@ -113,6 +123,12 @@ const addNewForm = async (newForm) => {
                             <p class="pt-1 text-[#602F7E]">0123456789</p>
                         </div>
                     </div>
+                    <div class="fixed top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-80 flex items-center justify-center z-50"
+                        v-if="popup === 'PromptPay'" @click="setNewPopup(undefined)">
+                        <div class="bg-white rounded-lg p-8 mx-auto h-auto w-auto">
+                            <img src="https://www.paocloud.co.th/wp-content/uploads/2021/01/Screen-Shot-2564-01-26-at-18.56.53.png">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -123,5 +139,3 @@ const addNewForm = async (newForm) => {
         </div>
     </div>
 </template>
-
-<style></style>
