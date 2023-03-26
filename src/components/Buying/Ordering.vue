@@ -104,7 +104,7 @@ const setEditMode = (oldForm) => {
                     <!-- ปุ่มพร้อมเพย์ -->
                     <button type="button"
                         class="py-3 px-10 mr-6 text-lg rounded-lg btn border-none bg-zinc-200 text-black hover:bg-slate-500  hover:text-white active:bg-slate-700 "
-                        @click="setNewPopup('Bank Account')">
+                        @click="setNewPopup('PromptPay')">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 inline mr-2">
                             <path fill="none" d="M0 0h24v24H0z" />
                             <path
@@ -121,6 +121,12 @@ const setEditMode = (oldForm) => {
                             <img src="https://mpics.mgronline.com/pics/Images/564000004884401.JPEG">
                             <p class="pt-4">อาร์มิน อาร์เลอร์ท</p>
                             <p class="pt-1 text-[#602F7E]">0123456789</p>
+                        </div>
+                    </div>
+                    <div class="fixed top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-80 flex items-center justify-center z-50"
+                        v-if="popup === 'PromptPay'" @click="setNewPopup(undefined)">
+                        <div class="bg-white rounded-lg p-8 mx-auto h-auto w-auto">
+                            <img src="https://www.paocloud.co.th/wp-content/uploads/2021/01/Screen-Shot-2564-01-26-at-18.56.53.png">
                         </div>
                     </div>
                 </div>
