@@ -1,20 +1,39 @@
 <script setup>
-import { ref } from "vue";
-import { getData } from '../composable/getData.js'
+import { ref, defineProps, onMounted } from 'vue';
+import { RouterLink } from "vue-router";
 
-// const datas = ref(getData())
+const props = defineProps({
+    typeShirt: {
+        type: Array
+    }
+})
 
-const datas = ref(getData().sort((a, b) => b.rating.count - a.rating.count))
+const queryProduct = ref({})
+onMounted(async () => {
+    try {
+        const result = await fetch(`http://localhost:5000/items`)
+        if (result.status === 200) {
+            const response = await result.json()
+            queryProduct.value = response
+            queryProduct.value.sort((a, b) => b.rating.count - a.rating.count)
+            console.log(response);
+        }
+    }
+    catch (err) {
+        console.log(err);
+    }
+})
 
-console.log(datas.value);
+console.log(queryProduct);
+
 
 </script>
  
 <template>
-    <div class="pop border border-black w-9/12 m-auto rounded-lg truncate mt-8">
+    <div class="pop border border-black w-9/12 m-auto rounded-lg truncate">
         <h1 class="text-4xl mt-2 pl-10 text-white ">Top Sale</h1>
         <div class="flex overflow-y-auto mt-2 pb-2">
-            <div v-for="data in datas" :key="data.id">
+            <div v-for="data in queryProduct" :key="data.id">
                 <div v-show="data.rating.count > 1000">
                     <div class="cursor-pointer bg-white h-60 w-48 rounded-2xl mx-3 shadow drop-shadow-2xl border border-black hover:border-red-500 hover:shadow-2xl hover:border-2 overflow-hidden "
                         v-on:click="">
