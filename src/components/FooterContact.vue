@@ -84,8 +84,4 @@
 .list {
     border-bottom: 1px solid white;
 }
-
-img {
-    margin: auto;
-}
 </style>
