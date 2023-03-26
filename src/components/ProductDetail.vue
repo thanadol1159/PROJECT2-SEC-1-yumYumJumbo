@@ -9,6 +9,8 @@ import TablerStarFilled from '../../public/TablerStarFilled.vue'
 const queryProduct = ref({})
 const image = ref([])
 const route = useRoute()
+const isSized = ref(false)
+
 
 
 
@@ -29,12 +31,17 @@ onMounted(async () => {
             queryProduct.value = response
             image.value = queryProduct.value.images
         }
-
     }
     catch (err) {
         console.log(err);
     }
 })
+
+const addSize =(size) =>{
+    queryProduct.value.size = size
+    isSized.value = true
+}
+
 
 
 </script>
@@ -56,21 +63,21 @@ onMounted(async () => {
                 <h1 class="font-bold flex justify-end"></h1>
             </div>  
             <div class="flex flex-col px-16">
-                <h1 class="flex justify-start text-3xl font-bold">Description</h1>
+                <h1 class="flex justify-start text-3xl font-bold">Description {{ id }}</h1>
                 <p class="flex justify-end">{{ queryProduct.description }}</p>
                 <TablerStarFilled/>
                 <p>{{ queryProduct?.rating?.rate }}</p>
             </div>
             <div class="flex">
                 <div class="size pl-12 pt-24 space-x-6">
-                <button class="bg-gray-200 text-3xl p-5 hover:bg-slate-400 rounded-lg">S</button>
-                <button class="bg-gray-200 text-3xl p-5 hover:bg-slate-400 rounded-lg">M</button>
-                <button class="bg-gray-200 text-3xl p-5 hover:bg-slate-400 rounded-lg">L</button>
-                <button class="bg-gray-200 text-3xl p-5 hover:bg-slate-400 rounded-lg">XL</button>
+                <button class=" text-3xl p-5 rounded-lg" :class="isSized && queryProduct.size === 'S' ? 'bg-slate-400' : ['bg-slate-200','hover:bg-slate-400']" @click="addSize('S')">S</button>
+                <button class="bg-gray-200 text-3xl p-5 hover:bg-slate-400 rounded-lg" :class="isSized && queryProduct.size === 'M' ? 'bg-slate-400' : ['bg-slate-200','hover:bg-slate-400']" @click="addSize('M')">M</button>
+                <button class="bg-gray-200 text-3xl p-5 hover:bg-slate-400 rounded-lg" :class="isSized && queryProduct.size === 'L' ? 'bg-slate-400' : ['bg-slate-200','hover:bg-slate-400']" @click="addSize('L')">L</button>
+                <button class="bg-gray-200 text-3xl p-5 hover:bg-slate-400 rounded-lg" :class="isSized && queryProduct.size === 'XL' ? 'bg-slate-400' : ['bg-slate-200','hover:bg-slate-400']" @click="addSize('XL')">XL</button>
             </div>
         </div>
             <div class="pt-16 pl-12">
-                <button class="bg-red-200 rounded-lg p-3 hover:bg-red-600">
+                <button class="bg-gray-200 rounded-lg p-3" :class="isSized ? ['bg-red-400','hover:bg-red-600'] : ['disabled','cursor-not-allowed']">
                 <p>Add to cart</p>  
                 </button>
             </div>
