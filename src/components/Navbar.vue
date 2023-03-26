@@ -3,8 +3,17 @@ import { ref, computed } from "vue";
 import { RouterLink } from "vue-router";
 
 const searchKeyword = ref("");
-const dropdown = ref(false);
+const mDropdown = ref(false);
+const wDropdown = ref(false);
 const showSearch = ref(false);
+
+const dropdownHandler = (men) => {
+  if (men === true) {
+    mDropdown.value = !mDropdown.value;
+  } else {
+    wDropdown.value = !wDropdown.value;
+  }
+};
 // console.log(items.value.name)
 // const filterCategory = items.filter((p, index) => items.findIndex((item) => item.name === p.name) === index)
 
@@ -22,26 +31,68 @@ const showSearch = ref(false);
       <nav class="w-full flex justify-between">
         <!-- home -->
         <div class="flex justify-self-start">
-            <RouterLink :to="{ name: 'home' }">
-              <img
-                src="../assets/logo.svg"
-                alt="homeLogoApp"
-                width="52"
-                height="36"
-                class="ml-9 flex justify-start"
-              />
-            </RouterLink>
+          <RouterLink :to="{ name: 'home' }">
+            <img
+              src="../assets/logo.svg"
+              alt="homeLogoApp"
+              width="52"
+              height="36"
+              class="ml-9 flex justify-start"
+            />
+          </RouterLink>
         </div>
 
         <!-- Men Women Category-->
-        <div class="flex ml-14 gap-48 text-white ">
-          <div class="transition ease-in duration-200 hover:text-[#eeb711]">
-            <button >MEN</button>
-          </div>
-          <div class="transition ease-in duration-200 hover:text-[#eeb711]">
-            <button>WOMEN</button>  
+        <div>
+          <div @mouseenter="dropdownHandler(true)">
+            <button
+              class="text-white transition duration-150 ease-in hover:text-[#eeb711]"
+              :style="mDropdown ? { color: '#eeb711' } : { color: 'white' }"
+            >
+              MEN
+            </button>
+            <div
+              @mouseover="dropdownHandler(true)"
+              @mouseout="dropdownHandler(true)"
+              class="p-3 mt-2 grid grid-cols-4 gap-4 absolute bg-[#9263B1] drop-shadow-2xl"
+              v-show="mDropdown"
+            >
+              <button>Button1</button>
+            </div>
           </div>
         </div>
+
+        <div>
+          <div @mouseenter="dropdownHandler(false)">
+            <button
+              class="text-white transition duration-150 ease-in hover:text-[#eeb711]"
+              :style="wDropdown ? { color: '#eeb711' } : { color: 'white' }"
+            >
+              WOMEN
+            </button>
+            <div
+              @mouseover="dropdownHandler(false)"
+              @mouseout="dropdownHandler(false)"
+              class="p-3 mt-2 grid grid-cols-4 gap-4 absolute bg-[#9263B1] drop-shadow-2xl"
+              v-show="wDropdown"
+            >
+              <button>Button1</button>
+              <button>Button2</button>
+              <button>Button3</button>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="dropdown dropdown-hover">
+          <label tabindex="0" class="btn m-1">MEN</label>
+          <label tabindex="0" class="btn m-1">WOMEN</label>
+          <ul
+            tabindex="0"
+            class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+          >
+            <li><a>Item 1</a></li>
+            <li><a>Item 2</a></li>
+          </ul>
+        </div> -->
 
         <!-- search bar -->
         <div
@@ -152,7 +203,6 @@ const showSearch = ref(false);
       </nav>
     </div>
 
-    <!-- dropdown -->
     <!-- <div v-show="showSeach" class="absolute w-full">
             <div v-if="dropdown" class="w-full">
                 <div v-for="(p, index) in items" :key="index" :class="index % 2 === 0 ? 'bg-white' : 'bg-slate-50'" class="pl-5 py-2 text-xl">
