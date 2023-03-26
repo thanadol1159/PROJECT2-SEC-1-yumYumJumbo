@@ -2,6 +2,7 @@
 import { getData } from "../composable/getData";
 import ContentSection from "../components/ContentSection.vue";
 import Carousel from "../components/Carousel.vue";
+import FooterContact from "../components/FooterContact.vue";
 
 const items = getData();
 
@@ -30,5 +31,7 @@ const randomPreview = () => {
         
       </div>
     </ContentSection>
+            
+    <FooterContact />
   </div>
 </template>
