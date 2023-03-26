@@ -1,12 +1,12 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 
-defineEmits(['add , close'])
+defineEmits(['add'])
 const props = defineProps({
     userForm: { type: Object }
 })
 const updatedUserFrom = ref({})
-onMounted(async () => {
+onMounted(() => {
     // Add
     if (props.userForm === undefined) {
         updatedUserFrom.value = {
@@ -17,7 +17,7 @@ onMounted(async () => {
     }
     // Edit
     else {
-        updatedUserFrom.value = props.userForm;
+
     }
 })
 
@@ -26,7 +26,7 @@ onMounted(async () => {
     <div class="fixed top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-80 flex items-center justify-center z-50">
         <div class="bg-white rounded-lg p-4 h-auto w-5/12">
             <!-- GoBack -->
-            <button class="" @click="$emit('close', undefined)">
+            <button class="" @click="">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="inline w-12 h-12">
                     <path fill="none" d="M0 0h24v24H0z" />
                     <path d="M10.828 12l4.95 4.95-1.414 1.414L8 12l6.364-6.364 1.414 1.414z" fill="rgba(96,47,126,1)" />
@@ -35,11 +35,11 @@ onMounted(async () => {
             </button>
 
             <!-- Form -->
-            <form class="p-4 pl-10">
+            <div class="p-4 pl-10">
                 <!-- Name -->
                 <div class="mb-4">
                     <label class="block ml-2 text-gray-700 text-xl" for="name">
-                        ชื่อผู้รับ
+                        ชื่อผู้รับ {{ updatedUserFrom.name }}
                     </label>
                     <input class="border rounded-xl border-gray-400 p-2 h-auto w-3/4 text-lg" type="text" name="name"
                         id="name" placeholder="นายเอเลน เยเกอร์" v-model="updatedUserFrom.name" />
@@ -47,29 +47,26 @@ onMounted(async () => {
                 <!-- Address -->
                 <div class="mb-4">
                     <label class="block ml-2 text-gray-700 text-xl" for="address">
-                        รายละเอียดที่อยู่
+                        รายละเอียดที่อยู่ {{ updatedUserFrom.address }}
                     </label>
                     <textarea class="border rounded-xl border-gray-400 p-2 h-auto w-3/4 text-lg" type="text" name="address"
                         id="address" placeholder="หมู่บ้านพาราดี ซอยซาซาเกโย" v-model="updatedUserFrom.address" />
                 </div>
                 <!-- Telephone -->
                 <div class="mb-4">
-                    <label class="block ml-2 text-gray-700 text-xl" for="phone">
-                        เบอร์ติดต่อ
+                    <label class="block ml-2 text-gray-700 text-xl" for="city">
+                        เบอร์ติดต่อ {{ updatedUserFrom.phone }}
                     </label>
                     <input class="border rounded-xl border-gray-400 p-2 h-auto w-3/4 text-lg" type="tel" name="phone"
-                        id="phone" placeholder="Ex 0922161111" v-model="updatedUserFrom.phone" />
+                        id="phone" pattern="[0][0-9]{2}[0-9]{3}[0-9]{4}" placeholder="Ex 0922161111"
+                        v-model="updatedUserFrom.phone" />
                 </div>
                 <!-- Submit -->
-                <button v-if="props.userForm === undefined" type="submit" @click="$emit('add', updatedUserFrom)"
+                <button @click="$emit('add', updatedUserFrom)"
                     class="text-lg btn border-none text-white bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 px-10">
                     ยืนยัน
                 </button>
-                <button v-else type="submit" @click="$emit('add', updatedUserFrom)"
-                    class="text-lg btn border-none text-white bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 px-10">
-                    แก้ไข
-                </button>
-            </form>
+            </div>
         </div>
     </div>
 </template>
