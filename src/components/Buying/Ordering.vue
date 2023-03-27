@@ -3,8 +3,8 @@ import { ref } from 'vue';
 import AddressForm from './AddressForm.vue';
 import SendOrder from './SendOrder.vue';
 
-const userFormSuccess = ref(undefined)
-// console.log(userFormSuccess.value);
+const commitForm = ref(undefined)
+// console.log(commitForm.value);
 
 // PopUp
 const popup = ref('')
@@ -14,7 +14,7 @@ function setNewPopup(newPopup) {
 
 // Json Sever
 const addNewForm = async (newForm) => {
-    setNewPopup('')
+    // setNewPopup('')
     // console.log(newForm);
     try {
         const res = await fetch('http://localhost:5000/userForm', {
@@ -30,8 +30,8 @@ const addNewForm = async (newForm) => {
         })
         if (res.status === 201) {
             const addedNewForm = await res.json()
-            userFormSuccess.value = addedNewForm
-            // console.log(userFormSuccess.value);
+            commitForm.value = addedNewForm
+            // console.log(commitForm.value);
         } else {
             throw new Error('cannot add!')
         }
@@ -62,7 +62,7 @@ const setEditMode = (oldForm) => {
             <!-- ฟอร์ม -->
             <div class="w-full">
                 <p class="bg-[#EFEFEF] text-xl p-3 pl-8">ที่อยู่การจัดส่งสินค้า</p>
-                <div class="w-full h-80 py-4" v-if="userFormSuccess === undefined">
+                <div class="w-full h-80 py-4" v-if="commitForm === undefined">
                     <button type="button"
                         class="text-lg text-white btn border-none bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 px-10"
                         @click="setNewPopup('AddressForm')">เพิ่มที่อยู่</button>
@@ -71,13 +71,14 @@ const setEditMode = (oldForm) => {
                     <div class="w-full h-80 py-4">
                         <div class="bg-[#F6F6F6] w-96 h-full p-4">
                             <div class=" h-48 w-auto">
-                                <p class="text-xl">ชื่อ: <span class="text-[#602F7E] font-bold">{{ userFormSuccess?.name }}</span></p>
-                                <p class="text-lg pt-2">ที่อยู่: {{ userFormSuccess?.address }}</p>
-                                <p class="text-xl pt-4">เบอร์: <span class="font-bold">{{ userFormSuccess?.phone }}</span></p>
+                                <p class="text-xl">ชื่อ: <span class="text-[#602F7E] font-bold">{{ commitForm?.name
+                                }}</span></p>
+                                <p class="text-lg pt-2">ที่อยู่: {{ commitForm?.address }}</p>
+                                <p class="text-xl pt-4">เบอร์: <span class="font-bold">{{ commitForm?.phone }}</span></p>
                             </div>
                             <button type="button"
                                 class="text-lg text-white btn border-none bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 px-10"
-                                @click="setEditMode(userFormSuccess)">แก้ไข</button>
+                                @click="setEditMode(commitForm)">แก้ไข</button>
                         </div>
                     </div>
                 </div>
@@ -126,7 +127,8 @@ const setEditMode = (oldForm) => {
                     <div class="fixed top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-80 flex items-center justify-center z-50"
                         v-if="popup === 'PromptPay'" @click="setNewPopup(undefined)">
                         <div class="bg-white rounded-lg p-8 mx-auto h-auto w-auto">
-                            <img src="https://www.paocloud.co.th/wp-content/uploads/2021/01/Screen-Shot-2564-01-26-at-18.56.53.png">
+                            <img
+                                src="https://www.paocloud.co.th/wp-content/uploads/2021/01/Screen-Shot-2564-01-26-at-18.56.53.png">
                         </div>
                     </div>
                 </div>
