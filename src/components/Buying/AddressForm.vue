@@ -23,13 +23,13 @@ onMounted(() => {
     }
 })
 
-const error = ref(false)
+const alertText = ref('')
 const sendNewForm = () => {
     if (newForm.value.name && newForm.value.address && newForm.value.phone) {
         emit('add', newForm.value);
         emit('close');
     } else {
-        error.value = true
+        alertText.value = 'กรุณากรอกข้อมูลให้ครบ'
     }
 };
 
@@ -80,11 +80,12 @@ const sendNewForm = () => {
                         เบอร์ติดต่อ
                     </label>
                     <input class="border rounded-xl border-gray-400 p-2 h-auto w-3/4 text-lg" type="tel" name="phone"
-                        id="phone" placeholder="Ex 0922161111" v-model="newForm.phone" />
+                        id="phone" placeholder="Ex 0922161111" pattern="[0-9]*" inputmode="numeric"
+                        v-model="newForm.phone" />
                 </div>
                 <!-- Error -->
-                <div class="mb-3" v-if="error">
-                    <span class="text-red-600">กรุณากรอกข้อมูลให้ครบถ้วน</span>
+                <div class="mb-3" v-if="alertText">
+                    <span class="text-red-600">{{ alertText }}</span>
                 </div>
                 <!-- Submit -->
                 <button v-if="props.userForm === undefined" type="submit" @click.prevent="sendNewForm"
