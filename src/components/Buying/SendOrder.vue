@@ -61,14 +61,14 @@ let test = {
 <template>
     <div class="text-center">
         <div class="bg-[#EFEFEF] w-8/12 ml-24">
-            <span class="text-2xl">รายการสินค้า</span>
+            <span class="text-2xl font-bold">รายการสินค้า</span>
             <div class="mt-6 h-80 pl-4">
                 <div class="w-full flex" v-for="item of test.items">
                     <div class="h-auto w-5/6 text-left"><span class="text-lg">{{ item.name }}</span></div>
                     <div class="h-auto w-1/6 text-left"><span class="text-lg">{{ item.price }}</span></div>
                 </div>
             </div>
-            <div class="grid grid-cols-2 pb-6">
+            <div class="grid grid-cols-2 pb-6 font-bold">
                 <span class="text-2xl">รวมทั้งหมด</span>
                 <span class="text-2xl text-[#602F7E]">THB {{ orderSum }}</span>
             </div>

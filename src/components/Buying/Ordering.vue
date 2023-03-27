@@ -57,7 +57,7 @@ const setEditMode = (oldForm) => {
                     <path fill="none" d="M0 0h24v24H0z" />
                     <path d="M10.828 12l4.95 4.95-1.414 1.414L8 12l6.364-6.364 1.414 1.414z" fill="rgba(96,47,126,1)" />
                 </svg>
-                <span class="text-xl"> ขั้นตอนการสั่งซื้อ</span>
+                <span class="text-xl font-bold"> ขั้นตอนการสั่งซื้อ</span>
             </button>
             <!-- ฟอร์ม -->
             <div class="w-full">
@@ -71,9 +71,9 @@ const setEditMode = (oldForm) => {
                     <div class="w-full h-80 py-4">
                         <div class="bg-[#F6F6F6] w-96 h-full p-4">
                             <div class=" h-48 w-auto">
-                                <p class="text-xl">ชื่อ: {{ userFormSuccess?.name }}</p>
+                                <p class="text-xl">ชื่อ: <span class="text-[#602F7E] font-bold">{{ userFormSuccess?.name }}</span></p>
                                 <p class="text-lg pt-2">ที่อยู่: {{ userFormSuccess?.address }}</p>
-                                <p class="text-xl pt-4">เบอร์: {{ userFormSuccess?.phone }}</p>
+                                <p class="text-xl pt-4">เบอร์: <span class="font-bold">{{ userFormSuccess?.phone }}</span></p>
                             </div>
                             <button type="button"
                                 class="text-lg text-white btn border-none bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 px-10"

@@ -5,11 +5,11 @@ defineEmits(['add , close'])
 const props = defineProps({
     userForm: { type: Object }
 })
-const updatedUserFrom = ref({})
-onMounted(async () => {
+const newForm = ref({})
+onMounted(() => {
     // Add
     if (props.userForm === undefined) {
-        updatedUserFrom.value = {
+        newForm.value = {
             name: '',
             address: '',
             phone: ''
@@ -17,13 +17,13 @@ onMounted(async () => {
     }
     // Edit
     else {
-        updatedUserFrom.value = props.userForm;
+        newForm.value = props.userForm;
     }
 })
 
 </script>
 <template>
-    <div class="fixed top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-80 flex items-center justify-center z-50">
+    <div class="fixed top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-80 flex items-center justify-center z-5">
         <div class="bg-white rounded-lg p-4 h-auto w-5/12">
             <!-- GoBack -->
             <button class="" @click="$emit('close', undefined)">
@@ -31,18 +31,18 @@ onMounted(async () => {
                     <path fill="none" d="M0 0h24v24H0z" />
                     <path d="M10.828 12l4.95 4.95-1.414 1.414L8 12l6.364-6.364 1.414 1.414z" fill="rgba(96,47,126,1)" />
                 </svg>
-                <h2 class="text-xl inline">เพิ่มที่อยู่ของคุณ</h2>
+                <h2 class="text-xl inline font-bold">เพิ่มที่อยู่ของคุณ</h2>
             </button>
 
             <!-- Form -->
-            <form class="p-4 pl-10">
+            <form class="p-4 pl-10" id="userAddressForm">
                 <!-- Name -->
                 <div class="mb-4">
                     <label class="block ml-2 text-gray-700 text-xl" for="name">
                         ชื่อผู้รับ
                     </label>
                     <input class="border rounded-xl border-gray-400 p-2 h-auto w-3/4 text-lg" type="text" name="name"
-                        id="name" placeholder="นายเอเลน เยเกอร์" v-model="updatedUserFrom.name" />
+                        id="name" placeholder="นายเอเลน เยเกอร์" v-model="newForm.name" />
                 </div>
                 <!-- Address -->
                 <div class="mb-4">
@@ -50,7 +50,7 @@ onMounted(async () => {
                         รายละเอียดที่อยู่
                     </label>
                     <textarea class="border rounded-xl border-gray-400 p-2 h-auto w-3/4 text-lg" type="text" name="address"
-                        id="address" placeholder="หมู่บ้านพาราดี ซอยซาซาเกโย" v-model="updatedUserFrom.address" />
+                        id="address" placeholder="หมู่บ้านพาราดี ซอยซาซาเกโย" v-model="newForm.address" />
                 </div>
                 <!-- Telephone -->
                 <div class="mb-4">
@@ -58,14 +58,18 @@ onMounted(async () => {
                         เบอร์ติดต่อ
                     </label>
                     <input class="border rounded-xl border-gray-400 p-2 h-auto w-3/4 text-lg" type="tel" name="phone"
-                        id="phone" placeholder="Ex 0922161111" v-model="updatedUserFrom.phone" />
+                        id="phone" placeholder="Ex 0922161111" v-model="newForm.phone" />
                 </div>
+                <!-- Error -->
+                <!-- <div class="mb-3" v-if="error">
+                    <span class="text-red-600">กรุณากรอกข้อมูลให้ครบถ้วน</span>
+                </div> -->
                 <!-- Submit -->
-                <button v-if="props.userForm === undefined" type="submit" @click="$emit('add', updatedUserFrom)"
+                <button v-if="props.userForm === undefined" type="submit" @click="[validateForm , $emit('add', newForm)]"
                     class="text-lg btn border-none text-white bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 px-10">
                     ยืนยัน
                 </button>
-                <button v-else type="submit" @click="$emit('add', updatedUserFrom)"
+                <button v-else-if="props.userForm !== undefined" type="submit" @click="$emit('add', newForm)"
                     class="text-lg btn border-none text-white bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 px-10">
                     แก้ไข
                 </button>
