@@ -28,7 +28,7 @@ changeImage();
     </div>
     <div class="section">
       <div class="image-container">
-        <button><div class="image"><img src="../assets/IMGrec/tospace.jpg" /></div></button>
+        <button><div class="image"><img src="../assets/IMGrec/dress.jpg" /></div></button>
       </div>
     </div>
     <div class="section">
@@ -38,7 +38,7 @@ changeImage();
     </div>
     <div class="section">
       <div class="image-container">
-        <button><div class="image"><img src="../assets/IMGrec/dress.jpg" /></div></button>
+        <button><div class="image"><img src="../assets/IMGrec/tospace.jpg" /></div></button>
       </div>
     </div>
     </div>
