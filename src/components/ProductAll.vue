@@ -15,7 +15,7 @@ onMounted(async () => {
         if (result.status === 200) {
             const response = await result.json()
             queryProduct.value = response
-            console.log(response);
+            // console.log(response);
         }
     }
     catch (err) {
@@ -23,7 +23,7 @@ onMounted(async () => {
     }
 })
 
-console.log(queryProduct);
+// console.log(queryProduct);
 </script>
  
 <template>

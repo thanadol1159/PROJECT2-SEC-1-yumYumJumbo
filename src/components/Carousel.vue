@@ -1,15 +1,10 @@
 <script setup>
-import { ref, defineProps, computed } from "vue";
-
+import { ref, computed } from "vue";
 const props = defineProps({
   itemList: {
     type: Array,
     default: []
-  },
-  full: {
-    type: Boolean,
-    default: true,
-  },
+  }
 });
 
 const currentIndex = ref(0);
@@ -39,7 +34,7 @@ const clickPageHandler = (e) => {
   >
     <!-- button back -->
     <div class="h-full w-32 flex justify-center items-center z-10">
-      <button @click="nextIndex(false)">
+      <button @click="nextIndex(false)" class="trasiton duration-150 ease-in-out hover:-translate-x-3">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -80,7 +75,7 @@ const clickPageHandler = (e) => {
 
     <!-- button next -->
     <div class="h-full w-32 flex justify-center items-center z-10">
-      <button @click="nextIndex(true)">
+      <button @click="nextIndex(true)" class="trasiton duration-150 ease-in-out hover:translate-x-3">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"

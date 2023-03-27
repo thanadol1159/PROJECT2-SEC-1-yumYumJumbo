@@ -4,7 +4,6 @@ import ContentSection from "../components/ContentSection.vue";
 import Carousel from "../components/Carousel.vue";
 import ReccommandItem from "../components/ReccommandItem.vue";
 import FooterContact from "../components/FooterContact.vue";
-
 const items = getData();
 
 const randomPreview = () => {
@@ -18,7 +17,7 @@ const randomPreview = () => {
 <template>
   <div>
     <ContentSection>
-      <Carousel :item-list="randomPreview()" />
+      <Carousel :item-list="randomPreview()"/>
     </ContentSection>
 
     <ContentSection>
