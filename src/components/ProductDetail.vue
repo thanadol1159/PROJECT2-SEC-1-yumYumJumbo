@@ -27,7 +27,7 @@ onMounted(async () => {
         const result = await fetch(`http://localhost:5000/items/${route.params.id}`)
         if (result.status === 200) {
             const response = await result.json()
-            console.log(response)
+            // console.log(response)
             queryProduct.value = response
             image.value = queryProduct.value.images
         }
@@ -51,10 +51,7 @@ const addSize =(size) =>{
     <!-- <h1>Product {{ $route.params.id }} Detail</h1> -->
      <div class="product flex flex-row justify-center">
         <div class="image p-40">
-            <div class="image" v-for="picture in image">
-                <!-- <img :src="`${ picture }`" alt=""> -->
-                <Carousel :itemList="picture" :full="true"></Carousel>
-            </div>
+                <Carousel :itemList="queryProduct?.images" :full="true"></Carousel>
         </div>
         <div class="content">   
                 <div class="flex flex-col space-y-5 text-5xl py-14 px-7 font-bold">

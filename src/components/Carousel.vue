@@ -4,7 +4,7 @@ import { ref, defineProps, computed } from "vue";
 const props = defineProps({
   itemList: {
     type: Array,
-    required: true,
+    default: [],
   },
   full: {
     type: Boolean,
@@ -14,11 +14,15 @@ const props = defineProps({
 });
 
 const currentIndex = ref(0);
-const currentItem = computed(() => props.itemList[currentIndex.value]);
+const currentItem = computed(() => {
+  if (props.itemList !== []) {
+    return props.itemList[currentIndex.value];
+  }
+});
+const nextIndex = (next) => {
 
-const nextIndex = (next = true) => {
   const length = props.itemList.length;
-  if (next) {
+  if (next ==="next") {
     if (currentIndex.value === length - 1) {
       currentIndex.value = 0;
     } else currentIndex.value++;
@@ -40,7 +44,7 @@ const clickPageHandler = (e) => {
   >
     <!-- button back -->
     <div class="h-full w-32 flex justify-center items-center z-10">
-      <button @click="nextIndex(back)">
+      <button @click="nextIndex('back')">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -59,10 +63,10 @@ const clickPageHandler = (e) => {
       <!-- images -->
       <div
         class="absolute w-[36rem] h-80 border rounded-2xl object-cover flex justify-center"
-        :style="{ backgroundImage: 'url(' + currentItem.images + ')' }"
-      >
         
-        <!-- <img :src="currentItem.images" width="318" height="318" /> -->
+      >
+      <!-- :style="{ backgroundImage: 'url(' + currentItem + ')' }" -->
+        <img :src="currentItem" width="318" height="318" />
       </div>
 
       <!-- paginations -->
@@ -74,15 +78,19 @@ const clickPageHandler = (e) => {
             :id="index"
             @click="clickPageHandler"
             class="h-3.5 w-3.5 rounded-full border"
-            :class="index === currentIndex ? ['bg-white', 'border-[#9263B1]'] : 'bg-[#9263B1]'"
+            :class="
+              index === currentIndex
+                ? ['bg-white', 'border-[#9263B1]']
+                : 'bg-[#9263B1]'
+            "
           ></button>
-        </div> 
+        </div>
       </div>
     </div>
 
     <!-- button next -->
     <div class="h-full w-32 flex justify-center items-center z-10">
-      <button @click="nextIndex(next)">
+      <button @click="nextIndex('next')">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
