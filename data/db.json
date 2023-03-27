@@ -756,10 +756,12 @@
           "product_id": "",
           "product_name": "",
           "quantity": "",
+          "size": "",
           "unit_price": "",
           "total_price": ""
         }
-      ]
+      ],
+      "orders_Sum": ""
     }
   ]
 }
