@@ -1,7 +1,8 @@
 <script setup>
-import { ref, defineProps, onMounted } from 'vue';
+import { ref, defineProps, onMounted, defineEmits } from 'vue';
 import { RouterLink } from "vue-router";
 
+const emits = defineEmits(['sendId'])
 const props = defineProps({
     typeShirt: {
         type: Array
@@ -24,7 +25,12 @@ onMounted(async () => {
     }
 })
 
-console.log(queryProduct);
+const filterId = (inputId) => {
+    const id = queryProduct.value.filter(x => x.id === inputId)
+    console.log(id);
+}
+
+// console.log(queryProduct);
 
 
 </script>
@@ -35,23 +41,24 @@ console.log(queryProduct);
         <div class="flex overflow-y-auto mt-2 pb-2">
             <div v-for="data in queryProduct" :key="data.id">
                 <div v-show="data.rating.rate > 4.7">
-                    <RouterLink :to="{ name: 'cart' }">
-                        <div class="cursor-pointer bg-white h-60 w-48 rounded-2xl mx-3 shadow drop-shadow-2xl border border-black hover:border-red-500 hover:shadow-2xl hover:border-2 overflow-hidden "
-                            v-on:click="">
-                            <img class="m-auto w-40 mt-4 border rounded-lg border-black shadow shadow-violet-600"
-                                :src="data.images" />
-                            <p
-                                class="text-xs pl-5 mt-1 bg-slate-500 border border-red-600 border-l-0 border-r-0 text-slate-200">
-                                rating : <span class="rateData">{{
-                                    data.rating.rate
-                                }}</span></p>
-                            <div class="mt-1 bg-black h-12">
-                                <h1 class="text-xs px-5 text-white py-2 truncate ">{{
-                                    data.name }}
-                                </h1>
-                            </div>
+                    <!-- <RouterLink :to="{ name: 'cart' }"> -->
+                    <!-- <div @click="$emit('sendId', data.id)" -->
+                    <div @click="filterId(data.id)"
+                        class="cursor-pointer bg-white h-60 w-48 rounded-2xl mx-3 shadow drop-shadow-2xl border border-black hover:border-red-500 hover:shadow-2xl hover:border-2 overflow-hidden ">
+                        <img class="m-auto w-40 mt-4 border rounded-lg border-black shadow shadow-violet-600"
+                            :src="data.images" />
+                        <p
+                            class="text-xs pl-5 mt-1 bg-slate-500 border border-red-600 border-l-0 border-r-0 text-slate-200">
+                            rating : <span class="rateData">{{
+                                data.rating.rate
+                            }}</span></p>
+                        <div class="mt-1 bg-black h-12">
+                            <h1 class="text-xs px-5 text-white py-2 truncate ">{{
+                                data.name }}
+                            </h1>
                         </div>
-                    </RouterLink>
+                    </div>
+                    <!-- </RouterLink> -->
                 </div>
             </div>
         </div>
