@@ -106,7 +106,6 @@ const filterWithSex = (sex) => {
               >
                 {{ types }}
               </button>
-
               <button @click="filterWithSex(`men's clothing`)">View All</button>
             </div>
           </div>
