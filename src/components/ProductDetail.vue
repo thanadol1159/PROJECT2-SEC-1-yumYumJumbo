@@ -52,8 +52,8 @@ const addSize =(size) =>{
      <div class="product flex flex-row justify-center">
         <div class="image p-40">
             <div class="image" v-for="picture in image">
-                <img :src="`${ picture }`" alt="">
-                <!-- <Carousel :itemList="picture" :full="true"></Carousel> -->
+                <!-- <img :src="`${ picture }`" alt=""> -->
+                <Carousel :itemList="picture" :full="true"></Carousel>
             </div>
         </div>
         <div class="content">   

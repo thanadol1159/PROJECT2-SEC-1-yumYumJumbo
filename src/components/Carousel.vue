@@ -59,9 +59,10 @@ const clickPageHandler = (e) => {
       <!-- images -->
       <div
         class="absolute w-[36rem] h-80 border rounded-2xl object-cover flex justify-center"
+        :style="{ backgroundImage: 'url(' + currentItem.images + ')' }"
       >
-        <!-- :style="{ backgroundImage: 'url(' + currentItem.images[0] + ')' }" -->
-        <img :src="currentItem.images[0]" width="318" height="318" />
+        
+        <!-- <img :src="currentItem.images" width="318" height="318" /> -->
       </div>
 
       <!-- paginations -->
