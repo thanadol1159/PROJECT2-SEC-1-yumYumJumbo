@@ -3,42 +3,39 @@ import { ref } from 'vue';
 import AddressForm from './AddressForm.vue';
 import SendOrder from './SendOrder.vue';
 
-const commitForm = ref()
-console.log(commitForm.value);
+const ordersFromUser = ref({
+    id: '',
+    customerName: '',
+    customerAddress: '',
+    customerPhone: '',
+    items: [
+        {
+            product_id: '',
+            product_name: '',
+            quantity: '',
+            unit_price: '',
+            total_price: ''
+        }
+    ]
+})
+// console.log(ordersFromUser.value);
 
 // PopUp
 const popup = ref('')
+const btnAddAddress = ref(true)
 function setNewPopup(newPopup) {
     popup.value = newPopup
 }
 
-// Json Sever
-const addNewForm = async (newForm) => {
-    setNewPopup('')
-    // console.log(newForm);
-    try {
-        const res = await fetch('http://localhost:5000/orders', {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify({
-                userName: newForm.name,
-                userAddress: newForm.address,
-                userPhone: newForm.phone
-            })
-        })
-        if (res.status === 201) {
-            const addedNewForm = await res.json()
-            userFormSuccess.value = addedNewForm
-            // console.log(userFormSuccess.value);
-        } else {
-            throw new Error('cannot add!')
-        }
-    }
-    catch (err) {
-        console.log(err);
-    }
+// Add
+const addNewForm = (newForm) => {
+    btnAddAddress.value = false
+    // setNewPopup('')
+    console.log(newForm);
+    ordersFromUser.value.customerName = newForm.customerName
+    ordersFromUser.value.customerAddress = newForm.customerAddress
+    ordersFromUser.value.customerPhone = newForm.customerPhone
+    console.log(ordersFromUser.value);
 }
 // EDIT
 const editForm = ref(undefined)
@@ -57,12 +54,12 @@ const setEditMode = (oldForm) => {
                     <path fill="none" d="M0 0h24v24H0z" />
                     <path d="M10.828 12l4.95 4.95-1.414 1.414L8 12l6.364-6.364 1.414 1.414z" fill="rgba(96,47,126,1)" />
                 </svg>
-                <span class="text-xl"> ขั้นตอนการสั่งซื้อ</span>
+                <span class="text-xl font-bold"> ขั้นตอนการสั่งซื้อ</span>
             </button>
             <!-- ฟอร์ม -->
             <div class="w-full">
                 <p class="bg-[#EFEFEF] text-xl p-3 pl-8">ที่อยู่การจัดส่งสินค้า</p>
-                <div class="w-full h-80 py-4" v-if="userFormSuccess === undefined">
+                <div class="w-full h-80 py-4" v-if="btnAddAddress">
                     <button type="button"
                         class="text-lg text-white btn border-none bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 px-10"
                         @click="setNewPopup('AddressForm')">เพิ่มที่อยู่</button>
@@ -71,13 +68,19 @@ const setEditMode = (oldForm) => {
                     <div class="w-full h-80 py-4">
                         <div class="bg-[#F6F6F6] w-96 h-full p-4">
                             <div class=" h-48 w-auto">
-                                <p class="text-xl">ชื่อ: {{ userFormSuccess?.name }}</p>
-                                <p class="text-lg pt-2">ที่อยู่: {{ userFormSuccess?.address }}</p>
-                                <p class="text-xl pt-4">เบอร์: {{ userFormSuccess?.phone }}</p>
+                                <p class="text-xl">ชื่อ:
+                                    <span class="text-[#602F7E] font-bold"> {{ ordersFromUser?.customerName }} </span>
+                                </p>
+                                <p class="text-lg pt-2">ที่อยู่: {{ ordersFromUser?.customerAddress }} </p>
+                                <p class="text-xl pt-4">เบอร์:
+                                    <span class="font-bold">{{ ordersFromUser?.customerPhone }} </span>
+                                </p>
                             </div>
                             <button type="button"
                                 class="text-lg text-white btn border-none bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 px-10"
-                                @click="setEditMode(userFormSuccess)">แก้ไข</button>
+                                @click="setEditMode(ordersFromUser)">
+                                แก้ไข
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -116,7 +119,7 @@ const setEditMode = (oldForm) => {
 
                     <!-- popup บัญชี -->
                     <div class="fixed top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-80 flex items-center justify-center z-50"
-                        v-if="popup === 'Bank Account'" @click="setNewPopup(undefined)">
+                        v-if="popup === 'Bank Account'" @click="setNewPopup('')">
                         <div class="bg-white rounded-lg p-8 mx-auto h-auto w-3/12 text-2xl">
                             <img src="https://mpics.mgronline.com/pics/Images/564000004884401.JPEG">
                             <p class="pt-4">อาร์มิน อาร์เลอร์ท</p>
@@ -124,9 +127,10 @@ const setEditMode = (oldForm) => {
                         </div>
                     </div>
                     <div class="fixed top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-80 flex items-center justify-center z-50"
-                        v-if="popup === 'PromptPay'" @click="setNewPopup(undefined)">
+                        v-if="popup === 'PromptPay'" @click="setNewPopup('')">
                         <div class="bg-white rounded-lg p-8 mx-auto h-auto w-auto">
-                            <img src="https://www.paocloud.co.th/wp-content/uploads/2021/01/Screen-Shot-2564-01-26-at-18.56.53.png">
+                            <img
+                                src="https://www.paocloud.co.th/wp-content/uploads/2021/01/Screen-Shot-2564-01-26-at-18.56.53.png">
                         </div>
                     </div>
                 </div>
@@ -135,7 +139,7 @@ const setEditMode = (oldForm) => {
 
         <!-- ใบบอกจำนวน -->
         <div class="w-5/12 pt-12">
-            <SendOrder />
+            <!-- <SendOrder /> -->
         </div>
     </div>
 </template>

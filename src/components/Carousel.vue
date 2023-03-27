@@ -4,11 +4,10 @@ import { ref, defineProps, computed } from "vue";
 const props = defineProps({
   itemList: {
     type: Array,
-    required: true,
+    default: []
   },
   full: {
     type: Boolean,
-    required: false,
     default: true,
   },
 });
