@@ -71,7 +71,7 @@ const sendNewForm = () => {
                     <label class="block ml-2 text-gray-700 text-xl" for="address">
                         รายละเอียดที่อยู่
                     </label>
-                    <textarea class="border rounded-xl border-gray-400 p-2 h-auto w-3/4 text-lg" type="text" name="address"
+                    v-if="props.userForm === undefined" <textarea class="border rounded-xl border-gray-400 p-2 h-auto w-3/4 text-lg" type="text" name="address"
                         id="address" placeholder="หมู่บ้านพาราดี ซอยซาซาเกโย" v-model="newForm.customerAddress" />
                 </div>
                 <!-- Telephone -->
