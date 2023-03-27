@@ -3,8 +3,8 @@ import { ref } from 'vue';
 import AddressForm from './AddressForm.vue';
 import SendOrder from './SendOrder.vue';
 
-const userFormSuccess = ref(undefined)
-// console.log(userFormSuccess.value);
+const commitForm = ref()
+console.log(commitForm.value);
 
 // PopUp
 const popup = ref('')
@@ -17,15 +17,15 @@ const addNewForm = async (newForm) => {
     setNewPopup('')
     // console.log(newForm);
     try {
-        const res = await fetch('http://localhost:5000/userForm', {
+        const res = await fetch('http://localhost:5000/orders', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
             },
             body: JSON.stringify({
-                name: newForm.name,
-                address: newForm.address,
-                phone: newForm.phone
+                userName: newForm.name,
+                userAddress: newForm.address,
+                userPhone: newForm.phone
             })
         })
         if (res.status === 201) {
