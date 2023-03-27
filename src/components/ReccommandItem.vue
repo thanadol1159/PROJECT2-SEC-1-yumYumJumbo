@@ -19,37 +19,38 @@ changeImage();
 
 <template>
   <div class="flex justify-around">
-    <div> </div>
-    <div >
-          <div class="section">
-      <div class="image-container">
-       <button class="ml-44 image"><div class="image"><img src="../assets/IMGrec/blackshirt.jpg" /></div></button>
+    <div>tag 1</div>
+    <div>
+      
+      
+      
+      
+      <div class="section">
+        
+        <div class="image-container">
+            <img src="../assets/IMGrec/blackshirt.jpg" />
+        </div>
+      </div>
+      <div class="section">
+        <div class="image-container">
+          <img src="../assets/IMGrec/tospace.jpg" class="wid"/>
+        </div>
+      </div>
+      <div class="section">
+        <div class="image-container">
+          <img src="../assets/IMGrec/line.jpg" />
+        </div>
+      </div>
+      <div class="section">
+        <div class="image-container">
+          <img src="../assets/IMGrec/dress.jpg" />
+        </div>
       </div>
     </div>
-    <div class="section">
-      <div class="image-container">
-        <button><div class="image"><img src="../assets/IMGrec/tospace.jpg" /></div></button>
-      </div>
-    </div>
-    <div class="section">
-      <div class="image-container">
-        <button><div class="image"><img src="../assets/IMGrec/line.jpg" /></div></button>
-      </div>
-    </div>
-    <div class="section">
-      <div class="image-container">
-        <button><div class="image"><img src="../assets/IMGrec/dress.jpg" /></div></button>
-      </div>
-    </div>
-    </div>
-    <div> </div>
+    <div>tag2</div>
   </div>
 </template>
 <style scoped>
-body {
-  margin: 0;
-}
-
 .section {
   display: flex;
   min-height: 90vh;
@@ -76,5 +77,8 @@ body {
 .section.active .image {
   opacity: 1;
   filter: blur(0);
+}
+.wid{
+  width: 781px;
 }
 </style>
