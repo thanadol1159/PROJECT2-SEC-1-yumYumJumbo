@@ -85,7 +85,7 @@ const setEditMode = (oldForm) => {
                         </div>
                     </div>
                 </div>
-                <AddressForm @add="addNewForm" @close="setNewPopup" v-if="popup === 'AddressForm'" :userForm="editForm" />
+                <AddressForm @addform="addNewForm" @closepopup="setNewPopup" v-if="popup === 'AddressForm'" :userForm="editForm" />
             </div>
 
             <!-- ช่องทางชำระ -->

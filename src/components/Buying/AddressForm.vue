@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref, defineEmits, defineProps, watch } from 'vue';
 
-const emit = defineEmits(['addform', 'closepop']);
+const emit = defineEmits(['addform', 'closepopup']);
 const props = defineProps({
     userForm: { type: Object },
 });
