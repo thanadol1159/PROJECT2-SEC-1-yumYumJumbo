@@ -1,39 +1,20 @@
 <script setup>
-scroll = function () {
-  changeImage();
-};
+const test = alert("test");
 
-function changeImage() {
-  let scroll = window.scrollY + window.innerHeight / 3;
-
-  [...document.getElementsByClassName("section")].forEach((el) => {
-    el.classList.remove("active");
-
-    if (el.offsetTop <= scroll && el.offsetTop + el.offsetHeight > scroll) {
-      el.classList.add("active");
-    }
-  });
-}
-changeImage();
 </script>
 
 <template>
   <div class="flex justify-around">
-    <div>tag 1</div>
+    <div></div>
     <div>
-      
-      
-      
-      
       <div class="section">
-        
         <div class="image-container">
-            <img src="../assets/IMGrec/blackshirt.jpg" />
+          <img @click="test" src="../assets/IMGrec/blackshirt.jpg" />
         </div>
       </div>
       <div class="section">
         <div class="image-container">
-          <img src="../assets/IMGrec/tospace.jpg" class="wid"/>
+          <img src="../assets/IMGrec/tospace.jpg" class="wid" />
         </div>
       </div>
       <div class="section">
@@ -47,7 +28,7 @@ changeImage();
         </div>
       </div>
     </div>
-    <div>tag2</div>
+    <div></div>
   </div>
 </template>
 <style scoped>
@@ -56,6 +37,7 @@ changeImage();
   min-height: 90vh;
   /* position: relative; */
   justify-content: center;
+  background-color: rgb(17, 17, 17);
 }
 
 .image-container {
@@ -78,7 +60,7 @@ changeImage();
   opacity: 1;
   filter: blur(0);
 }
-.wid{
+.wid {
   width: 781px;
 }
 </style>
