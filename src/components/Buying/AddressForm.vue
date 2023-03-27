@@ -1,15 +1,27 @@
 <script setup>
 import { onMounted, ref, defineEmits, defineProps, watch } from 'vue';
 
-const emit = defineEmits(['add', 'close']);
+const emit = defineEmits(['addform', 'closepop']);
 const props = defineProps({
     userForm: { type: Object },
 });
 const newForm = ref({
+    id: '',
     customerName: '',
     customerAddress: '',
     customerPhone: '',
-});
+    items: [
+        {
+            product_id: '',
+            product_name: '',
+            quantity: '',
+            size: '',
+            unit_price: '',
+            total_price: ''
+        }
+    ],
+    orders_Sum: ''
+})
 
 onMounted(() => {
     if (!props.userForm) {
@@ -17,6 +29,17 @@ onMounted(() => {
             customerName: '',
             customerAddress: '',
             customerPhone: '',
+            items: [
+                {
+                    product_id: '',
+                    product_name: '',
+                    quantity: '',
+                    size: '',
+                    unit_price: '',
+                    total_price: ''
+                }
+            ],
+            orders_Sum: ''
         };
     } else {
         newForm.value = props.userForm;
@@ -26,8 +49,8 @@ onMounted(() => {
 const alertText = ref('')
 const sendNewForm = () => {
     if (newForm.value.customerName && newForm.value.customerAddress && newForm.value.customerPhone) {
-        emit('add', newForm.value);
-        emit('close');
+        emit('addform', newForm.value);
+        emit('closepopup', '');
     } else {
         alertText.value = 'กรุณากรอกข้อมูลให้ครบ'
     }
@@ -48,7 +71,7 @@ const sendNewForm = () => {
     <div class="fixed top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-80 flex items-center justify-center z-5">
         <div class="bg-white rounded-lg p-4 h-auto w-5/12">
             <!-- GoBack -->
-            <button class="" @click="$emit('close', '')">
+            <button class="" @click="$emit('closepopup', '')">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="inline w-12 h-12">
                     <path fill="none" d="M0 0h24v24H0z" />
                     <path d="M10.828 12l4.95 4.95-1.414 1.414L8 12l6.364-6.364 1.414 1.414z" fill="rgba(96,47,126,1)" />

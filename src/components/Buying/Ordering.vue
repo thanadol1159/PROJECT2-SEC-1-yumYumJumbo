@@ -4,7 +4,6 @@ import AddressForm from './AddressForm.vue';
 import SendOrder from './SendOrder.vue';
 
 const ordersFromUser = ref({
-    id: '',
     customerName: '',
     customerAddress: '',
     customerPhone: '',
@@ -13,10 +12,12 @@ const ordersFromUser = ref({
             product_id: '',
             product_name: '',
             quantity: '',
+            size: '',
             unit_price: '',
             total_price: ''
         }
-    ]
+    ],
+    orders_Sum: ''
 })
 // console.log(ordersFromUser.value);
 
