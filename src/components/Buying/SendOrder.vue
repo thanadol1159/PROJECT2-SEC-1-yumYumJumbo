@@ -6,12 +6,29 @@ onMounted(() => {
 })
 const orderSum = ref(0)
 const calOrderSum = () => {
-    for (const item of test.items) {
+    for (const item of ordersFromUser.items) {
         let prices = item.price
         orderSum.value += prices
     }
 }
 
+const ordersFromUser = ref({
+    id: '',
+    customerName: '',
+    customerAddress: '',
+    customerPhone: '',
+    items: [
+        {
+            product_id: '',
+            product_name: '',
+            quantity: '',
+            size: '',
+            unit_price: '',
+            total_price: ''
+        }
+    ],
+    orders_Sum: ''
+})
 // Json Sever
 // const addOrder = async (newOrder) => {
 //     // setNewPopup('')
@@ -46,7 +63,7 @@ const calOrderSum = () => {
         <div class="bg-[#EFEFEF] w-8/12 ml-24">
             <span class="text-2xl font-bold">รายการสินค้า</span>
             <div class="mt-6 h-80 pl-4">
-                <div class="w-full flex" v-for="item of test.items">
+                <div class="w-full flex" v-for="item of ordersFromUser.items">
                     <div class="h-auto w-5/6 text-left"><span class="text-lg">{{ item.name }}</span></div>
                     <div class="h-auto w-1/6 text-left"><span class="text-lg">{{ item.price }}</span></div>
                 </div>
