@@ -16,7 +16,7 @@ const props = defineProps({
 const currentIndex = ref(0);
 const currentItem = computed(() => props.itemList[currentIndex.value]);
 
-const nextIndex = (next = true) => {
+const nextIndex = (next) => {
   const length = props.itemList.length;
   if (next) {
     if (currentIndex.value === length - 1) {
@@ -40,7 +40,7 @@ const clickPageHandler = (e) => {
   >
     <!-- button back -->
     <div class="h-full w-32 flex justify-center items-center z-10">
-      <button @click="nextIndex(back)">
+      <button @click="nextIndex(false)">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -81,7 +81,7 @@ const clickPageHandler = (e) => {
 
     <!-- button next -->
     <div class="h-full w-32 flex justify-center items-center z-10">
-      <button @click="nextIndex(next)">
+      <button @click="nextIndex(true)">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
