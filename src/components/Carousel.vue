@@ -15,9 +15,9 @@ const props = defineProps({
 
 const currentIndex = ref(0);
 const currentItem = computed(() => {
-  if (props.itemList !== []) {
+
     return props.itemList[currentIndex.value];
-  }
+
 });
 const nextIndex = (next) => {
 
