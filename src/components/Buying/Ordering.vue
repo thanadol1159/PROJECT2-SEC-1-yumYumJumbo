@@ -1,7 +1,9 @@
 <script setup>
-import { ref , onBeforeMount} from 'vue';
+import { ref, onBeforeMount } from 'vue';
+import { RouterLink } from "vue-router";
+import Navbar from '../Navbar.vue';
 import AddressForm from './AddressForm.vue';
-import SendOrder from './SendOrder.vue';
+// import SendOrder from './SendOrder.vue';
 
 const props = defineProps({
     items_list: { type: Array },
@@ -54,19 +56,56 @@ const setEditMode = (oldForm) => {
     thisForm.value = oldForm
     setNewPopup('AddressForm')
 }
+
+// Json Sever
+const sendOrder = async (newOrder) => {
+    console.log(newOrder);
+    if (newOrder.customerName === '') {
+        alert('กรอกที่อยู่')
+    } else {
+        console.log('else');
+        try {
+            const res = await fetch('http://localhost:5000/orders/', {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userName: newOrder.userName,
+                    userAddress: newOrder.userAddress,
+                    userPhone: newOrder.userPhone,
+                    items: newOrder.items,
+                    orders_Sum: newOrder.orders_Sum
+                })
+            })
+            if (res.status === 201) {
+                alert('ยินดีด้วย คุณเสียเงินแล้ว')
+            } else {
+                throw new Error('cannot add!')
+            }
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+}
+
 </script>
 
 <template>
     <div class="m-8 ml-32 flex">
         <div class="w-7/12">
             <!-- กดกลับหน้าตระกร้า -->
-            <button class="pb-4" @click="">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="inline w-12 h-12">
-                    <path fill="none" d="M0 0h24v24H0z" />
-                    <path d="M10.828 12l4.95 4.95-1.414 1.414L8 12l6.364-6.364 1.414 1.414z" fill="rgba(96,47,126,1)" />
-                </svg>
-                <span class="text-xl font-bold"> ขั้นตอนการสั่งซื้อ</span>
-            </button>
+            <RouterLink :to="{ name: 'cart' }">
+                <button class="pb-4" @click="">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="inline w-12 h-12">
+                        <path fill="none" d="M0 0h24v24H0z" />
+                        <path d="M10.828 12l4.95 4.95-1.414 1.414L8 12l6.364-6.364 1.414 1.414z" fill="rgba(96,47,126,1)" />
+                    </svg>
+                    <span class="text-xl font-bold"> ขั้นตอนการสั่งซื้อ</span>
+                </button>
+            </RouterLink>
             <!-- ฟอร์ม -->
             <div class="w-full">
                 <p class="bg-[#EFEFEF] text-xl p-3 pl-8">ที่อยู่การจัดส่งสินค้า</p>
@@ -153,7 +192,30 @@ const setEditMode = (oldForm) => {
 
         <!-- ใบบอกจำนวน -->
         <div class="w-5/12 pt-12">
-            <SendOrder :items_list="ordersFromUser"/>
+            <!-- <SendOrder :items_list="ordersFromUser"/> -->
+            <div class="text-center">
+                <div class="bg-[#EFEFEF] w-8/12 ml-24">
+                    <span class="text-2xl font-bold">รายการสินค้า</span>
+                    <div class="mt-6 h-80 pl-4">
+                        <div class="w-full flex" v-for="item of ordersFromUser.items">
+                            <div class="h-auto w-5/6 text-left"><span class="text-lg">{{ item.name }}</span></div>
+                            <div class="h-auto w-1/6 text-left"><span class="text-lg">{{ item.price }}</span></div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 pb-6 font-bold">
+                        <span class="text-2xl">รวมทั้งหมด</span>
+                        <span class="text-2xl text-[#602F7E]">THB {{ ordersFromUser.orders_Sum }}</span>
+                    </div>
+                </div>
+                <div class="pt-4">
+                    <RouterLink :to="{ name: 'home' }">
+                        <button type="button"
+                            class="text-lg text-white btn border-none bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 w-52"
+                            @click="sendOrder(ordersFromUser)">ยืนยันคำสั่งซื้อ
+                        </button>
+                    </RouterLink>
+                </div>
+            </div>
         </div>
     </div>
 </template>
