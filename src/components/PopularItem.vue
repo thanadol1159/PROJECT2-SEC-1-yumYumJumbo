@@ -1,13 +1,17 @@
 <script setup>
 import { ref, defineProps, onMounted, defineEmits } from 'vue';
-import { RouterLink } from "vue-router";
+import { RouterLink, useRouter } from "vue-router";
 
 const emits = defineEmits(['sendId'])
 const props = defineProps({
     typeShirt: {
-        type: Array
+        type: Array,
+        default: []
     }
 })
+
+const inputProps = ref({})
+inputProps.value = props.typeShirt.default;
 
 const queryProduct = ref({})
 onMounted(async () => {
@@ -17,7 +21,7 @@ onMounted(async () => {
             const response = await result.json()
             queryProduct.value = response
             queryProduct.value.sort((a, b) => b.rating.rate - a.rating.rate)
-            console.log(response);
+            // console.log(response);
         }
     }
     catch (err) {
@@ -25,14 +29,38 @@ onMounted(async () => {
     }
 })
 
-const filterId = (inputId) => {
-    const id = queryProduct.value.filter(x => x.id === inputId)
-    console.log(id);
+const router = useRouter()
+const gotoId = (questId) => {
+    // console.log(questId) 
+    router.push({
+        name: 'ProductDetail',
+        params: { itemsId: questId }
+    })
 }
 
+// window.onload = (event) => {
+//     filterTyped(type)
+// };
+
+// const filterId = (inputId) => {
+//     const id = queryProduct.value.filter(x => x.id === inputId)
+//     console.log(id);
+//     return id
+// }
+
+// const arrInputOtherComponents = "เสื้อยืด"
+// const typed = ref("เสื้อลาย")
+// typed.value = arrInputOtherComponents
+// typed.value = inputProps
+
+// function filterTyped(dataInput) {
+//     const filterType = queryProduct.value.filter(x => x.type.includes(dataInput))
+//     // console.log(filterType);
+//     return arr.push(filterType)
+// }
+
+// console.log(typed.value);
 // console.log(queryProduct);
-
-
 </script>
  
 <template>
@@ -40,12 +68,16 @@ const filterId = (inputId) => {
         <h1 class="text-4xl mt-2 pl-10 text-white">Popular</h1>
         <div class="flex overflow-y-auto mt-2 pb-2">
             <div v-for="data in queryProduct" :key="data.id">
+                <!-- <div v-if="data.type === typed"> -->
+                <!-- <div v-show="data.type === typed && data.rating.rate> 4.7"> -->
                 <div v-show="data.rating.rate > 4.7">
                     <!-- <RouterLink :to="{ name: 'cart' }"> -->
                     <!-- <div @click="$emit('sendId', data.id)" -->
-                    <div @click="filterId(data.id)"
-                        class="cursor-pointer bg-white h-60 w-48 rounded-2xl mx-3 shadow drop-shadow-2xl border border-black hover:border-red-500 hover:shadow-2xl hover:border-2 overflow-hidden ">
-                        <img class="m-auto w-40 mt-4 border rounded-lg border-black shadow shadow-violet-600"
+                    <!-- <div @click="filterId(data.id)" -->
+                    <div @click="gotoId(data.id)"
+                        class=" cursor-pointer bg-white h-60 w-48 rounded-2xl mx-3 shadow drop-shadow-2xl border
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                border-black hover:border-red-500 hover:shadow-2xl hover:border-2 overflow-hidden ">
+                        <img class=" m-auto w-40 mt-4 border rounded-lg border-black shadow shadow-violet-600"
                             :src="data.images" />
                         <p
                             class="text-xs pl-5 mt-1 bg-slate-500 border border-red-600 border-l-0 border-r-0 text-slate-200">
@@ -58,6 +90,8 @@ const filterId = (inputId) => {
                             </h1>
                         </div>
                     </div>
+                    <!-- </div> -->
+                    <!-- </div> -->
                     <!-- </RouterLink> -->
                 </div>
             </div>
