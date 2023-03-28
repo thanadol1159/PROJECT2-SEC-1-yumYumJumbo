@@ -4,7 +4,9 @@ import { RouterLink, useRouter } from "vue-router";
 // import Navbar from '../Navbar.vue';
 import AddressForm from './AddressForm.vue';
 // import SendOrder from './SendOrder.vue';
+import Swal from 'sweetalert2'
 
+const emit = defineEmits(['setPage']);
 const props = defineProps({
     items_list: { type: Array },
 });
@@ -59,12 +61,13 @@ const setEditMode = (oldForm) => {
 
 // Json Sever
 const sendOrder = async (newOrder) => {
-    console.log(newOrder);
     if (newOrder.customerName === '') {
-        alert('กรอกที่อยู่')
+        Swal.fire(
+            'เกิดข้อผิดพลาด',
+            'คุณยังไม่ได้กรอกที่อยู่การจัดส่งสินค้า',
+            'error'
+        )
     } else {
-
-        console.log('else');
         try {
             const res = await fetch('http://localhost:5000/orders/', {
                 method: 'POST',
@@ -80,14 +83,26 @@ const sendOrder = async (newOrder) => {
                 })
             })
             if (res.status === 201) {
-                alert('ยินดีด้วย คุณเสียเงินแล้ว')
-                router.push({ name: 'home' })
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'การสั่งซื้อเสร็จสิ้น',
+                    showConfirmButton: false,
+                    timer: 2500
+                })
+                Swal.showLoading()
+                setTimeout(() => {
+                    router.push({ name: 'home' })
+                }, 1500)
             } else {
                 throw new Error('cannot add!')
             }
         }
         catch (err) {
-            console.log(err);
+            Swal.fire(
+                'เกิดข้อผิดพลาดที่ไม่คาดคิด',
+                'error'
+            )
         }
     }
 }
@@ -99,13 +114,13 @@ const sendOrder = async (newOrder) => {
         <div class="w-7/12">
             <!-- กดกลับหน้าตระกร้า -->
             <RouterLink :to="{ name: 'cart' }">
-                <button class="pb-4" @click="">
+                <button class="pb-4" @click="$emit('setPage')">
 
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="inline w-12 h-12">
                         <path fill="none" d="M0 0h24v24H0z" />
                         <path d="M10.828 12l4.95 4.95-1.414 1.414L8 12l6.364-6.364 1.414 1.414z" fill="rgba(96,47,126,1)" />
                     </svg>
-                    <span class="text-xl font-bold"> ขั้นตอนการสั่งซื้อ</span>
+                    <span class="text-xl font-bold"> กลับไปยังตะกร้า </span>
                 </button>
             </RouterLink>
             <!-- ฟอร์ม -->
