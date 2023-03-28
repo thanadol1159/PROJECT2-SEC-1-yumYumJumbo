@@ -11,22 +11,7 @@ const props = defineProps({
     items_list: { type: Array },
 });
 const router = useRouter()
-const ordersFromUser = ref({
-    customerName: '',
-    customerAddress: '',
-    customerPhone: '',
-    items: [
-        {
-            product_id: '',
-            product_name: '',
-            quantity: '',
-            size: '',
-            unit_price: '',
-            total_price: ''
-        }
-    ],
-    orders_Sum: ''
-})
+const ordersFromUser = ref({})
 
 onBeforeMount(() => {
     ordersFromUser.value.items = props.items_list
@@ -68,6 +53,13 @@ const sendOrder = async (newOrder) => {
             'error'
         )
     } else {
+        Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'การสั่งซื้อเสร็จสิ้น',
+                    showConfirmButton: false,
+                    timer: 2500
+                })
         try {
             const res = await fetch('http://localhost:5000/orders/', {
                 method: 'POST',
@@ -75,21 +67,15 @@ const sendOrder = async (newOrder) => {
                     'content-type': 'application/json'
                 },
                 body: JSON.stringify({
-                    userName: newOrder.userName,
-                    userAddress: newOrder.userAddress,
-                    userPhone: newOrder.userPhone,
+                    customerName: newOrder.customerName,
+                    customerAddress: newOrder.customerAddress,
+                    customerPhone: newOrder.customerPhone,
                     items: newOrder.items,
                     orders_Sum: newOrder.orders_Sum
                 })
             })
             if (res.status === 201) {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'success',
-                    title: 'การสั่งซื้อเสร็จสิ้น',
-                    showConfirmButton: false,
-                    timer: 2500
-                })
+                
                 Swal.showLoading()
                 setTimeout(() => {
                     router.push({ name: 'home' })
