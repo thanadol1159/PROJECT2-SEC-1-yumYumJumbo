@@ -1,10 +1,10 @@
 <script setup>
-import { ref , onMounted} from 'vue';
+import { ref , onBeforeMount} from 'vue';
 import AddressForm from './AddressForm.vue';
 import SendOrder from './SendOrder.vue';
 
 const props = defineProps({
-    orders: { type: Array },
+    items_list: { type: Array },
 });
 
 const ordersFromUser = ref({
@@ -24,8 +24,14 @@ const ordersFromUser = ref({
     orders_Sum: ''
 })
 
-onMounted(() => {
-    ordersFromUser.value.items = props.orders
+onBeforeMount(() => {
+    ordersFromUser.value.items = props.items_list
+    // OrderSum
+    let sum = 0
+    for (const item of ordersFromUser.value.items) {
+        sum += item.price
+    }
+    ordersFromUser.value.orders_Sum = sum
 })
 
 // PopUp
@@ -147,7 +153,7 @@ const setEditMode = (oldForm) => {
 
         <!-- ใบบอกจำนวน -->
         <div class="w-5/12 pt-12">
-            <SendOrder v-if="ordersFromUser.customerName !== ''" :ordersFromUser="ordersFromUser.items"/>
+            <SendOrder :items_list="ordersFromUser"/>
         </div>
     </div>
 </template>
