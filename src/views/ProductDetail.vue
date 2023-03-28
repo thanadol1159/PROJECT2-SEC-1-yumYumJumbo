@@ -55,11 +55,14 @@ const addSize = (size) => {
           <h1 class="font-bold flex justify-end"></h1>
         </div>
         <div class="flex flex-col px-16">
-          <h1 class="flex justify-start text-3xl font-bold">Description</h1>
-          <p class="flex">{{ queryProduct.description }}</p>
-          <TablerStarFilled />
-          <p>{{ queryProduct?.rating?.rate }}</p>
+          <h1 class="flex justify-start text-3xl font-bold">Description:</h1>
+          <p>{{ queryProduct.description }}</p>
+          <div class="flex flex-row">
+            <span class="pt-2 pr-2"> <TablerStarFilled/></span>{{ queryProduct?.rating?.rate }}
+          </div>
+          
           <p>ขายแล้ว: <span class="text-red-600">{{ queryProduct?.rating?.count }}</span> ตัว</p>
+          <p>ราคา: {{ queryProduct.price }} บาท</p>
         </div>
         <div class="flex">
           <div class="size pl-12 pt-24 space-x-6">
