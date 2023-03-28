@@ -1,5 +1,7 @@
 <script setup>
-const test = alert("test");
+import { ref } from 'vue'
+import { useRoute } from 'vue-router';
+const id3 = 3
 
 </script>
 
@@ -9,7 +11,7 @@ const test = alert("test");
     <div>
       <div class="section">
         <div class="image-container">
-          <img @click="test" src="../assets/IMGrec/blackshirt.jpg" />
+          ID3<img @click="plusQuantity" src="../assets/IMGrec/blackshirt.jpg" />
         </div>
       </div>
       <div class="section">
