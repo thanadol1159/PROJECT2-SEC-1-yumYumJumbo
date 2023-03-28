@@ -147,7 +147,7 @@ const setEditMode = (oldForm) => {
 
         <!-- ใบบอกจำนวน -->
         <div class="w-5/12 pt-12">
-            <SendOrder v-if="ordersFromUser.customerName !== ''" :ordersFromUser="ordersFromUser"/>
+            <SendOrder v-if="ordersFromUser.customerName !== ''" :ordersFromUser="ordersFromUser.items"/>
         </div>
     </div>
 </template>

@@ -6,13 +6,16 @@ const props = defineProps({
 });
 const newOrder = ref()
 onMounted(() => {
-    console.log(props.ordersFromUser);
+    // console.log(props.ordersFromUser);
     newOrder.value = props.ordersFromUser;
-    // calOrderSum();
+    if (newOrder.value !== undefined) {
+        calOrderSum();
+    }
+
 })
 const orderSum = ref(0)
 const calOrderSum = () => {
-    for (const item of newOrder.value.items) {
+    for (const item of newOrder.value) {
         let prices = item.price
         orderSum.value += prices
     }
@@ -71,7 +74,7 @@ const sendOrder = async (newOrder) => {
         <div class="bg-[#EFEFEF] w-8/12 ml-24">
             <span class="text-2xl font-bold">รายการสินค้า</span>
             <div class="mt-6 h-80 pl-4">
-                <div class="w-full flex" v-for="item of ordersFromUser.items">
+                <div class="w-full flex" v-for="item of newOrder">
                     <div class="h-auto w-5/6 text-left"><span class="text-lg">{{ item.name }}</span></div>
                     <div class="h-auto w-1/6 text-left"><span class="text-lg">{{ item.price }}</span></div>
                 </div>
