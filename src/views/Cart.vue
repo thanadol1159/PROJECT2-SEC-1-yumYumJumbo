@@ -4,7 +4,11 @@ import { ref } from 'vue'
 const quantity = ref(1)
 const plusQuantity =() => {quantity.value++}
 const minusQuantity =() => {quantity.value--}
-
+const ckQuantity =() => {if (quantity.value<1){
+    
+} 
+}
+ckQuantity()
 </script>
 <template>
     <div>
@@ -43,7 +47,7 @@ const minusQuantity =() => {quantity.value--}
                        SIze
                     </div>
                     <div class="flex text-slate-50 items-center">
-                         <button class="border text-base solid px-1 bg-slate-500 " @click="plusQuantity">+1</button> <span class="px-3">{{ quantity }}</span> <button class="border text-base solid px-1 bg-slate-500" @click="minusQuantity">-1</button>
+                         <button class="border w-5 h-6 text-base solid px-1 bg-white text-stone-900 " :disabled="quantity === 1" @click="minusQuantity">-</button> <span class="px-3">{{ quantity }}</span> <button class="border w-5 h-6 text-base solid px-1 bg-white text-stone-900" @click="plusQuantity">+</button>
                     </div>
                     <div class="flex text-slate-50">
                         price
