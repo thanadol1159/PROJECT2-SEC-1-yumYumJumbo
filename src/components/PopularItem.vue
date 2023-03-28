@@ -1,7 +1,8 @@
 <script setup>
-import { ref, defineProps, onMounted } from 'vue';
+import { ref, defineProps, onMounted ,defineEmits} from 'vue';
 import { RouterLink } from "vue-router";
 
+const emits = defineEmits(['sendId'])
 const props = defineProps({
     typeShirt: {
         type: Array
@@ -24,7 +25,7 @@ onMounted(async () => {
     }
 })
 
-console.log(queryProduct);
+// console.log(queryProduct);
 
 
 </script>
@@ -37,7 +38,7 @@ console.log(queryProduct);
                 <div v-show="data.rating.rate > 4.7">
                     <RouterLink :to="{ name: 'cart' }">
                         <div class="cursor-pointer bg-white h-60 w-48 rounded-2xl mx-3 shadow drop-shadow-2xl border border-black hover:border-red-500 hover:shadow-2xl hover:border-2 overflow-hidden "
-                            v-on:click="">
+                            @click="$emit('sendId', data.id)">
                             <img class="m-auto w-40 mt-4 border rounded-lg border-black shadow shadow-violet-600"
                                 :src="data.images" />
                             <p

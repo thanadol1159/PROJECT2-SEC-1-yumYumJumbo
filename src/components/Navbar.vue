@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted , defineEmits } from "vue";
+import { ref, onMounted } from "vue";
 import { RouterLink } from "vue-router";
 
 const searchKeyword = ref("");
@@ -7,7 +7,6 @@ const mDropdown = ref(false);
 const wDropdown = ref(false);
 const showSearch = ref(false);
 
-const emit = defineEmits(['filterByType'])
 const dropdownHandler = (men) => {
   if (men === true) {
     mDropdown.value = !mDropdown.value;
@@ -34,9 +33,12 @@ onMounted(async () => {
   }
 });
 
+const emit = defineEmits(["filterByType"]);
 const typeFilter = (arr, sex) => {
   const passArr = [];
-  queryProduct.value.filter((x) => x.category === sex).forEach((element) => {
+  queryProduct.value
+    .filter((x) => x.category === sex)
+    .forEach((element) => {
       passArr.push(...element.type);
     });
   const set = new Set(passArr);
@@ -48,14 +50,14 @@ const filterWithTypes = (clothType, sex) => {
   const filteredSex = queryProduct.value.filter((x) => x.category === sex);
   const filteredItems = filteredSex.filter((x) => x.type.includes(clothType));
   // console.log(filteredItems)
-  return filteredItems
+  return filteredItems;
 };
 
 const filterWithSex = (sex) => {
   const filteredSex = queryProduct.value.filter((x) => x.category === sex);
+  return filteredSex;
   // console.log(filteredSex);
 };
-
 
 // console.log(items.value.name)
 // const filterCategory = items.filter((p, index) => items.findIndex((item) => item.name === p.name) === index)
@@ -100,16 +102,26 @@ const filterWithSex = (sex) => {
               class="w-full grid grid-cols-4 gap-4 absolute bg-[#9263B1] drop-shadow-2xl -left-0 top-14 -right-48 px-10 mt-2 pt-2 text-center"
               v-show="mDropdown"
             >
-              <RouterLink :to="{ name: 'type'}"
+              <RouterLink
+                :to="{ name: 'type' }"
                 v-for="(types, index) of typesOfItemsMan"
                 :key="index"
                 :id="index"
-                @click="$emit('filterByType', 'hello')"
+                @click="
+                  $emit(
+                    'filterByType',
+                    filterWithTypes(types, `men's clothing`)
+                  )
+                "
               >
                 {{ types }}
               </RouterLink>
 
-              <RouterLink :to="{ name: 'type' }" @click="filterWithSex(`men's clothing`)">View All</RouterLink>
+              <RouterLink
+                :to="{ name: 'type' }"
+                @click="$emit('filterByType', filterWithSex(`men's clothing`))"
+                >View All</RouterLink
+              >
             </div>
           </div>
         </div>
@@ -128,15 +140,26 @@ const filterWithSex = (sex) => {
               class="w-full grid grid-cols-4 gap-4 absolute bg-[#9263B1] drop-shadow-2xl -left-0 top-14 -right-48 px-10 mt-2 pt-2 text-center"
               v-show="wDropdown"
             >
-              <RouterLink :to="{ name: 'type'}"
-                @click="filterWithTypes(types, `women's clothing`)"
+              <RouterLink
+                :to="{ name: 'type' }"
+                @click="
+                  $emit(
+                    'filterByType',
+                    filterWithTypes(types, `women's clothing`)
+                  )
+                "
                 v-for="(types, index) of typesOfItemsWoman"
                 :key="index"
                 :id="index"
               >
                 {{ types }}
               </RouterLink>
-              <RouterLink :to="{ name: 'type' }" @click="filterWithSex(`women's clothing`)">
+              <RouterLink
+                :to="{ name: 'type' }"
+                @click="
+                  $emit('filterByType', filterWithSex(`women's clothing`))
+                "
+              >
                 View All
               </RouterLink>
             </div>
@@ -251,7 +274,7 @@ const filterWithSex = (sex) => {
         </div>
       </nav>
     </div>
-
+    
     <!-- <div v-show="showSeach" class="absolute w-full">
       <div v-if="dropdown" class="w-full">
         <div v-for="(p, index) in items" :key="index" :class="index % 2 === 0 ? 'bg-white' : 'bg-slate-50'" class="pl-5 py-2 text-xl">
@@ -267,7 +290,7 @@ const filterWithSex = (sex) => {
 *,
 body {
   font-family: "Kanit", sans-serif;
-  font-size: 24px
+  font-size: 24px;
 }
 
 .navbar {

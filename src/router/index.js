@@ -5,7 +5,8 @@ import Cart from "../views/Cart.vue";
 import Favorites from "../views/Favorites.vue";
 import Profile from "../views/Profile.vue";
 import CategoryView from "../views/CategoryView.vue";
-import ProductAll from "../components/ProductAll.vue";
+import ProductDetail from "../views/ProductDetail.vue";
+
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -34,6 +35,11 @@ const router = createRouter({
       name: "profile",
       component: Profile,
     },
+    {
+        path: "/items/:id",
+        name: "ProductDetail",
+        component: ProductDetail,
+      },
     {
       path: "/:catchNotFound(.*)",
       name: "notfound",
