@@ -36,6 +36,7 @@ onMounted(async () => {
 const addSize = (size) => {
   queryProduct.value.size = size;
   isSized.value = true;
+  console.log(queryProduct.value)
 };
 </script>
 
@@ -58,7 +59,7 @@ const addSize = (size) => {
           <p class="flex">{{ queryProduct.description }}</p>
           <TablerStarFilled />
           <p>{{ queryProduct?.rating?.rate }}</p>
-          <p>คงเหลือ: {{ queryProduct?.rating?.count }} ตัว</p>
+          <p>ขายแล้ว: <span class="text-red-600">{{ queryProduct?.rating?.count }}</span> ตัว</p>
         </div>
         <div class="flex">
           <div class="size pl-12 pt-24 space-x-6">
