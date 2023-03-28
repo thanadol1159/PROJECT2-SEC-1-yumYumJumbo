@@ -30,20 +30,15 @@ const router = createRouter({
       component: ProfileView,
     },
     {
-        path: "/items/:id",
-        name: "ProductDetail",
-        component: ProductDetail,
-      },
-    {  
-      path: "/:catchNotFound(.*)",
-      name: "notfound",
-      component: NotFoundView,
+      path: "/items/:id",
+      name: "ProductDetail",
+      component: ProductDetail,
     },
     {
       path: "/:pathMatch(.*)*",
       name: "itemNotfound",
-      component: NotFoundView,                                                                                 
-    }
+      component: NotFoundView,
+    },
   ],
 });
 export default router;

@@ -1,11 +1,10 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { getData } from "../composable/getData";
+
 import ContentSection from "../components/ContentSection.vue";
 import Carousel from "../components/Carousel.vue";
 import ReccommandItem from "../components/ReccommandItem.vue";
 import FooterContact from "../components/FooterContact.vue";
-import Navbar from "../components/Navbar.vue";
 
 const items = ref([]);
 onMounted(async () => {
@@ -33,14 +32,11 @@ const randomPreview = () => {
   return images.slice(fLength, lLength);
 };
 
-// const addProduct = (product) => {
-//   // console.log(product);
-// };
 </script>
 
 <template>
   <div>
-    <ContentSection>
+    <!-- <ContentSection>
       <Carousel :item-list="randomPreview()"/>
     </ContentSection>
 
@@ -48,6 +44,6 @@ const randomPreview = () => {
       <ReccommandItem />
     </ContentSection>
 
-    <FooterContact />
+    <FooterContact /> -->
   </div>
 </template>
