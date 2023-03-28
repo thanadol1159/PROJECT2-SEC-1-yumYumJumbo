@@ -1,14 +1,14 @@
 <script setup>
 import { ref, onBeforeMount } from 'vue';
-import { RouterLink } from "vue-router";
-import Navbar from '../Navbar.vue';
+import { RouterLink, useRouter } from "vue-router";
+// import Navbar from '../Navbar.vue';
 import AddressForm from './AddressForm.vue';
 // import SendOrder from './SendOrder.vue';
 
 const props = defineProps({
     items_list: { type: Array },
 });
-
+const router = useRouter()
 const ordersFromUser = ref({
     customerName: '',
     customerAddress: '',
@@ -63,6 +63,7 @@ const sendOrder = async (newOrder) => {
     if (newOrder.customerName === '') {
         alert('กรอกที่อยู่')
     } else {
+
         console.log('else');
         try {
             const res = await fetch('http://localhost:5000/orders/', {
@@ -87,6 +88,7 @@ const sendOrder = async (newOrder) => {
         catch (err) {
             console.log(err);
         }
+        router.push({ name: 'home' })
     }
 }
 
@@ -208,12 +210,10 @@ const sendOrder = async (newOrder) => {
                     </div>
                 </div>
                 <div class="pt-4">
-                    <RouterLink :to="{ name: 'home' }">
-                        <button type="button"
-                            class="text-lg text-white btn border-none bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 w-52"
-                            @click="sendOrder(ordersFromUser)">ยืนยันคำสั่งซื้อ
-                        </button>
-                    </RouterLink>
+                    <button type="button"
+                        class="text-lg text-white btn border-none bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 w-52"
+                        @click="sendOrder(ordersFromUser)">ยืนยันคำสั่งซื้อ
+                    </button>
                 </div>
             </div>
         </div>
