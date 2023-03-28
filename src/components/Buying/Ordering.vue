@@ -46,20 +46,13 @@ const setEditMode = (oldForm) => {
 
 // Json Sever
 const sendOrder = async (newOrder) => {
-    if (newOrder.customerName === '') {
+    if (newOrder.customerName === undefined) {
         Swal.fire(
             'เกิดข้อผิดพลาด',
             'คุณยังไม่ได้กรอกที่อยู่การจัดส่งสินค้า',
             'error'
         )
     } else {
-        Swal.fire({
-                    position: 'center',
-                    icon: 'success',
-                    title: 'การสั่งซื้อเสร็จสิ้น',
-                    showConfirmButton: false,
-                    timer: 2500
-                })
         try {
             const res = await fetch('http://localhost:5000/orders/', {
                 method: 'POST',
@@ -75,11 +68,17 @@ const sendOrder = async (newOrder) => {
                 })
             })
             if (res.status === 201) {
-                
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'การสั่งซื้อเสร็จสิ้น',
+                    showConfirmButton: false,
+                    timer: 2500
+                })
                 Swal.showLoading()
                 setTimeout(() => {
                     router.push({ name: 'home' })
-                }, 1500)
+                }, 3500)
             } else {
                 throw new Error('cannot add!')
             }
@@ -87,6 +86,7 @@ const sendOrder = async (newOrder) => {
         catch (err) {
             Swal.fire(
                 'เกิดข้อผิดพลาดที่ไม่คาดคิด',
+                'ขออภัยในความไม่สะดวก',
                 'error'
             )
         }
