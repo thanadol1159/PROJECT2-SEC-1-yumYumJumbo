@@ -1,4 +1,4 @@
-<!-- <script setup>
+<script setup>
 import { ref } from 'vue';
 const emit = defineEmits(['filterByType'])
 
@@ -24,4 +24,4 @@ const filterWithSex = (sex) => {
  
 <style scoped>
 
-</style> -->
+</style>

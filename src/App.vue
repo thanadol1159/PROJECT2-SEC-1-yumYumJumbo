@@ -10,7 +10,7 @@ import PaymentMethod from "./components/PaymentMethod.vue";
 <template>
   <div>
     <div>
-      <Navbar />
+      <!-- <Navbar /> -->
       <RouterView/>
       <!-- <ContentSection>
         <Carousel :item-list="randomPreview()" :full="true"> </Carousel>
