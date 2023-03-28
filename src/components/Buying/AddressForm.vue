@@ -1,27 +1,13 @@
 <script setup>
-import { onMounted, ref, defineEmits, defineProps, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 
 const emit = defineEmits(['addform', 'closepopup']);
 const props = defineProps({
     userForm: { type: Object },
 });
-const newForm = ref({
-    id: '',
-    customerName: '',
-    customerAddress: '',
-    customerPhone: '',
-    items: [
-        {
-            product_id: '',
-            product_name: '',
-            quantity: '',
-            size: '',
-            unit_price: '',
-            total_price: ''
-        }
-    ],
-    orders_Sum: ''
-})
+
+const newForm = ref({})
+const alertText = ref('')
 
 onMounted(() => {
     if (!props.userForm) {
@@ -46,7 +32,6 @@ onMounted(() => {
     }
 })
 
-const alertText = ref('')
 const sendNewForm = () => {
     if (newForm.value.customerName && newForm.value.customerAddress && newForm.value.customerPhone) {
         emit('addform', newForm.value);

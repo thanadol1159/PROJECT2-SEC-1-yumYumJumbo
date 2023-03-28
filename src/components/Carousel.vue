@@ -4,6 +4,10 @@ const props = defineProps({
   itemList: {
     type: Array,
     default: []
+  }, 
+  useLength: {
+    type: Boolean,
+    default: true 
   }
 });
 
@@ -53,9 +57,9 @@ const clickPageHandler = (e) => {
       <!-- images -->
       <div
         class="absolute w-[36rem] h-80 border rounded-2xl object-cover flex justify-center"
-      >
-        <!-- :style="{ backgroundImage: 'url(' + currentItem.images[0] + ')' }" -->
-        <img :src="currentItem.images[0]" width="318" height="318" />
+      >        
+        <img v-if="props.useLength" :src="currentItem.images[0]" width="318" height="318" alt="preview"/>
+        <img v-else :src="currentItem" width="318" height="318" alt="preview">
       </div>
 
       <!-- paginations -->

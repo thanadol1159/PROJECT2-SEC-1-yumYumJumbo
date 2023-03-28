@@ -1,7 +1,11 @@
 <script setup>
-import { ref } from 'vue';
+import { ref , onMounted} from 'vue';
 import AddressForm from './AddressForm.vue';
 import SendOrder from './SendOrder.vue';
+
+const props = defineProps({
+    orders: { type: Array },
+});
 
 const ordersFromUser = ref({
     customerName: '',
@@ -19,7 +23,10 @@ const ordersFromUser = ref({
     ],
     orders_Sum: ''
 })
-// console.log(ordersFromUser.value);
+
+onMounted(() => {
+    ordersFromUser.value.items = props.orders
+})
 
 // PopUp
 const popup = ref('')
@@ -31,17 +38,14 @@ function setNewPopup(newPopup) {
 // Add
 const addNewForm = (newForm) => {
     btnAddAddress.value = false
-    // setNewPopup('')
-    console.log(newForm);
     ordersFromUser.value.customerName = newForm.customerName
     ordersFromUser.value.customerAddress = newForm.customerAddress
     ordersFromUser.value.customerPhone = newForm.customerPhone
-    console.log(ordersFromUser.value);
 }
 // EDIT
-const editForm = ref(undefined)
+const thisForm = ref(undefined)
 const setEditMode = (oldForm) => {
-    editForm.value = oldForm
+    thisForm.value = oldForm
     setNewPopup('AddressForm')
 }
 </script>
@@ -60,11 +64,13 @@ const setEditMode = (oldForm) => {
             <!-- ฟอร์ม -->
             <div class="w-full">
                 <p class="bg-[#EFEFEF] text-xl p-3 pl-8">ที่อยู่การจัดส่งสินค้า</p>
+                <!-- if -->
                 <div class="w-full h-80 py-4" v-if="btnAddAddress">
                     <button type="button"
                         class="text-lg text-white btn border-none bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 px-10"
                         @click="setNewPopup('AddressForm')">เพิ่มที่อยู่</button>
                 </div>
+                <!-- else -->
                 <div v-else>
                     <div class="w-full h-80 py-4">
                         <div class="bg-[#F6F6F6] w-96 h-full p-4">
@@ -85,7 +91,8 @@ const setEditMode = (oldForm) => {
                         </div>
                     </div>
                 </div>
-                <AddressForm @addform="addNewForm" @closepopup="setNewPopup" v-if="popup === 'AddressForm'" :userForm="editForm" />
+                <AddressForm @addform="addNewForm" @closepopup="setNewPopup" v-if="popup === 'AddressForm'"
+                    :userForm="thisForm" />
             </div>
 
             <!-- ช่องทางชำระ -->
@@ -140,7 +147,7 @@ const setEditMode = (oldForm) => {
 
         <!-- ใบบอกจำนวน -->
         <div class="w-5/12 pt-12">
-            <!-- <SendOrder /> -->
+            <SendOrder v-if="ordersFromUser.customerName !== ''" :ordersFromUser="ordersFromUser.items"/>
         </div>
     </div>
 </template>

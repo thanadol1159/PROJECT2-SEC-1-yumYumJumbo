@@ -1,12 +1,16 @@
 <script setup>
 import { ref, defineProps, onMounted } from 'vue';
-import { RouterLink } from "vue-router";
+import { RouterLink, useRouter } from "vue-router";
 
 const props = defineProps({
     typeShirt: {
-        type: Array
+        type: Array,
+        default: []
     }
 })
+
+const inputProps = ref({})
+inputProps.value = props.typeShirt.default;
 
 const queryProduct = ref({})
 onMounted(async () => {
@@ -15,7 +19,7 @@ onMounted(async () => {
         if (result.status === 200) {
             const response = await result.json()
             queryProduct.value = response
-            // console.log(response);
+            console.log(response);
         }
     }
     catch (err) {
@@ -24,6 +28,7 @@ onMounted(async () => {
 })
 
 // console.log(queryProduct);
+// console.log(inputProps);
 </script>
  
 <template>
@@ -35,9 +40,9 @@ onMounted(async () => {
 
             <div class="flex flex-wrap justify-center ">
                 <div v-for="data in queryProduct" :key="data.id">
-                    <div v-show="data">
-                        <div class="cursor-pointer bg-white my-3 h-60 w-48 rounded-2xl mx-3 shadow drop-shadow-2xl border border-black hover:border-red-500 hover:shadow-2xl hover:border-2 overflow-hidden "
-                            v-on:click="">
+                    <RouterLink :to="{ name: 'ProductDetail', params: { id: data.id } }">
+                        <div
+                            class="cursor-pointer bg-white my-3 h-60 w-48 rounded-2xl mx-3 shadow drop-shadow-2xl border border-black hover:border-red-500 hover:shadow-2xl hover:border-2 overflow-hidden ">
                             <img class="m-auto w-40 mt-4 border rounded-lg border-black shadow shadow-violet-600"
                                 :src="data.images" />
                             <p
@@ -51,7 +56,7 @@ onMounted(async () => {
                                 </h1>
                             </div>
                         </div>
-                    </div>
+                    </RouterLink>
                 </div>
             </div>
         </div>
