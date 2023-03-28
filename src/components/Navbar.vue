@@ -1,11 +1,14 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { RouterLink } from "vue-router";
 
+
 const searchKeyword = ref("");
+const dropdown = ref(false);
 const mDropdown = ref(false);
 const wDropdown = ref(false);
 const showSearch = ref(false);
+const search = ref([]);
 
 const dropdownHandler = (men) => {
   if (men === true) {
@@ -59,8 +62,8 @@ const filterWithSex = (sex) => {
   // console.log(filteredSex);
 };
 
-// console.log(items.value.name)
-// const filterCategory = items.filter((p, index) => items.findIndex((item) => item.name === p.name) === index)
+
+// const filterCategory = search.value.filter((p, index) => items.findIndex((item) => item.name === p.name) === index)
 
 // const searchFilter = computed(() => {
 //         dropdown.value = true
@@ -103,7 +106,7 @@ const filterWithSex = (sex) => {
               v-show="mDropdown"
             >
               <RouterLink
-                :to="{ name: 'type' }"
+                :to="{ name: 'type' , itemList:filterWithTypes(types, `men's clothing`)}"
                 v-for="(types, index) of typesOfItemsMan"
                 :key="index"
                 :id="index"
@@ -236,23 +239,6 @@ const filterWithSex = (sex) => {
             </svg>
           </RouterLink>
 
-          <!-- favorite button -->
-          <RouterLink :to="{ name: 'favorite' }">
-            <svg
-              class="fill-white transition ease-in duration-150 hover:fill-rose-600 hover:scale-110"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              width="32"
-              height="32"
-              aria-label="fav-label"
-            >
-              <title id="fav-label">favorite</title>
-              <path fill="none" d="M0 0H24V24H0z" />
-              <path
-                d="M16.5 3C19.538 3 22 5.5 22 9c0 7-7.5 11-10 12.5C9.5 20 2 16 2 9c0-3.5 2.5-6 5.5-6C9.36 3 11 4 12 5c1-1 2.64-2 4.5-2z"
-              />
-            </svg>
-          </RouterLink>
 
           <!-- proflie button -->
           <RouterLink :to="{ name: 'profile' }" class="mr-10">
@@ -275,14 +261,14 @@ const filterWithSex = (sex) => {
       </nav>
     </div>
     
-    <!-- <div v-show="showSeach" class="absolute w-full">
+    <div v-show="showSearch" class="absolute w-full">
       <div v-if="dropdown" class="w-full">
         <div v-for="(p, index) in items" :key="index" :class="index % 2 === 0 ? 'bg-white' : 'bg-slate-50'" class="pl-5 py-2 text-xl">
           {{ p.name }}
         </div>
         </div>
           <p v-else class="pl-5 py-2 text-xl">Searching for {{ searchKeyword }}</p>
-      </div> -->
+      </div>
   </div>
 </template>
 
