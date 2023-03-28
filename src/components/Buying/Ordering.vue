@@ -81,6 +81,7 @@ const sendOrder = async (newOrder) => {
             })
             if (res.status === 201) {
                 alert('ยินดีด้วย คุณเสียเงินแล้ว')
+                router.push({ name: 'home' })
             } else {
                 throw new Error('cannot add!')
             }
@@ -88,7 +89,6 @@ const sendOrder = async (newOrder) => {
         catch (err) {
             console.log(err);
         }
-        router.push({ name: 'home' })
     }
 }
 
