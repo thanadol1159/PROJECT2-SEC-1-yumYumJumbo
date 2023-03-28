@@ -2,7 +2,7 @@
 import { ref, defineProps, onMounted, defineEmits } from 'vue';
 import { RouterLink, useRouter } from "vue-router";
 
-const emits = defineEmits(['sendId'])
+// const emits = defineEmits(['sendId'])
 const props = defineProps({
     typeShirt: {
         type: Array,
@@ -13,21 +13,21 @@ const props = defineProps({
 const inputProps = ref({})
 inputProps.value = props.typeShirt.default;
 
-const queryProduct = ref({})
-onMounted(async () => {
-    try {
-        const result = await fetch(`http://localhost:5000/items`)
-        if (result.status === 200) {
-            const response = await result.json()
-            queryProduct.value = response
-            queryProduct.value.sort((a, b) => b.rating.rate - a.rating.rate)
-            // console.log(response);
-        }
-    }
-    catch (err) {
-        console.log(err);
-    }
-})
+// const queryProduct = ref({})
+// onMounted(async () => {
+//     try {
+//         const result = await fetch(`http://localhost:5000/items`)
+//         if (result.status === 200) {
+//             const response = await result.json()
+//             queryProduct.value = response
+//             queryProduct.value.sort((a, b) => b.rating.rate - a.rating.rate)
+//             // console.log(response);
+//         }
+//     }
+//     catch (err) {
+//         console.log(err);
+//     }
+// })
 
 const router = useRouter()
 const gotoId = (questId) => {
@@ -67,16 +67,16 @@ const gotoId = (questId) => {
     <div class="pop border border-black w-9/12 m-auto rounded-lg truncate">
         <h1 class="text-4xl mt-2 pl-10 text-white">Popular</h1>
         <div class="flex overflow-y-auto mt-2 pb-2">
-            <div v-for="data in queryProduct" :key="data.id">
+            <div v-for="data in inputProps" :key="data.id" @click="gotoId(data.id)">
                 <!-- <div v-if="data.type === typed"> -->
                 <!-- <div v-show="data.type === typed && data.rating.rate> 4.7"> -->
                 <div v-show="data.rating.rate > 4.7">
                     <!-- <RouterLink :to="{ name: 'cart' }"> -->
                     <!-- <div @click="$emit('sendId', data.id)" -->
                     <!-- <div @click="filterId(data.id)" -->
-                    <div @click="gotoId(data.id)"
+                    <div
                         class=" cursor-pointer bg-white h-60 w-48 rounded-2xl mx-3 shadow drop-shadow-2xl border
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                border-black hover:border-red-500 hover:shadow-2xl hover:border-2 overflow-hidden ">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        border-black hover:border-red-500 hover:shadow-2xl hover:border-2 overflow-hidden ">
                         <img class=" m-auto w-40 mt-4 border rounded-lg border-black shadow shadow-violet-600"
                             :src="data.images" />
                         <p
