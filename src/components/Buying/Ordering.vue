@@ -14,13 +14,32 @@ const router = useRouter()
 const ordersFromUser = ref({})
 
 onBeforeMount(() => {
-    ordersFromUser.value.items = props.items_list
-    // OrderSum
-    let sum = 0
-    for (const item of ordersFromUser.value.items) {
-        sum += item.price
+    if (!props.items_list) {
+        ordersFromUser.value = {
+            customerName: '',
+            customerAddress: '',
+            customerPhone: '',
+            items: [
+                {
+                    product_id: '',
+                    product_name: '',
+                    quantity: '',
+                    size: '',
+                    unit_price: '',
+                    total_price: ''
+                }
+            ],
+            orders_Sum: ''
+        };
+    } else {
+        ordersFromUser.value.items = props.items_list
+        // OrderSum
+        let sum = 0
+        for (const item of ordersFromUser.value.items) {
+            sum += item.price
+        }
+        ordersFromUser.value.orders_Sum = sum
     }
-    ordersFromUser.value.orders_Sum = sum
 })
 
 // PopUp
@@ -46,13 +65,21 @@ const setEditMode = (oldForm) => {
 
 // Json Sever
 const sendOrder = async (newOrder) => {
-    if (newOrder.customerName === undefined) {
+    if (!newOrder.orders_Sum) {
+        Swal.fire(
+            'เกิดข้อผิดพลาด',
+            'คุณไม่มีสินค้าในการสั่งซื้อ',
+            'question'
+        )
+    }
+    else if (!newOrder.customerName) {
         Swal.fire(
             'เกิดข้อผิดพลาด',
             'คุณยังไม่ได้กรอกที่อยู่การจัดส่งสินค้า',
             'error'
         )
-    } else {
+    }
+    else {
         try {
             const res = await fetch('http://localhost:5000/orders/', {
                 method: 'POST',

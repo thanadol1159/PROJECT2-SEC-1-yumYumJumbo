@@ -34,22 +34,21 @@ onMounted(() => {
 
 const sendNewForm = () => {
     if (newForm.value.customerName && newForm.value.customerAddress && newForm.value.customerPhone) {
-        emit('addform', newForm.value);
-        emit('closepopup', '');
+        if (!isNaN(newForm.value.customerName)) {
+            alertText.value = 'ข้อมูลชื่อไม่ถูกต้อง'
+        } else if (!isNaN(newForm.value.customerAddress)) {
+            alertText.value = 'ข้อมูลที่อยู่ไม่ถูกต้อง'
+        } else if (isNaN(newForm.value.customerPhone) || newForm.value.customerPhone.length !== 10) {
+            alertText.value = 'เบอร์โทรศัพท์ไม่ถูกต้อง'
+        }
+        else {
+            emit('addform', newForm.value);
+            emit('closepopup', '');
+        }
     } else {
         alertText.value = 'กรุณากรอกข้อมูลให้ครบ'
     }
 };
-
-// watch(
-//     () => newForm,
-//     () => {
-//         if (newForm.customerName && newForm.customerAddress && newForm.customerPhone) {
-//             error.value = false;
-//         }
-//     },
-//     { deep: true }
-// );
 
 </script>
 <template>
@@ -88,8 +87,7 @@ const sendNewForm = () => {
                         เบอร์ติดต่อ
                     </label>
                     <input class="border rounded-xl border-gray-400 p-2 h-auto w-3/4 text-lg" type="tel" name="phone"
-                        id="phone" placeholder="Ex 0922161111" pattern="[0-9]*" inputmode="numeric"
-                        v-model="newForm.customerPhone" />
+                        id="phone" placeholder="0912345678" v-model="newForm.customerPhone" />
                 </div>
                 <!-- Error -->
                 <div class="mb-3" v-if="alertText">
