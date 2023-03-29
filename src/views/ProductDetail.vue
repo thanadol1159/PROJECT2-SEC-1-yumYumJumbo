@@ -125,8 +125,9 @@ const addSize = (size) => {
               isSized
                 ? ['bg-red-400', 'hover:bg-red-600']
                 : ['disabled', 'cursor-not-allowed']
-            "      
+            "     
           >
+          <Cart :ordersFromMark="queryProduct" v-show="false"/>
             <p>Add to cart</p>
           </button>
         </div>
