@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import Carousel from "../components/Carousel.vue";
 import TablerStarFilled from "../components/icons/TablerStarFilled.vue";
@@ -22,7 +22,7 @@ const isSized = ref(false);
 // const props = defineProps({
 //     items: Object
 // })
-onMounted(async () => {
+watch(async () => {
   try {
     const result = await fetch(
       `http://localhost:5000/items/${route.params.id}` , {
@@ -131,7 +131,8 @@ const addSize = (size) => {
               isSized
                 ? ['bg-red-400', 'hover:bg-red-600']
                 : ['disabled', 'cursor-not-allowed']
-            "     
+            "  
+
           >
           <Cart :ordersFromMark="queryProduct" v-show="false"/>
             <p>Add to cart</p>
