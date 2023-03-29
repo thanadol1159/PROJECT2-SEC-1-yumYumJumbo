@@ -39,7 +39,7 @@ inputProps.value = props.typeShirt;
     <div class="pop border border-black w-9/12 m-auto rounded-lg truncate">
         <h1 class="text-4xl mt-2 pl-10 text-white ">Top Sale</h1>
         <div class="flex overflow-y-auto mt-2 pb-2">
-            <div v-for="data in typeShirt" :key="data.id">
+            <div v-for="data in inputProps" :key="data.id">
                 <RouterLink :to="{ name: 'ProductDetail', params: { id: data.id } }">
                     <div v-show="data.rating.count > 1000">
                         <div
