@@ -10,23 +10,23 @@ const props = defineProps({
 })
 
 const inputProps = ref({})
-inputProps.value = props.typeShirt.default;
+inputProps.value = props.typeShirt;
 
-const queryProduct = ref({})
-onMounted(async () => {
-    try {
-        const result = await fetch(`http://localhost:5000/items`)
-        if (result.status === 200) {
-            const response = await result.json()
-            queryProduct.value = response
-            queryProduct.value.sort((a, b) => b.rating.rate - a.rating.rate)
-            // console.log(response);
-        }
-    }
-    catch (err) {
-        console.log(err);
-    }
-})
+// const queryProduct = ref({})
+// onMounted(async () => {
+//     try {
+//         const result = await fetch(`http://localhost:5000/items`)
+//         if (result.status === 200) {
+//             const response = await result.json()
+//             queryProduct.value = response
+//             // console.log(response);
+//         }
+//     }
+//     catch (err) {
+//         console.log(err);
+//     }
+// })
+
 
 // console.log(typed.value);
 // console.log(queryProduct);
@@ -36,7 +36,7 @@ onMounted(async () => {
     <div class="pop border border-black w-9/12 m-auto rounded-lg truncate">
         <h1 class="text-4xl mt-2 pl-10 text-white">Popular</h1>
         <div class="flex overflow-y-auto mt-2 pb-2">
-            <div v-for="data in queryProduct" :key="data.id">
+            <div v-for="data in inputProps" :key="data.id">
                 <RouterLink :to="{ name: 'ProductDetail', params: { id: data.id } }">
                     <div v-show="data.rating.rate > 4.7">
                         <div

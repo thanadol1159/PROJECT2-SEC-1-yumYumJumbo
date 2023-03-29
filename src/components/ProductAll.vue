@@ -10,22 +10,22 @@ const props = defineProps({
 })
 
 const inputProps = ref({})
-inputProps.value = props.typeShirt.default;
+inputProps.value = props.typeShirt;
 
-const queryProduct = ref({})
-onMounted(async () => {
-    try {
-        const result = await fetch(`http://localhost:5000/items`)
-        if (result.status === 200) {
-            const response = await result.json()
-            queryProduct.value = response
-            console.log(response);
-        }
-    }
-    catch (err) {
-        console.log(err);
-    }
-})
+// const queryProduct = ref({})
+// onMounted(async () => {
+//     try {
+//         const result = await fetch(`http://localhost:5000/items`)
+//         if (result.status === 200) {
+//             const response = await result.json()
+//             queryProduct.value = response
+//             // console.log(response);
+//         }
+//     }
+//     catch (err) {
+//         console.log(err);
+//     }
+// })
 
 // console.log(queryProduct);
 // console.log(inputProps);
@@ -39,7 +39,7 @@ onMounted(async () => {
             </div>
 
             <div class="flex flex-wrap justify-center ">
-                <div v-for="data in queryProduct" :key="data.id">
+                <div v-for="data in inputProps" :key="data.id">
                     <RouterLink :to="{ name: 'ProductDetail', params: { id: data.id } }">
                         <div
                             class="cursor-pointer bg-white my-3 h-60 w-48 rounded-2xl mx-3 shadow drop-shadow-2xl border border-black hover:border-red-500 hover:shadow-2xl hover:border-2 overflow-hidden ">
