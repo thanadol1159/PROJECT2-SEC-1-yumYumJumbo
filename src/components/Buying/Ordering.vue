@@ -14,6 +14,7 @@ const router = useRouter()
 const ordersFromUser = ref({})
 
 onBeforeMount(() => {
+    // console.log(props.items_list);
     if (!props.items_list) {
         ordersFromUser.value = {
             customerName: '',
@@ -36,7 +37,7 @@ onBeforeMount(() => {
         // OrderSum
         let sum = 0
         for (const item of ordersFromUser.value.items) {
-            sum += item.price
+            sum += item.total_price
         }
         ordersFromUser.value.orders_Sum = sum
     }
@@ -229,7 +230,7 @@ const sendOrder = async (newOrder) => {
                     <div class="mt-6 h-80 pl-4">
                         <div class="w-full flex" v-for="item of ordersFromUser.items">
                             <div class="h-auto w-5/6 text-left"><span class="text-lg">{{ item.name }}</span></div>
-                            <div class="h-auto w-1/6 text-left"><span class="text-lg">{{ item.price }}</span></div>
+                            <div class="h-auto w-1/6 text-left"><span class="text-lg">{{ item.total_price }}</span></div>
                         </div>
                     </div>
                     <div class="grid grid-cols-2 pb-6 font-bold">

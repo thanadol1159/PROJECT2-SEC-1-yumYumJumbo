@@ -41,20 +41,20 @@ const test = [
   },
 ];
 const totals = ref(0);
-const frommark = ref([]);
+const frommark = ref();
 
 const changeQuantity = (num, item) => {
   if (num === 1) {
     item.quantity += num;
-    item.total_price =  item.quantity * item.price
+    item.total_price = item.quantity * item.price
     totals.value += item.price
   }
   if (num === -1) {
     item.quantity += num;
-    item.total_price =  item.quantity * item.price
+    item.total_price = item.quantity * item.price
     totals.value -= item.price
   }
-  console.log(frommark.value);
+  // console.log(frommark.value);
 };
 
 onMounted(() => {
@@ -68,45 +68,11 @@ onMounted(() => {
   }
 });
 
-// items: [
-//                 {
-//                     product_id: '',
-//                     product_name: '',
-//                     quantity: '',
-//                     size: '',
-//                     unit_price: '',
-//                     total_price: ''
-//                 }
-//             ],
-
-// const sendToName = () =>{
-//     let toName = [{
-//         product_id: frommark.value.id,
-//         product_name: frommark.value.id,
-//         quantity: frommark.value.id,
-//         // size:
-//         unit_price: frommark.value.id,
-//         total_price: frommark.value.id
-//     }]
-//     return toName
-// }
-const toName = ref( [{
-        product_id: '',
-        product_name: '',
-        quantity: '',
-        // size:
-        unit_price: '',
-        total_price: ''
-    }])
+const toName = ref([])
 const popup = ref('Cart')
-const setMode = (orders) => {
-    toName.value.product_id = orders.id,
-    toName.value.product_name = orders.name,
-    toName.value.quantity = orders.quantity,
-        // size:
-    toName.value.unit_price = orders.price,
-    toName.value.total_price = orders.total_price
-    popup.value = 'Ordering'
+const setMode = (receiveOrders) => {
+  toName.value = receiveOrders
+  popup.value = 'Ordering'
 }
 
 </script>
@@ -135,28 +101,21 @@ const setMode = (orders) => {
         {{ item.size }}
       </div>
       <div class="flex text-slate-50 items-center">
-        <button
-        :disabled="item.quantity == 1 "
-          class="border w-5 h-6 text-base solid px-1 bg-white text-stone-900"
-          @click="changeQuantity(-1, item)"
-        >
+        <button :disabled="item.quantity == 1" class="border w-5 h-6 text-base solid px-1 bg-white text-stone-900"
+          @click="changeQuantity(-1, item)">
           -
         </button>
         <span class="px-3">{{ item.quantity }}</span>
-        <button
-          class="border w-5 h-6 text-base solid px-1 bg-white text-stone-900"
-          
-          @click="changeQuantity(1, item)"
-        >
+        <button class="border w-5 h-6 text-base solid px-1 bg-white text-stone-900" @click="changeQuantity(1, item)">
           +
         </button>
       </div>
       <div class="flex text-slate-50">
-        {{ item.price }}
+        {{ item.total_price }}
       </div>
     </div>
-    total {{ totals }} 
+    total {{ totals }}
     <button @click="setMode(frommark)">ส่ง</button>
   </div>
-  <Ordering v-if="popup === 'Ordering'" :items_list="toName" @setPage="popup = 'Cart'"/>
+  <Ordering v-if="popup === 'Ordering'" :items_list="toName" @setPage="popup = 'Cart'" />
 </template>
