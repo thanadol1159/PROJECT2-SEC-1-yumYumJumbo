@@ -3,11 +3,15 @@ import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import Carousel from "../components/Carousel.vue";
 import TablerStarFilled from "../components/icons/TablerStarFilled.vue";
+import Navbar from '../components/Navbar.vue';
+import Cart from '../views/Cart.vue';
 
 const queryProduct = ref({});
 const image = ref([]);
 const route = useRoute();
 const isSized = ref(false);
+
+
 
 // onMounted(async() => {
 //     const result = await fetch(`https://localhost:5000/items/${1}`)
@@ -43,6 +47,7 @@ const addSize = (size) => {
 <template>
   <div>
     <!-- <h1>Product {{ $route.params.id }} Detail</h1> -->
+    <Navbar/>
     <div class="product flex flex-row justify-center">
       <div class="image p-40">
         <Carousel :itemList="queryProduct?.images" :use-length="false"></Carousel>
@@ -113,13 +118,14 @@ const addSize = (size) => {
           </div>
         </div>
         <div class="pt-16 pl-12">
+          
           <button
             class="bg-gray-200 rounded-lg p-3"
             :class="
               isSized
                 ? ['bg-red-400', 'hover:bg-red-600']
                 : ['disabled', 'cursor-not-allowed']
-            "
+            "      
           >
             <p>Add to cart</p>
           </button>
