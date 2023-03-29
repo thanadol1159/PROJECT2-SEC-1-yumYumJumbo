@@ -125,7 +125,7 @@ const addSize = (size) => {
         </div>
         <div class="pt-16 pl-12">
           
-          <button
+          <button @click="$emit('pushToCart', queryProduct)"
             class="bg-gray-200 rounded-lg p-3"
             :class="
               isSized
@@ -134,7 +134,7 @@ const addSize = (size) => {
             "  
 
           >
-          <Cart :ordersFromMark="queryProduct" v-show="false"/>
+          <!-- <Cart :ordersFromMark="queryProduct" v-show="false"/> -->
             <p>Add to cart</p>
           </button>
         </div>
