@@ -1,36 +1,49 @@
 <script setup>
-import { getData } from "../composable/getData";
+import { ref, onMounted } from "vue";
+
 import ContentSection from "../components/ContentSection.vue";
 import Carousel from "../components/Carousel.vue";
 import ReccommandItem from "../components/ReccommandItem.vue";
 import FooterContact from "../components/FooterContact.vue";
-import Navbar from "../components/Navbar.vue";
 
-const items = getData();
+const items = ref([]);
+onMounted(async () => {
+  try {
+    const result = await fetch(`http://localhost:5000/items`);
+    if (result.status === 200) {
+      const response = await result.json();
+      items.value = response;
+      // console.log(response);
+      // console.log(items.value)
+    }
+  } catch (err) {
+    console.log(err);
+  }
+});
 
-const randomPreview = () => {
-  const fLength = Math.floor(Math.random() * items.length);
-  const lLength = fLength + 2 + Math.ceil(Math.random() * 5);
-  return items.slice(fLength, lLength);
+const randomPreview = () => { 
+  let image , images = [];
+  for (const list of items.value) {
+    image = list.images[0]
+    images.push(image)
+  }
+  const fLength = Math.floor(Math.random() * images.length);
+  const lLength = fLength + 3 + Math.ceil(Math.random() * 4);
+  return images.slice(fLength, lLength);
 };
-const addProduct = (product) => {
-  console.log(product);
-};
+
 </script>
 
 <template>
   <div>
-    <Navbar @filterByType="addProduct" />
-    <ContentSection>
-      <Carousel :item-list="randomPreview()" :use-length="true" />
+    <!-- <ContentSection>
+      <Carousel :item-list="randomPreview()"/>
     </ContentSection>
 
     <ContentSection>
       <ReccommandItem />
     </ContentSection>
 
-    <ContentSection>
-      <FooterContact />
-    </ContentSection>
+    <FooterContact /> -->
   </div>
 </template>

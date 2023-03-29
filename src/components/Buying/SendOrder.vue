@@ -1,18 +1,11 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 
-onMounted(() => {
-    calOrderSum();
-})
-const orderSum = ref(0)
-const calOrderSum = () => {
-    for (const item of ordersFromUser.items) {
-        let prices = item.price
-        orderSum.value += prices
-    }
-}
+const props = defineProps({
+    items_list: { type: Object },
+});
 
-const ordersFromUser = ref({
+const newOrder = ref({
     id: '',
     customerName: '',
     customerAddress: '',
@@ -29,25 +22,31 @@ const ordersFromUser = ref({
     ],
     orders_Sum: ''
 })
-// Json Sever
-// const addOrder = async (newOrder) => {
-//     // setNewPopup('')
-//     commitForm.value = newOrder
 
+onMounted(() => {
+    // console.log(props.items_list);
+    newOrder.value = props.items_list;
+})
+
+// Json Sever
+// const sendOrder = async (newOrder) => {
 //     try {
-//         const res = await fetch('http://localhost:5000/orders', {
+//         const res = await fetch('http://localhost:5000/orders/', {
 //             method: 'POST',
 //             headers: {
 //                 'content-type': 'application/json'
 //             },
 //             body: JSON.stringify({
-//                 // userName: newOrder.name,
-//                 // userAddress: newOrder.address,
-//                 // userPhone: newOrder.phone
+//                 userName: newOrder.userName,
+//                 userAddress: newOrder.userAddress,
+//                 userPhone: newOrder.userPhone,
+//                 items: newOrder.items,
+//                 orders_Sum: newOrder.orders_Sum
 //             })
 //         })
 //         if (res.status === 201) {
 //             const addednewOrder = await res.json()
+//             // console.log(addednewOrder);
 //         } else {
 //             throw new Error('cannot add!')
 //         }
@@ -63,14 +62,14 @@ const ordersFromUser = ref({
         <div class="bg-[#EFEFEF] w-8/12 ml-24">
             <span class="text-2xl font-bold">รายการสินค้า</span>
             <div class="mt-6 h-80 pl-4">
-                <div class="w-full flex" v-for="item of ordersFromUser.items">
+                <div class="w-full flex" v-for="item of newOrder.items">
                     <div class="h-auto w-5/6 text-left"><span class="text-lg">{{ item.name }}</span></div>
                     <div class="h-auto w-1/6 text-left"><span class="text-lg">{{ item.price }}</span></div>
                 </div>
             </div>
             <div class="grid grid-cols-2 pb-6 font-bold">
                 <span class="text-2xl">รวมทั้งหมด</span>
-                <span class="text-2xl text-[#602F7E]">THB {{ orderSum }}</span>
+                <span class="text-2xl text-[#602F7E]">THB {{ newOrder.orders_Sum }}</span>
             </div>
         </div>
         <div class="pt-4">

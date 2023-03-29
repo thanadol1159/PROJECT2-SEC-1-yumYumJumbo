@@ -57,26 +57,25 @@ function setNewPopup(newPopup) {
             </div>
         </div>
 
-        <div class="flex bg-orange-600 justify-around py-24">
-            <div class="flex text-slate-50">
-                <input type="checkbox">
-            </div>
-            <div class="flex text-slate-50">
-                {{ ordersFromMark.images[0]}}
-            </div>
-            <div class="flex text-slate-50">
-                {{ ordersFromMark.category}}
-            </div>
-            <div class="flex text-slate-50 ">
-                {{ ordersFromMark.size}}
-            </div>
-            <div class="flex text-slate-50 items-center">
-                <button class="border w-5 h-6 text-base solid px-1 bg-white text-stone-900 " :disabled="quantity === 1"
-                    @click="minusQuantity">-</button> <span class="px-3">{{ quantity }}</span> <button
-                    class="border w-5 h-6 text-base solid px-1 bg-white text-stone-900" @click="plusQuantity">+</button>
-            </div>
-            <div class="flex text-slate-50">
-                {{ ordersFromMark.price }}
+                <div class="flex bg-orange-600 justify-around py-24">
+                    <div class="flex text-slate-50">
+                        <input type="checkbox">
+                    </div>
+                    <div class="flex text-slate-50">
+                        IMG
+                    </div>
+                    <div class="flex text-slate-50">
+                        shirt
+                    </div>
+                    <div class="flex text-slate-50 ">
+                       SIze
+                    </div>
+                    <div class="flex text-slate-50 items-center">
+                         <button class="border w-5 h-6 text-base solid px-1 bg-white text-stone-900 " :disabled="quantity === 1" @click="minusQuantity">-</button> <span class="px-3">{{ quantity }}</span> <button class="border w-5 h-6 text-base solid px-1 bg-white text-stone-900" @click="plusQuantity">+</button>
+                    </div>
+                    <div class="flex text-slate-50">
+                        price
+                    </div>
 
             </div>
             <button @click="setMode(ordersFromMark)">ส่ง</button>
