@@ -1,5 +1,9 @@
 <script setup>
-// const test = alert("test");
+import { ref } from 'vue'
+import { useRoute } from 'vue-router';
+import db from '../../data/db.json'
+const id3 = 3
+const ckID =(e) => {return console.log(e.target.id)}
 
 </script>
 
@@ -9,22 +13,22 @@
     <div>
       <div class="section">
         <div class="image-container">
-          <img @click="test" src="../assets/IMGrec/blackshirt.jpg" />
+          <img :id="3" @click="ckID($event)" src="../assets/IMGrec/blackshirt.jpg" />
         </div>
       </div>
       <div class="section">
         <div class="image-container">
-          <img src="../assets/IMGrec/tospace.jpg" class="wid" />
+          <img :id="2" @click="ckID($event)" src="../assets/IMGrec/tospace.jpg" />
         </div>
       </div>
       <div class="section">
         <div class="image-container">
-          <img src="../assets/IMGrec/line.jpg" />
+          <img :id="6" @click="ckID($event)" src="../assets/IMGrec/line.jpg" />
         </div>
       </div>
       <div class="section">
         <div class="image-container">
-          <img src="../assets/IMGrec/dress.jpg" />
+          <img :id="12" @click="ckID($event)" src="../assets/IMGrec/dress.jpg" />
         </div>
       </div>
     </div>
@@ -43,24 +47,19 @@
 .image-container {
   position: relative;
   display: flex;
+  transition: 0.2s;
+  margin-bottom: 3vh;
+  cursor: pointer;;
+}
+.image-container :hover{
+  transform:scale(1.05);
+  transition: 0.2s;
 }
 
-.image {
-  height: 100vh;
-  /* position: fixed; */
-  width: 100%;
-  top: 0;
-  mix-blend-mode: multiply;
-  filter: blur(30px);
-  opacity: 0;
-  transition: filter 0.5s ease, opacity 0.5s ease;
-}
 
 .section.active .image {
   opacity: 1;
   filter: blur(0);
 }
-.wid {
-  width: 781px;
-}
+
 </style>
