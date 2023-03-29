@@ -1,16 +1,13 @@
 <script setup>
-import { ref, defineProps, onMounted} from 'vue';
-import { RouterLink} from "vue-router";
+import { ref, defineProps, onMounted ,defineEmits} from 'vue';
+import { RouterLink } from "vue-router";
 
+const emits = defineEmits(['sendId'])
 const props = defineProps({
     typeShirt: {
-        type: Array,
-        default: []
+        type: Array
     }
 })
-
-const inputProps = ref({})
-inputProps.value = props.typeShirt.default;
 
 const queryProduct = ref({})
 onMounted(async () => {
@@ -20,7 +17,7 @@ onMounted(async () => {
             const response = await result.json()
             queryProduct.value = response
             queryProduct.value.sort((a, b) => b.rating.rate - a.rating.rate)
-            // console.log(response);
+            console.log(response);
         }
     }
     catch (err) {
@@ -28,8 +25,9 @@ onMounted(async () => {
     }
 })
 
-// console.log(typed.value);
 // console.log(queryProduct);
+
+
 </script>
  
 <template>
@@ -37,12 +35,11 @@ onMounted(async () => {
         <h1 class="text-4xl mt-2 pl-10 text-white">Popular</h1>
         <div class="flex overflow-y-auto mt-2 pb-2">
             <div v-for="data in queryProduct" :key="data.id">
-                <RouterLink :to="{ name: 'ProductDetail', params: { id: data.id } }">
-                    <div v-show="data.rating.rate > 4.7">
-                        <div
-                            class=" cursor-pointer bg-white h-60 w-48 rounded-2xl mx-3 shadow drop-shadow-2xl border
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    border-black hover:border-red-500 hover:shadow-2xl hover:border-2 overflow-hidden ">
-                            <img class=" m-auto w-40 mt-4 border rounded-lg border-black shadow shadow-violet-600"
+                <div v-show="data.rating.rate > 4.7">
+                    <RouterLink :to="{ name: 'cart' }">
+                        <div class="cursor-pointer bg-white h-60 w-48 rounded-2xl mx-3 shadow drop-shadow-2xl border border-black hover:border-red-500 hover:shadow-2xl hover:border-2 overflow-hidden "
+                            @click="$emit('sendId', data.id)">
+                            <img class="m-auto w-40 mt-4 border rounded-lg border-black shadow shadow-violet-600"
                                 :src="data.images" />
                             <p
                                 class="text-xs pl-5 mt-1 bg-slate-500 border border-red-600 border-l-0 border-r-0 text-slate-200">
@@ -55,8 +52,8 @@ onMounted(async () => {
                                 </h1>
                             </div>
                         </div>
-                    </div>
-                </RouterLink>
+                    </RouterLink>
+                </div>
             </div>
         </div>
     </div>

@@ -1,9 +1,22 @@
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted } from "vue";
 import { RouterLink } from "vue-router";
 
+const searchKeyword = ref("");
+const mDropdown = ref(false);
+const wDropdown = ref(false);
+const showSearch = ref(false);
+
+const dropdownHandler = (men) => {
+  if (men === true) {
+    mDropdown.value = !mDropdown.value;
+  } else {
+    wDropdown.value = !wDropdown.value;
+  }
+};
+
 // Fetch Product
-const product = ref([]);
+const queryProduct = ref({});
 const typesOfItemsMan = ref([]);
 const typesOfItemsWoman = ref([]);
 onMounted(async () => {
@@ -11,10 +24,9 @@ onMounted(async () => {
     const result = await fetch(`http://localhost:5000/items`);
     if (result.status === 200) {
       const response = await result.json();
-      product.value = response;
+      queryProduct.value = response;
       typeFilter(typesOfItemsMan, `men's clothing`);
       typeFilter(typesOfItemsWoman, `women's clothing`);
-      // console.log(queryProduct.value);
     }
   } catch (err) {
     console.log(err);
@@ -24,7 +36,7 @@ onMounted(async () => {
 const emit = defineEmits(["filterByType"]);
 const typeFilter = (arr, sex) => {
   const passArr = [];
-  product.value
+  queryProduct.value
     .filter((x) => x.category === sex)
     .forEach((element) => {
       passArr.push(...element.type);
@@ -35,51 +47,26 @@ const typeFilter = (arr, sex) => {
 };
 
 const filterWithTypes = (clothType, sex) => {
-  const filteredSex = product.value.filter((x) => x.category === sex);
+  const filteredSex = queryProduct.value.filter((x) => x.category === sex);
   const filteredItems = filteredSex.filter((x) => x.type.includes(clothType));
   // console.log(filteredItems)
   return filteredItems;
 };
 
 const filterWithSex = (sex) => {
-  const filteredSex = product.value.filter((x) => x.category === sex);
+  const filteredSex = queryProduct.value.filter((x) => x.category === sex);
   return filteredSex;
   // console.log(filteredSex);
 };
 
-const searchKeyword = ref("");
-const dropdown = ref(false);
-const mDropdown = ref(false);
-const wDropdown = ref(false);
-const showSearchIcon = ref(false);
+// console.log(items.value.name)
+// const filterCategory = items.filter((p, index) => items.findIndex((item) => item.name === p.name) === index)
 
-const dropdownHandler = (men) => {
-  if (men === true) {
-    mDropdown.value = !mDropdown.value;
-  } else {
-    wDropdown.value = !wDropdown.value;
-  }
-};
-
-const clearSearch = () => {
-  searchKeyword.value = "";
-  showSearchIcon.value = false;
-  dropdown.value = false;
-};
-
-const showDropdown = () => {
-  dropdown.value = !dropdown.value;
-  showSearchIcon.value = !showSearchIcon.value;
-  mDropdown.value = false;
-  wDropdown.value = false;
-};
-
-const searchFilter = computed(() => {
-  const productName = product.value;
-  return productName.filter((product) =>
-    product.name.toLowerCase().includes(searchKeyword.value.toLowerCase())
-  );
-});
+// const searchFilter = computed(() => {
+//         dropdown.value = true
+//         return filterCategory.filter((product) =>
+//             product.name.toLowerCase().includes(searchKeyword.value.toLowerCase()))
+// })
 </script>
 
 <template>
@@ -91,9 +78,9 @@ const searchFilter = computed(() => {
         <div class="flex justify-self-start">
           <RouterLink :to="{ name: 'home' }">
             <img
-              src="../assets/logo.png"
+              src="../assets/logo.svg"
               alt="homeLogoApp"
-              width="65"
+              width="52"
               height="36"
               class="ml-9 flex justify-start"
             />
@@ -101,7 +88,7 @@ const searchFilter = computed(() => {
         </div>
 
         <!-- Men Category-->
-        <div class="flex justify-between gap-60">
+        <div>
           <div @mouseenter="dropdownHandler(true)">
             <button
               class="text-white transition duration-150 ease-in hover:text-[#eeb711]"
@@ -116,10 +103,7 @@ const searchFilter = computed(() => {
               v-show="mDropdown"
             >
               <RouterLink
-                :to="{
-                  name: 'type',
-                  itemList: filterWithTypes(types, `men's clothing`),
-                }"
+                :to="{ name: 'type' }"
                 v-for="(types, index) of typesOfItemsMan"
                 :key="index"
                 :id="index"
@@ -140,9 +124,9 @@ const searchFilter = computed(() => {
               >
             </div>
           </div>
-
-          <!-- Women Category-->
-
+        </div>
+        <!-- Women Category-->
+        <div>
           <div @mouseenter="dropdownHandler(false)">
             <button
               class="text-white transition duration-150 ease-in hover:text-[#eeb711]"
@@ -192,7 +176,7 @@ const searchFilter = computed(() => {
             type="text"
             name="search"
             v-model.trim="searchKeyword"
-            @click="showDropdown()"
+            @click="showSearch = !showSearch"
           />
           <div
             class="flex items-center justify-center px-3 py-2 transition ease-in duration-150 hover:scale-110"
@@ -200,8 +184,8 @@ const searchFilter = computed(() => {
             <!-- search Icon -->
             <svg
               class="cursor-pointer max-sm:fill-white"
-              @click="showSearchIcon = !showSearchIcon"
-              v-show="!showSearchIcon"
+              @click="showSearch = !showSearch"
+              v-show="!showSearch"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               width="24"
@@ -216,8 +200,8 @@ const searchFilter = computed(() => {
             <!-- close Icon -->
             <svg
               class="cursor-pointer"
-              @click="clearSearch"
-              v-show="showSearchIcon"
+              @click="showSearch = !showSearch"
+              v-show="showSearch"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               width="24"
@@ -252,6 +236,24 @@ const searchFilter = computed(() => {
             </svg>
           </RouterLink>
 
+          <!-- favorite button -->
+          <RouterLink :to="{ name: 'favorite' }">
+            <svg
+              class="fill-white transition ease-in duration-150 hover:fill-rose-600 hover:scale-110"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="32"
+              height="32"
+              aria-label="fav-label"
+            >
+              <title id="fav-label">favorite</title>
+              <path fill="none" d="M0 0H24V24H0z" />
+              <path
+                d="M16.5 3C19.538 3 22 5.5 22 9c0 7-7.5 11-10 12.5C9.5 20 2 16 2 9c0-3.5 2.5-6 5.5-6C9.36 3 11 4 12 5c1-1 2.64-2 4.5-2z"
+              />
+            </svg>
+          </RouterLink>
+
           <!-- proflie button -->
           <RouterLink :to="{ name: 'profile' }" class="mr-10">
             <svg
@@ -272,27 +274,15 @@ const searchFilter = computed(() => {
         </div>
       </nav>
     </div>
-
-    <div v-show="dropdown" class="absolute w-full z-50">
-      <div class="w-full drop-shadow-lg">
-        <p class="pl-5 py-2 text-xl bg-slate-50 text-[#9263B1] hover:bg-[#56288A] hover:text-[#FF8C00] cursor-pointer">
-          Searching for
-          <span class="text-[#ee6311]"> {{ searchKeyword }} </span>
-        </p>
-
-        <div
-          v-show="index <= 4"
-          v-for="(p, index) in searchFilter"
-          :key="p.id"
-          :class="index % 2 === 0 ? 'bg-white' : 'bg-slate-50'"
-          class="pl-5 py-2 text-xl hover:bg-[#56288A] hover:text-[#FF8C00] cursor-pointer" 
-        >
-          <RouterLink :to="{ name: 'cart' }">
-            {{ p.name }}
-          </RouterLink>
+    
+    <!-- <div v-show="showSeach" class="absolute w-full">
+      <div v-if="dropdown" class="w-full">
+        <div v-for="(p, index) in items" :key="index" :class="index % 2 === 0 ? 'bg-white' : 'bg-slate-50'" class="pl-5 py-2 text-xl">
+          {{ p.name }}
         </div>
-      </div>
-    </div>
+        </div>
+          <p v-else class="pl-5 py-2 text-xl">Searching for {{ searchKeyword }}</p>
+      </div> -->
   </div>
 </template>
 

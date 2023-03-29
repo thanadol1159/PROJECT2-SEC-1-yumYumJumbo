@@ -1,11 +1,14 @@
 <script setup>
 import { ref, computed } from "vue";
-
 const props = defineProps({
   itemList: {
     type: Array,
     default: []
   }, 
+  useLength: {
+    type: Boolean,
+    default: true 
+  }
 });
 
 const currentIndex = ref(0);
@@ -55,8 +58,8 @@ const clickPageHandler = (e) => {
       <div
         class="absolute w-[36rem] h-80 border rounded-2xl object-cover flex justify-center"
       >        
-        <!-- <img v-if="props.useLength" :src="currentItem.images[0]" width="318" height="318" alt="preview"/> -->
-        <img :src="currentItem" width="318" height="318" alt="preview">
+        <img v-if="props.useLength" :src="currentItem.images[0]" width="318" height="318" alt="preview"/>
+        <img v-else :src="currentItem" width="318" height="318" alt="preview">
       </div>
 
       <!-- paginations -->

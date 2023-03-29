@@ -2,7 +2,8 @@ import { createRouter, createWebHistory } from "vue-router";
 import NotFoundView from "../views/NotFoundView.vue";
 import HomeView from "../views/HomeView.vue";
 import Cart from "../views/Cart.vue";
-import ProfileView from "../views/ProfileView.vue";
+import Favorites from "../views/Favorites.vue";
+import Profile from "../views/Profile.vue";
 import CategoryView from "../views/CategoryView.vue";
 import ProductDetail from "../views/ProductDetail.vue";
 
@@ -25,18 +26,23 @@ const router = createRouter({
       component: Cart,
     },
     {
+      path: "/fav",
+      name: "favorite",
+      component: Favorites,
+    },
+    {
       path: "/profile",
       name: "profile",
-      component: ProfileView,
+      component: Profile,
     },
     {
-      path: "/items/:id",
-      name: "ProductDetail",
-      component: ProductDetail,
-    },
+        path: "/items/:id",
+        name: "ProductDetail",
+        component: ProductDetail,
+      },
     {
-      path: "/:pathMatch(.*)*",
-      name: "itemNotfound",
+      path: "/:catchNotFound(.*)",
+      name: "notfound",
       component: NotFoundView,
     },
   ],

@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import Carousel from "../components/Carousel.vue";
 import TablerStarFilled from "../components/icons/TablerStarFilled.vue";
 import Navbar from '../components/Navbar.vue';
@@ -9,7 +9,6 @@ import Cart from '../views/Cart.vue';
 const queryProduct = ref({});
 const image = ref([]);
 const route = useRoute();
-const useRoutes = useRouter();
 const isSized = ref(false);
 
 
@@ -25,9 +24,7 @@ const isSized = ref(false);
 onMounted(async () => {
   try {
     const result = await fetch(
-      `http://localhost:5000/items/${route.params.id}` , {
-        method: 'GET'
-      }
+      `http://localhost:5000/items/${route.params.id}`
     );
     if (result.status === 200) {
       const response = await result.json();
@@ -35,12 +32,9 @@ onMounted(async () => {
       queryProduct.value = response;
       image.value = queryProduct.value.images;
     }
-    else if (result.status === 404) {
-      useRoutes.push({ name: "itemNotfound" });
-    }
   } catch (err) {
     console.log(err);
-  }
+  } 
 });
 
 const addSize = (size) => {
@@ -56,7 +50,7 @@ const addSize = (size) => {
     <Navbar/>
     <div class="product flex flex-row justify-center">
       <div class="image p-40">
-        <Carousel :itemList="queryProduct?.images"></Carousel>
+        <Carousel :itemList="queryProduct?.images" :use-length="false"></Carousel>
       </div>
       <div class="content">
         <div class="flex flex-col space-y-5 text-5xl py-14 px-7 font-bold">
@@ -141,3 +135,4 @@ const addSize = (size) => {
     </div>
   </div>
 </template>
+
