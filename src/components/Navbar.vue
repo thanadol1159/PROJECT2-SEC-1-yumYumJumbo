@@ -100,7 +100,7 @@ const searchFilter = computed(() => {
           </RouterLink>
         </div>
 
-        <!-- Men Category-->
+        <!-- Men Women Category-->
         <div class="flex justify-between gap-60">
           <div @mouseenter="dropdownHandler(true)">
             <button
