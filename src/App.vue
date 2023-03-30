@@ -40,7 +40,6 @@ const pushToCart = (product) =>{
 <style scoped>
 * {
   font-family: "Kanit", sans-serif;
-  font-size: 36px;
   margin: 0;
   padding: 0;
 }

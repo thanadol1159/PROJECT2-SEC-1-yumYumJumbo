@@ -1,9 +1,7 @@
 <script setup>
 import { ref, onBeforeMount } from 'vue';
 import { RouterLink, useRouter } from "vue-router";
-// import Navbar from '../Navbar.vue';
 import AddressForm from './AddressForm.vue';
-// import SendOrder from './SendOrder.vue';
 import Swal from 'sweetalert2'
 
 const emit = defineEmits(['setPage']);
@@ -11,11 +9,11 @@ const props = defineProps({
     items_list: { type: Array },
 });
 const router = useRouter()
-const ordersFromUser = ref({})
+const orders = ref({})
 
 onBeforeMount(() => {
     if (!props.items_list) {
-        ordersFromUser.value = {
+        orders.value = {
             customerName: '',
             customerAddress: '',
             customerPhone: '',
@@ -29,16 +27,16 @@ onBeforeMount(() => {
                     total_price: ''
                 }
             ],
-            orders_Sum: ''
+            orderTotal: ''
         };
     } else {
-        ordersFromUser.value.items = props.items_list
+        orders.value.items = props.items_list
         // OrderSum
         let sum = 0
-        for (const item of ordersFromUser.value.items) {
-            sum += item.price
+        for (const item of orders.value.items) {
+            sum += item.total_price
         }
-        ordersFromUser.value.orders_Sum = sum
+        orders.value.orderTotal = sum
     }
 })
 
@@ -52,9 +50,9 @@ function setNewPopup(newPopup) {
 // Add
 const addNewForm = (newForm) => {
     btnAddAddress.value = false
-    ordersFromUser.value.customerName = newForm.customerName
-    ordersFromUser.value.customerAddress = newForm.customerAddress
-    ordersFromUser.value.customerPhone = newForm.customerPhone
+    orders.value.customerName = newForm.customerName
+    orders.value.customerAddress = newForm.customerAddress
+    orders.value.customerPhone = newForm.customerPhone
 }
 // EDIT
 const thisForm = ref(undefined)
@@ -65,7 +63,7 @@ const setEditMode = (oldForm) => {
 
 // Json Sever
 const sendOrder = async (newOrder) => {
-    if (!newOrder.orders_Sum) {
+    if (!newOrder.orderTotal) {
         Swal.fire(
             'เกิดข้อผิดพลาด',
             'คุณไม่มีสินค้าในการสั่งซื้อ',
@@ -90,8 +88,16 @@ const sendOrder = async (newOrder) => {
                     customerName: newOrder.customerName,
                     customerAddress: newOrder.customerAddress,
                     customerPhone: newOrder.customerPhone,
-                    items: newOrder.items,
-                    orders_Sum: newOrder.orders_Sum
+                    // items: newOrder.items,
+                    items: newOrder.items.map(item => ({
+                        product_id: item.id,
+                        product_name: item.name,
+                        quantity: item.quantity,
+                        // size: item.size,
+                        unit_price: item.price,
+                        total_price: item.total_price
+                    })),
+                    orderTotal: newOrder.orderTotal
                 })
             })
             if (res.status === 201) {
@@ -105,7 +111,7 @@ const sendOrder = async (newOrder) => {
                 Swal.showLoading()
                 setTimeout(() => {
                     router.push({ name: 'home' })
-                }, 3500)
+                }, 3000)
             } else {
                 throw new Error('cannot add!')
             }
@@ -123,7 +129,7 @@ const sendOrder = async (newOrder) => {
 </script>
 
 <template>
-    <div class="m-8 ml-32 flex">
+    <div class="m-8 mx-16 flex">
         <div class="w-7/12">
             <!-- กดกลับหน้าตระกร้า -->
             <RouterLink :to="{ name: 'cart' }">
@@ -151,16 +157,16 @@ const sendOrder = async (newOrder) => {
                         <div class="bg-[#F6F6F6] w-96 h-full p-4">
                             <div class=" h-48 w-auto">
                                 <p class="text-xl">ชื่อ:
-                                    <span class="text-[#602F7E] font-bold"> {{ ordersFromUser?.customerName }} </span>
+                                    <span class="text-[#602F7E] font-bold"> {{ orders?.customerName }} </span>
                                 </p>
-                                <p class="text-lg pt-2">ที่อยู่: {{ ordersFromUser?.customerAddress }} </p>
+                                <p class="text-lg pt-2">ที่อยู่: {{ orders?.customerAddress }} </p>
                                 <p class="text-xl pt-4">เบอร์:
-                                    <span class="font-bold">{{ ordersFromUser?.customerPhone }} </span>
+                                    <span class="font-bold">{{ orders?.customerPhone }} </span>
                                 </p>
                             </div>
                             <button type="button"
                                 class="text-lg text-white btn border-none bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 px-10"
-                                @click="setEditMode(ordersFromUser)">
+                                @click="setEditMode(orders)">
                                 แก้ไข
                             </button>
                         </div>
@@ -206,7 +212,7 @@ const sendOrder = async (newOrder) => {
                         <div class="bg-white rounded-lg p-8 mx-auto h-auto w-3/12 text-2xl">
                             <img src="https://mpics.mgronline.com/pics/Images/564000004884401.JPEG">
                             <p class="pt-4">อาร์มิน อาร์เลอร์ท</p>
-                            <p class="pt-1 text-[#602F7E]">0123456789</p>
+                            <p class="pt-1 text-[#602F7E] font-bold">0123456789</p>
                         </div>
                     </div>
                     <div class="fixed top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-80 flex items-center justify-center z-50"
@@ -221,26 +227,48 @@ const sendOrder = async (newOrder) => {
         </div>
 
         <!-- ใบบอกจำนวน -->
-        <div class="w-5/12 pt-12">
-            <!-- <SendOrder :items_list="ordersFromUser"/> -->
+        <div class="w-5/12">
             <div class="text-center">
-                <div class="bg-[#EFEFEF] w-8/12 ml-24">
-                    <span class="text-2xl font-bold">รายการสินค้า</span>
-                    <div class="mt-6 h-80 pl-4">
-                        <div class="w-full flex" v-for="item of ordersFromUser.items">
-                            <div class="h-auto w-5/6 text-left"><span class="text-lg">{{ item.name }}</span></div>
-                            <div class="h-auto w-1/6 text-left"><span class="text-lg">{{ item.price }}</span></div>
+                <div class="bg-[#EFEFEF] w-full h-auto mx-4 py-4">
+                    <div class="w-auto px-4 pt-3">
+                        <div class="w-full flex h-auto items-center">
+                            <div class="h-auto w-9/12 text-center ">
+                                <span class="text-xl font-bold"> รายการ </span>
+                            </div>
+                            <div class="h-auto w-1/12 text-left">
+                                <span class="text-xl font-bold"> จำนวน </span>
+                            </div>
+                            <div class="h-auto w-2/12 text-center">
+                                <span class="text-xl font-bold"> ราคา </span>
+                            </div>
                         </div>
                     </div>
-                    <div class="grid grid-cols-2 pb-6 font-bold">
+                    <!-- สินค้า -->
+                    <div class="mt-4 h-96 w-auto px-4 overflow-y-scroll">
+                        <div class="w-full flex h-auto items-center border-b-2 border-slate-300 pl-4 py-5"
+                            v-for="item of orders.items">
+                            <div class="h-auto w-9/12 text-left">
+                                <span class=" text-lg font-medium">{{ item.name }}</span>
+                            </div>
+                            <div class="h-auto w-1/12 text-center">
+                                <span class="text-lg">{{ item.quantity }}</span>
+                            </div>
+                            <div class="h-auto w-2/12 text-center">
+                                <span class="text-lg text-[#602F7E] font-bold">{{ item.total_price }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- สรุปราคา -->
+                    <div class="grid grid-cols-2 font-bold pt-4">
                         <span class="text-2xl">รวมทั้งหมด</span>
-                        <span class="text-2xl text-[#602F7E]">THB {{ ordersFromUser.orders_Sum }}</span>
+                        <span class="text-2xl text-[#602F7E]">THB {{ orders.orderTotal }}</span>
                     </div>
                 </div>
-                <div class="pt-4">
+                <!-- ปุ่มยืนยัน -->
+                <div class="pt-4 pl-12">
                     <button type="button"
                         class="text-lg text-white btn border-none bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 w-52"
-                        @click="sendOrder(ordersFromUser)">ยืนยันคำสั่งซื้อ
+                        @click="sendOrder(orders)">ยืนยันคำสั่งซื้อ
                     </button>
                 </div>
             </div>

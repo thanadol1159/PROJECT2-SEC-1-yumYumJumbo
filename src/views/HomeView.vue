@@ -36,7 +36,7 @@ const randomPreview = () => {
 
 <template>
   <div>
-    <!-- <ContentSection>
+    <ContentSection>
       <Carousel :item-list="randomPreview()"/>
     </ContentSection>
 
@@ -44,6 +44,6 @@ const randomPreview = () => {
       <ReccommandItem />
     </ContentSection>
 
-    <FooterContact /> -->
+    <FooterContact />
   </div>
 </template>
