@@ -5,6 +5,7 @@ import ContentSection from "../components/ContentSection.vue";
 import PopularItem from "../components/PopularItem.vue";
 import TopSaleItem from "../components/TopSaleItem.vue";
 import ProductAll from "../components/ProductAll.vue";
+import Navbar from "../components/Navbar.vue";
 // import Carousel from "../components/Carousel.vue";
 
 const route = useRoute();
@@ -83,6 +84,7 @@ const route = useRoute();
 
 <template>
   <div>
+    <Navbar/>
     <ContentSection>
       <Carousel :item-list="pd" />
     </ContentSection>

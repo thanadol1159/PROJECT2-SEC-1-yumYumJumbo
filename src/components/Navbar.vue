@@ -287,7 +287,7 @@ const searchFilter = computed(() => {
           :class="index % 2 === 0 ? 'bg-white' : 'bg-slate-50'"
           class="pl-5 py-2 text-xl hover:bg-[#56288A] hover:text-[#FF8C00] cursor-pointer" 
         >
-          <RouterLink :to="{ name: 'cart' }">
+          <RouterLink :to="{ name: 'ProductDetail', params: { id: p.id } }">
             {{ p.name }}
           </RouterLink>
         </div>

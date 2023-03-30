@@ -66,7 +66,7 @@
             <tr class="text-lg  text-slate-300 text-center">
                 <td class="text-left pl-44">นายภคพล ทาอุบล</td>
                 <td>64130500062</td>
-                <td>.............@gmail.com</td>
+                <td>nametaubol2@gmail.com</td>
                 <td class="flex pl-24">
                     <a href="http://" target="_blank"><img
                             src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1024px-Facebook_Logo_%282019%29.png"
