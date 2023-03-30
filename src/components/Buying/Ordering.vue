@@ -30,7 +30,7 @@ onBeforeMount(() => {
                     total_price: ''
                 }
             ],
-            orders_Sum: ''
+            orderTotal: ''
         };
     } else {
         ordersFromUser.value.items = props.items_list
@@ -39,7 +39,7 @@ onBeforeMount(() => {
         for (const item of ordersFromUser.value.items) {
             sum += item.total_price
         }
-        ordersFromUser.value.orders_Sum = sum
+        ordersFromUser.value.orderTotal = sum
     }
 })
 
@@ -66,7 +66,7 @@ const setEditMode = (oldForm) => {
 
 // Json Sever
 const sendOrder = async (newOrder) => {
-    if (!newOrder.orders_Sum) {
+    if (!newOrder.orderTotal) {
         Swal.fire(
             'เกิดข้อผิดพลาด',
             'คุณไม่มีสินค้าในการสั่งซื้อ',
@@ -91,8 +91,16 @@ const sendOrder = async (newOrder) => {
                     customerName: newOrder.customerName,
                     customerAddress: newOrder.customerAddress,
                     customerPhone: newOrder.customerPhone,
-                    items: newOrder.items,
-                    orders_Sum: newOrder.orders_Sum
+                    // items: newOrder.items,
+                    items: newOrder.items.map(item => ({
+                        product_id: item.id,
+                        product_name: item.name,
+                        quantity: item.quantity,
+                        // size: item.size,
+                        unit_price: item.price,
+                        total_price: item.total_price
+                    })),
+                    orderTotal: newOrder.orderTotal
                 })
             })
             if (res.status === 201) {
@@ -106,7 +114,7 @@ const sendOrder = async (newOrder) => {
                 Swal.showLoading()
                 setTimeout(() => {
                     router.push({ name: 'home' })
-                }, 3500)
+                }, 3000)
             } else {
                 throw new Error('cannot add!')
             }
@@ -124,7 +132,7 @@ const sendOrder = async (newOrder) => {
 </script>
 
 <template>
-    <div class="m-8 ml-32 flex">
+    <div class="m-8 ml-24 flex">
         <div class="w-7/12">
             <!-- กดกลับหน้าตระกร้า -->
             <RouterLink :to="{ name: 'cart' }">
@@ -222,20 +230,26 @@ const sendOrder = async (newOrder) => {
         </div>
 
         <!-- ใบบอกจำนวน -->
-        <div class="w-5/12 pt-12">
+        <div class="w-5/12 py-6">
             <!-- <SendOrder :items_list="ordersFromUser"/> -->
             <div class="text-center">
-                <div class="bg-[#EFEFEF] w-8/12 ml-24">
+                <div class="bg-[#EFEFEF] w-full h-auto mx-4">
                     <span class="text-2xl font-bold">รายการสินค้า</span>
-                    <div class="mt-6 h-80 pl-4">
-                        <div class="w-full flex" v-for="item of ordersFromUser.items">
-                            <div class="h-auto w-5/6 text-left"><span class="text-lg">{{ item.name }}</span></div>
-                            <div class="h-auto w-1/6 text-left"><span class="text-lg">{{ item.total_price }}</span></div>
+                    <div class="mt-2 h-96 w-auto px-4 overflow-y-scroll">
+                        <div class="w-full flex h-auto items-center border-b-2 border-slate-400"
+                            v-for="item of ordersFromUser.items">
+                            <div class="h-auto w-9/12 text-left"><span class=" text-lg">{{ item.name }}</span></div>
+                            <div class="h-auto w-1/12 text-right">
+                                <span class="text-lg">{{ item.quantity }}</span>
+                            </div>
+                            <div class="h-auto w-2/12 text-center">
+                                <span class="text-lg text-[#602F7E]">{{ item.total_price }}</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="grid grid-cols-2 pb-6 font-bold">
+                    <div class="grid grid-cols-2 pb-5 font-bold">
                         <span class="text-2xl">รวมทั้งหมด</span>
-                        <span class="text-2xl text-[#602F7E]">THB {{ ordersFromUser.orders_Sum }}</span>
+                        <span class="text-2xl text-[#602F7E]">THB {{ ordersFromUser.orderTotal }}</span>
                     </div>
                 </div>
                 <div class="pt-4">
