@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineProps, onMounted} from 'vue';
+import { ref, defineProps, onMounted,watch} from 'vue';
 import { RouterLink} from "vue-router";
 
 const props = defineProps({
@@ -10,38 +10,25 @@ const props = defineProps({
 })
 
 const inputProps = ref({})
-inputProps.value = props.typeShirt;
+watch(() => props.typeShirt,
+    ()=>{
+    inputProps.value = props.typeShirt;
+    inputProps.value.sort((a,b) => b.rating.rate - a.rating.rate)
 
-// const queryProduct = ref({})
-// onMounted(async () => {
-//     try {
-//         const result = await fetch(`http://localhost:5000/items`)
-//         if (result.status === 200) {
-//             const response = await result.json()
-//             queryProduct.value = response
-//             // console.log(response);
-//         }
-//     }
-//     catch (err) {
-//         console.log(err);
-//     }
-// })
+})
 
-
-// console.log(typed.value);
-// console.log(queryProduct);
 </script>
  
 <template>
     <div class="pop border border-black w-9/12 m-auto rounded-lg truncate">
         <h1 class="text-4xl mt-2 pl-10 text-white">Popular</h1>
         <div class="flex overflow-y-auto mt-2 pb-2">
-            <div v-for="data in inputProps" :key="data.id">
+            <div v-for="data in inputProps" :key="data.id" >
                 <RouterLink :to="{ name: 'ProductDetail', params: { id: data.id } }">
-                    <div v-show="data.rating.rate > 4.7">
+                    <!-- <div v-show="data.rating.rate > 4.7"> -->
+                    <div >
                         <div
-                            class=" cursor-pointer bg-white h-60 w-48 rounded-2xl mx-3 shadow drop-shadow-2xl border
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    border-black hover:border-red-500 hover:shadow-2xl hover:border-2 overflow-hidden ">
+                            class="cursor-pointer bg-white h-60 w-48 rounded-2xl mx-3 shadow drop-shadow-2xl border                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  border-black hover:border-red-500 hover:shadow-2xl hover:border-2 overflow-hidden ">
                             <img class=" m-auto w-40 mt-4 border rounded-lg border-black shadow shadow-violet-600"
                                 :src="data.images" />
                             <p

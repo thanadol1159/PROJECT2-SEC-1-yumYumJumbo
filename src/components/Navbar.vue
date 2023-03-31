@@ -101,7 +101,7 @@ const searchFilter = computed(() => {
         </div>
 
         <!-- Men Women Category-->
-        <div class="flex justify-between gap-60">
+        <div class="flex justify-evenly gap-60">
           <div @mouseenter="dropdownHandler(true)">
             <button
               class="text-white transition duration-150 ease-in hover:text-[#eeb711]"
@@ -127,8 +127,8 @@ const searchFilter = computed(() => {
                   $emit(
                     'filterByType',
                     filterWithTypes(types, `men's clothing`)
-                  )
-                "
+                  )"
+                class="transition duration-150 ease-in hover:text-[#FF8C00]"
               >
                 {{ types }}
               </RouterLink>
@@ -136,6 +136,7 @@ const searchFilter = computed(() => {
               <RouterLink
                 :to="{ name: 'type' }"
                 @click="$emit('filterByType', filterWithSex(`men's clothing`))"
+                class="transition duration-150 ease-in hover:text-[#FF8C00]"
                 >View All</RouterLink
               >
             </div>
@@ -167,6 +168,7 @@ const searchFilter = computed(() => {
                 v-for="(types, index) of typesOfItemsWoman"
                 :key="index"
                 :id="index"
+                class="transition duration-150 ease-in hover:text-[#FF8C00]"
               >
                 {{ types }}
               </RouterLink>
@@ -175,6 +177,7 @@ const searchFilter = computed(() => {
                 @click="
                   $emit('filterByType', filterWithSex(`women's clothing`))
                 "
+                class="transition duration-150 ease-in hover:text-[#FF8C00]"
               >
                 View All
               </RouterLink>
@@ -192,7 +195,7 @@ const searchFilter = computed(() => {
             type="text"
             name="search"
             v-model.trim="searchKeyword"
-            @click="showDropdown()"
+            @click="showDropdown"
           />
           <div
             class="flex items-center justify-center px-3 py-2 transition ease-in duration-150 hover:scale-110"
@@ -275,20 +278,17 @@ const searchFilter = computed(() => {
 
     <div v-show="dropdown" class="absolute w-full z-50">
       <div class="w-full drop-shadow-lg">
-        <p class="pl-5 py-2 text-xl bg-slate-50 text-[#9263B1] hover:bg-[#56288A] hover:text-[#FF8C00] cursor-pointer">
-          Searching for
-          <span class="text-[#ee6311]"> {{ searchKeyword }} </span>
-        </p>
-
         <div
           v-show="index <= 4"
           v-for="(p, index) in searchFilter"
           :key="p.id"
           :class="index % 2 === 0 ? 'bg-white' : 'bg-slate-50'"
-          class="pl-5 py-2 text-xl hover:bg-[#56288A] hover:text-[#FF8C00] cursor-pointer" 
+          class="text-xl hover:bg-[#56288A] hover:text-[#FF8C00] cursor-pointer"
         >
           <RouterLink :to="{ name: 'ProductDetail', params: { id: p.id } }">
-            {{ p.name }}
+            <div class="pl-5 py-2 h-full w-full" @click="showDropdown">
+              <span>{{ p.name }}</span>
+            </div>
           </RouterLink>
         </div>
       </div>

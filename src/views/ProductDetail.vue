@@ -1,18 +1,14 @@
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import Carousel from "../components/Carousel.vue";
 import TablerStarFilled from "../components/icons/TablerStarFilled.vue";
-import Navbar from '../components/Navbar.vue';
-import Cart from '../views/Cart.vue';
 
 const queryProduct = ref({});
 const image = ref([]);
 const route = useRoute();
 const useRoutes = useRouter();
 const isSized = ref(false);
-
-
 
 // onMounted(async() => {
 //     const result = await fetch(`https://localhost:5000/items/${1}`)
@@ -25,8 +21,9 @@ const isSized = ref(false);
 watch(async () => {
   try {
     const result = await fetch(
-      `http://localhost:5000/items/${route.params.id}` , {
-        method: 'GET'
+      `http://localhost:5000/items/${route.params.id}`,
+      {
+        method: "GET",
       }
     );
     if (result.status === 200) {
@@ -34,8 +31,7 @@ watch(async () => {
       // console.log(response)
       queryProduct.value = response;
       image.value = queryProduct.value.images;
-    }
-    else if (result.status === 404) {
+    } else if (result.status === 404) {
       useRoutes.push({ name: "itemNotfound" });
     }
   } catch (err) {
@@ -46,39 +42,40 @@ watch(async () => {
 const addSize = (size) => {
   queryProduct.value.size = size;
   isSized.value = true;
-  console.log(queryProduct.value)
+  // console.log(queryProduct.value)
 };
 </script>
 
 <template>
-  <div>
+  <div class="w-full h-full">
     <!-- <h1>Product {{ $route.params.id }} Detail</h1> -->
-    <Navbar/>
-    <div class="product flex flex-row justify-center">
-      <div class="image p-40">
+    <div class="product flex justify-center items-center mt-20">
+      <div class="flex image px-28">
         <Carousel :itemList="queryProduct?.images"></Carousel>
       </div>
-      <div class="content">
-        <div class="flex flex-col space-y-5 text-5xl py-14 px-7 font-bold">
-          <h1 class="flex justify-end leading-[70px]">
-            {{ queryProduct.name }}
-          </h1>
-          <h1 class="font-bold flex justify-end"></h1>
-        </div>
-        <div class="flex flex-col px-16">
-          <h1 class="flex justify-start text-3xl font-bold">Description:</h1>
-          <p>{{ queryProduct.description }}</p>
-          <div class="flex flex-row">
-            <span class="pt-2 pr-2"> <TablerStarFilled/></span>{{ queryProduct?.rating?.rate }}
+      <div class="flex flex-col gap-y-8 leading-loose">
+        <h1 class="text-4xl">
+          {{ queryProduct.name }}
+        </h1>
+        <div class="flex flex-col gap-y-3">
+          <h1 class="text-2xl">Description:</h1>
+          <p class="text-xl">{{ queryProduct.description }}</p>
+          <div class="flex flex-row w-full text-2xl"> 
+            <span>
+              {{ queryProduct?.rating?.rate }} 
+            </span>
+            <TablerStarFilled class="mt-1 mx-2"/>
           </div>
-          
-          <p>ขายแล้ว: <span class="text-red-600">{{ queryProduct?.rating?.count }}</span> ตัว</p>
-          <p>ราคา: {{ queryProduct.price }} บาท</p>
+          <p class="text-2xl">
+            ขายแล้ว:
+            <span class="text-red-600">{{ queryProduct?.rating?.count }}</span>
+            ตัว
+          </p>
+          <p class="text-2xl"> ราคา: {{ queryProduct.price }} บาท</p>
         </div>
-        <div class="flex">
-          <div class="size pl-12 pt-24 space-x-6">
+        <div class="flex justify-evenly text-3xl">
             <button
-              class="text-3xl p-5 rounded-lg"
+              class="p-7 rounded-lg"
               :class="
                 isSized && queryProduct.size === 'S'
                   ? 'bg-slate-400'
@@ -89,7 +86,7 @@ const addSize = (size) => {
               S
             </button>
             <button
-              class="bg-gray-200 text-3xl p-5 hover:bg-slate-400 rounded-lg"
+              class="p-7 rounded-lg"
               :class="
                 isSized && queryProduct.size === 'M'
                   ? 'bg-slate-400'
@@ -100,7 +97,7 @@ const addSize = (size) => {
               M
             </button>
             <button
-              class="bg-gray-200 text-3xl p-5 hover:bg-slate-400 rounded-lg"
+              class="p-8 rounded-lg"
               :class="
                 isSized && queryProduct.size === 'L'
                   ? 'bg-slate-400'
@@ -111,7 +108,7 @@ const addSize = (size) => {
               L
             </button>
             <button
-              class="bg-gray-200 text-3xl p-5 hover:bg-slate-400 rounded-lg"
+              class="p-6 rounded-lg"
               :class="
                 isSized && queryProduct.size === 'XL'
                   ? 'bg-slate-400'
@@ -121,20 +118,18 @@ const addSize = (size) => {
             >
               XL
             </button>
-          </div>
         </div>
-        <div class="pt-16 pl-12">
-          
-          <button @click="$emit('pushToCart', queryProduct)"
-            class="bg-gray-200 rounded-lg p-3"
+        <div class="text-2xl">
+          <button
+            @click="$emit('pushToCart', queryProduct)"
+            class="p-4 rounded-xl"
             :class="
               isSized
                 ? ['bg-red-400', 'hover:bg-red-600']
                 : ['disabled', 'cursor-not-allowed']
-            "  
-
+            "
           >
-          <!-- <Cart :ordersFromMark="queryProduct" v-show="false"/> -->
+            <!-- <Cart :ordersFromMark="queryProduct" v-show="false"/> -->
             <p>Add to cart</p>
           </button>
         </div>

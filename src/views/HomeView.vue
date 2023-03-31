@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 
+// import Navbar from "../components/Navbar.vue";
 import ContentSection from "../components/ContentSection.vue";
 import Carousel from "../components/Carousel.vue";
 import ReccommandItem from "../components/ReccommandItem.vue";
@@ -32,10 +33,15 @@ const randomPreview = () => {
   return images.slice(fLength, lLength);
 };
 
+// const product = (e) => {
+//   console.log(e)
+// }
+
 </script>
 
 <template>
   <div>
+    <!-- <Navbar @filter-by-type="product"/> -->
     <ContentSection>
       <Carousel :item-list="randomPreview()"/>
     </ContentSection>

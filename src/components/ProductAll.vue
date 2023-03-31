@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineProps, onMounted } from 'vue';
+import { ref, defineProps, onMounted, watch } from 'vue';
 import { RouterLink, useRouter } from "vue-router";
 
 const props = defineProps({
@@ -10,25 +10,18 @@ const props = defineProps({
 })
 
 const inputProps = ref({})
-inputProps.value = props.typeShirt;
+onMounted(()=>{
+    if (!props.typeShirt) {
+        inputProps.value = props.typeShirt;
+    }else {
+        inputProps.value = []
+    }
+})
 
-// const queryProduct = ref({})
-// onMounted(async () => {
-//     try {
-//         const result = await fetch(`http://localhost:5000/items`)
-//         if (result.status === 200) {
-//             const response = await result.json()
-//             queryProduct.value = response
-//             // console.log(response);
-//         }
-//     }
-//     catch (err) {
-//         console.log(err);
-//     }
-// })
+watch(() => props.typeShirt , ()=>{
+    inputProps.value = props.typeShirt;
+})
 
-// console.log(queryProduct);
-// console.log(inputProps);
 </script>
  
 <template>

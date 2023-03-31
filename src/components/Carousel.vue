@@ -1,15 +1,23 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
 
 const props = defineProps({
   itemList: {
     type: Array,
     default: []
-  }, 
+  },
 });
 
+const currentItem = computed(() => { 
+  return props.itemList[currentIndex.value]
+});
 const currentIndex = ref(0);
-const currentItem = computed(() => props.itemList[currentIndex.value]);
+
+watch( () => props.itemList, 
+  () => {
+    currentIndex.value = 0;
+   
+})
 
 const nextIndex = (next) => {
   const length = props.itemList.length;
@@ -24,8 +32,8 @@ const nextIndex = (next) => {
   }
 };
 
-const clickPageHandler = (e) => {
-  currentIndex.value = Number(e.currentTarget.id);
+const clickPageHandler = (index) => {
+  currentIndex.value = index;
 };
 </script>
 
@@ -55,7 +63,8 @@ const clickPageHandler = (e) => {
       <div
         class="absolute w-[36rem] h-80 border rounded-2xl object-cover flex justify-center"
       >        
-        <!-- <img v-if="props.useLength" :src="currentItem.images[0]" width="318" height="318" alt="preview"/> -->
+      <!-- <img :src="currentItem.images[0]" width="318" height="318" alt="preview"/> -->
+        <!-- v-if="props.useLength"  -->
         <img :src="currentItem" width="318" height="318" alt="preview">
       </div>
 
@@ -66,7 +75,7 @@ const clickPageHandler = (e) => {
             v-for="(item, index) in itemList"
             :key="index"
             :id="index"
-            @click="clickPageHandler"
+            @click="clickPageHandler(index)"
             class="h-3.5 w-3.5 rounded-full border"
             :class="index === currentIndex ? ['bg-white', 'border-[#9263B1]'] : 'bg-[#9263B1]'"
           ></button>
@@ -92,38 +101,3 @@ const clickPageHandler = (e) => {
     </div>
   </div>
 </template>
-
-<style scoped>
-.slides {
-  font-size: 40px;
-  display: flex;
-  height: 100%;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-}
-
-.animated {
-  transition: all 400ms;
-  position: absolute;
-  transform: translate(-50%, -50%);
-}
-
-.slide-in {
-  opacity: 0;
-  transform: translate(-40%, -50%);
-}
-
-.slide-in-active {
-  transition-delay: 150ms;
-}
-
-.slide-out {
-  opacity: 1;
-}
-
-.slide-out-active {
-  opacity: 0;
-  transform: translate(-60%, -50%);
-}
-</style>
