@@ -13,32 +13,44 @@ const props = defineProps({
   },
 });
 
-const items = ref([]);
+const itemsToPop = ref([])
+const itemsToTop = ref([])
+const itemsToAll = ref([])
+
+const itemsToPopSorted = ref([]);
+const itemsToTopSorted = ref([]);
+
 const itemIMG = ref([]);
 const images = ref([])
-onMounted(() => {
-  items.value = props.productFilter;
+
+// onMounted(() => {
+//   items.value = props.productFilter;
+//   if (!props.productFilter) {
+//     itemIMG.value = [];
+//     items.value = props.productFilter;
+//   }
+//   for (const item of items.value) {
+//     itemIMG.value.push(item.images[0]);
+//   }
+//   images.value = itemIMG.value.slice(0, 5)
+// });
+
+watch(() => props.productFilter, () => {
+  itemsToAll.value = props.productFilter;
+  itemsToPop.value = props.productFilter;
+  itemsToTop.value = props.productFilter;
   if (!props.productFilter) {
     itemIMG.value = [];
-    items.value = props.productFilter;
-  } 
-  for (const item of items.value) {
+    itemsToAll.value = props.productFilter;
+  }
+  for (const item of itemsToAll.value) {
     itemIMG.value.push(item.images[0]);
   }
-  images.value = itemIMG.value.slice(0,5)
+  images.value = itemIMG.value.slice(0, 5)
+  itemsToPopSorted.value = itemsToPop.value.slice().sort((a, b) => b.rating.rate - a.rating.rate)
+  itemsToTopSorted.value = itemsToTop.value.slice().sort((a, b) => b.rating.count - a.rating.count);
 });
 
-watch(
-  () => props.productFilter,
-  () => {
-    itemIMG.value = [];
-    items.value = props.productFilter;
-    for (const item of items.value) {
-      itemIMG.value.push(item.images[0]);
-    }
-    images.value = itemIMG.value.slice(0,5)
-  }
-);
 </script>
 
 <template>
@@ -49,17 +61,17 @@ watch(
     </ContentSection>
     <!-- popularitem component -->
     <ContentSection>
-      <PopularItem :typeShirt="items" />
+      <PopularItem :typeShirt="itemsToPopSorted" />
     </ContentSection>
 
     <!-- Topsale -->
     <ContentSection>
-      <TopSaleItem :typeShirt="items" />
+      <TopSaleItem :typeShirt="itemsToTopSorted" />
     </ContentSection>
 
     <!-- Product All -->
     <ContentSection>
-      <ProductAll :typeShirt="items" />
+      <ProductAll :typeShirt="itemsToAll" />
     </ContentSection>
   </div>
 </template>
