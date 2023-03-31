@@ -12,7 +12,7 @@ const props = defineProps({
 const inputProps = ref([])
 watch(() => props.typeShirt,()=>{
     inputProps.value = props.typeShirt;
-    inputProps.value.sort((a,b) => b.rating.count - a.rating.count)
+    // inputCount.value.sort((a, b) => b.rating.count - a.rating.count)
 })
 
 </script>
