@@ -10,10 +10,9 @@ const props = defineProps({
 })
 
 const inputProps = ref({})
-watch(() => props.typeShirt,
-    ()=>{
+watch(() => props.typeShirt,()=>{
     inputProps.value = props.typeShirt;
-    inputProps.value.sort((a,b) => b.rating.rate - a.rating.rate)
+    // inputRate.value.sort((a, b) => b.rating.rate - a.rating.rate)
 
 })
 
