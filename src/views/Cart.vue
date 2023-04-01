@@ -25,13 +25,15 @@ const props = defineProps({
     }
 });
 
-onMounted(()=>{
-  frommark.value = props.productCart
-  totals.value = 0
-  for (const item of frommark.value) {
-    item.quantity = 1
-    totals.value += item.price
-    item.total_price = item.price
+onMounted(() => {
+  if (props.productCart) {
+    frommark.value = props.productCart
+    totals.value = 0
+    for (const item of frommark.value) {
+      item.quantity = 1
+      totals.value += item.price
+      item.total_price = item.price
+    }
   }
 })
 
