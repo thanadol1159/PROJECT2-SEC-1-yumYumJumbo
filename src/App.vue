@@ -19,8 +19,8 @@ const getProduct = (itemProduct) => {
     <div>
       <Navbar @filterByType="getProduct" />
       <RouterView
-        :productCart="productCart"
         @pushToCart="sentToCart"
+        :productCart="productCart"
         :productFilter="category"
       />
     </div>

@@ -50,11 +50,11 @@ const addSize = (size) => {
 <template>
   <div class="w-full h-full">
     <!-- <h1>Product {{ $route.params.id }} Detail</h1> -->
-    <div class="product flex justify-center items-center mt-32">
+    <div class="product flex justify-center items-center mt-28">
       <div class="flex image px-28">
         <Carousel :itemList="queryProduct?.images"></Carousel>
       </div>
-      <div class="flex flex-col gap-y-8 leading-loose">
+      <div class="flex flex-col gap-y-8 leading-loose pr-14">
         <h1 class="text-4xl">
           {{ queryProduct.name }}
         </h1>
@@ -123,7 +123,7 @@ const addSize = (size) => {
         <div class="text-2xl">
           <button
             @click="$emit('pushToCart', queryProduct)"
-            class="p-4 rounded-xl"
+            class="p-4 rounded-xl bg-slate-200"
             :class="
               isSized
                 ? ['bg-red-400', 'hover:bg-red-600']
@@ -131,7 +131,7 @@ const addSize = (size) => {
             "
           >
             <!-- <Cart :ordersFromMark="queryProduct" v-show="false"/> -->
-            <p>Add to cart</p>
+            Add to cart
           </button>
         </div>
       </div>
