@@ -93,7 +93,7 @@ const sendOrder = async (newOrder) => {
                         product_id: item.id,
                         product_name: item.name,
                         quantity: item.quantity,
-                        // size: item.size,
+                        size: item.size,
                         unit_price: item.price,
                         total_price: item.total_price
                     })),
