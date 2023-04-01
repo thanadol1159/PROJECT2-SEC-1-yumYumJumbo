@@ -5,7 +5,18 @@ import Navbar from "../components/Navbar.vue";
 import ProductDetail from "./ProductDetail.vue";
 
 const totals = ref(0);
+const buy = ref(0);
+const sendToOrder = ref([]);
 const frommark = ref([]);
+const toName = ref([])
+const popup = ref('Cart')
+const isChecked = ref(false);
+
+const setMode = (receiveOrders) => {
+  toName.value = receiveOrders
+  popup.value = 'Ordering'
+  sendToOrder.value = []
+}
 
 const props = defineProps({
     productCart: {
@@ -26,10 +37,18 @@ onMounted(()=>{
   console.log(frommark.value.price);
 })
 
-const removeItem = (index,item)=> {
-  frommark.value.splice(index, 1)
-  totals.value -= item.total_price
-  console.log(totals.value);
+const addToBuy = (item,index)=>{
+  isChecked.value = !isChecked.value
+    if (isChecked.value) {
+      buy.value = item.quantity * item.price
+      // toName.value.push(item)
+      sendToOrder.value.push(item)
+      console.log(isChecked.value);
+    }else if(!isChecked.value){
+      
+      sendToOrder.value.splice(item , 1)
+      console.log(isChecked.value);
+    }
 }
 
 const changeQuantity = (num, item) => {
@@ -48,17 +67,11 @@ const changeQuantity = (num, item) => {
   // console.log(frommark.value);
 };
 
-
-
-const toName = ref([])
-const popup = ref('Cart')
-const setMode = (receiveOrders) => {
-  toName.value = receiveOrders
-  popup.value = 'Ordering'
+const removeItem = (index)=> {
+  frommark.value.splice(index, 1)
 }
 
 
-console.log(frommark.value.total_price);
 </script>
 <template>
   
@@ -75,10 +88,14 @@ console.log(frommark.value.total_price);
       <div></div>
     </div>
     <!-- v-for="item of frommark" -->
-    <div class="flex bg-orange-600 justify-around py-24 text-2xl" v-for="(item,index) in frommark ">
-      <div class="flex text-slate-50" @click="addToBuy(item)">
-        <input  type="checkbox" />
+    <div class="flex bg-orange-600 justify-around py-24 text-2xl" v-for="(item,index) in frommark " :key="index">
+
+
+      <!-- checkbox add to order -->
+      <div class="flex text-slate-50">
+        <input type="checkbox" :id="checkbox + index" :value="item" :v-model="isChecked" @change="addToBuy(item , index)"/>
       </div>
+      
       <div class="flex text-slate-50 w-80">
         <img :src="`${item.images[0]}`" />
       </div>
@@ -88,12 +105,17 @@ console.log(frommark.value.total_price);
       <div class="flex text-slate-50 items-center">
         {{ item.size }}
       </div>
+      
       <div class="flex text-slate-50 items-center">
+
+        <!-- button delete quantity item -->
         <button :disabled="item.quantity == 1" class="border w-5 h-6 text-base solid px-1 bg-white text-stone-900"
           @click="changeQuantity(-1, item)">
           -
         </button>
         <span class="px-3">{{ item.quantity }}</span>
+
+        <!-- button add more item -->
         <button class="border w-5 h-6 text-base solid px-1 bg-white text-stone-900" @click="changeQuantity(1, item)">
           +
         </button>
@@ -102,12 +124,17 @@ console.log(frommark.value.total_price);
         
         {{ item.total_price }} 
       </div>
+      <!-- delete product -->
       <div class="flex items-center" >
         <img class="w-6 cursor-pointer" src="../assets/bin.png" @click="removeItem(index,frommark,item)">
       </div>
+    
     </div>
-    total {{ totals }}
-    <button @click="setMode(frommark)">ส่ง</button>
+    <!-- compare total price -->
+    total {{ buy }}
+
+    <!-- send data to order -->
+    <button @click="setMode(sendToOrder)">ส่ง</button>
   </div>
   <Ordering v-if="popup === 'Ordering'" :items_list="toName" @setPage="popup = 'Cart'" />
 </template>
