@@ -10,12 +10,12 @@ const sendToOrder = ref([]);
 const frommark = ref([]);
 const toName = ref([])
 const popup = ref('Cart')
-const isChecked = ref(false);
+const isChecked = ref([]);
 
 const setMode = (receiveOrders) => {
   toName.value = receiveOrders
   popup.value = 'Ordering'
-  sendToOrder.value = []
+  receiveOrders.value = []
 }
 
 const props = defineProps({
@@ -33,22 +33,17 @@ onMounted(()=>{
     totals.value += item.price
     item.total_price = item.price
   }
-  console.log(frommark.value.total_price);
-  console.log(frommark.value.price);
 })
 
 const addToBuy = (item,index)=>{
-  isChecked.value = !isChecked.value
-    if (isChecked.value) {
+    if (!isChecked.value[index]) {
       buy.value = item.quantity * item.price
       // toName.value.push(item)
       sendToOrder.value.push(item)
-      console.log(isChecked.value);
-    }else if(!isChecked.value){
-      
-      sendToOrder.value.splice(item , 1)
-      console.log(isChecked.value);
+    }else if(isChecked.value[index]){
+      sendToOrder.value.splice(index , 1)
     }
+    isChecked.value[index] = !isChecked.value[index]
 }
 
 const changeQuantity = (num, item) => {
@@ -56,15 +51,12 @@ const changeQuantity = (num, item) => {
     item.quantity += num;
     item.total_price = item.quantity * item.price
     totals.value += item.price
-    console.log(item.price);
-    console.log(item);
   }
   if (num === -1) {
     item.quantity += num;
     item.total_price = item.quantity * item.price
     totals.value -= item.price
   }
-  // console.log(frommark.value);
 };
 
 const removeItem = (index)=> {
@@ -92,8 +84,8 @@ const removeItem = (index)=> {
 
 
       <!-- checkbox add to order -->
-      <div class="flex text-slate-50">
-        <input type="checkbox" :id="checkbox + index" :value="item" :v-model="isChecked" @change="addToBuy(item , index)"/>
+      <div class="flex text-slate-50" @change="addToBuy(item , index)">
+        <input type="checkbox" :v-model="isChecked[index]" />
       </div>
       
       <div class="flex text-slate-50 w-80">

@@ -4,7 +4,7 @@ import { ref } from 'vue'
 import Navbar from "./components/Navbar.vue";
 
 const productCart = ref([])
-const pushToCart = (product) =>{
+const sentToCart = (product) =>{
   productCart.value.push(product)
 }
 
@@ -19,15 +19,11 @@ const getProduct = (e) => {
   <div>
     <div>
       <Navbar @filterByType="getProduct" />
-      <RouterView :productCart="productCart" @pushToCart="pushToCart" :productFilter="category"/>
+      <RouterView :productCart="productCart" @pushToCart="sentToCart" :productFilter="category"/>
     </div>
   </div>
 </template>
 
 <style scoped>
-* {
-  font-family: "Kanit", sans-serif;
-  margin: 0;
-  padding: 0;
-}
+
 </style>
