@@ -13,10 +13,7 @@ const props = defineProps({
   },
 });
 
-const itemsToPop = ref([]);
-const itemsToTop = ref([]);
 const itemsToAll = ref([]);
-
 const itemsToPopSorted = ref([]);
 const itemsToTopSorted = ref([]);
 
@@ -25,8 +22,6 @@ const images = ref([]);
 
 onMounted(() => {
   itemsToAll.value = props.productFilter;
-  itemsToPop.value = props.productFilter;
-  itemsToTop.value = props.productFilter;
   if (!props.productFilter) {
     itemIMG.value = [];
     itemsToAll.value = props.productFilter;
@@ -35,18 +30,17 @@ onMounted(() => {
     itemIMG.value.push(item.images[0]);
   }
   images.value = itemIMG.value.slice(0, 5);
-  itemsToPopSorted.value = itemsToPop.value
+  itemsToPopSorted.value = itemsToAll.value
     .slice()
     .sort((a, b) => b.rating.rate - a.rating.rate);
-    itemsToTopSorted.value = itemsToTop.value
+    itemsToTopSorted.value = itemsToAll.value
     .slice()
     .sort((a, b) => b.rating.count - a.rating.count);
   });
 
 watchEffect(() => {
     itemsToAll.value = props.productFilter;
-    itemsToPop.value = props.productFilter;
-    itemsToTop.value = props.productFilter;
+
     itemIMG.value = []
     if (!props.productFilter) {
       itemIMG.value = [];
@@ -56,10 +50,10 @@ watchEffect(() => {
       itemIMG.value.push(item.images[0]);
     }
     images.value = itemIMG.value.slice(0, 5);
-    itemsToPopSorted.value = itemsToPop.value
+    itemsToPopSorted.value = itemsToAll.value
       .slice()
       .sort((a, b) => b.rating.rate - a.rating.rate);
-    itemsToTopSorted.value = itemsToTop.value
+    itemsToTopSorted.value = itemsToAll.value
       .slice()
       .sort((a, b) => b.rating.count - a.rating.count);
   }
