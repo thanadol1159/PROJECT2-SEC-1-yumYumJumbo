@@ -16,14 +16,8 @@ const getProduct = (itemProduct) => {
 
 <template>
   <div>
-    <div>
-      <Navbar @filterByType="getProduct" />
-      <RouterView
-        @pushToCart="sentToCart"
-        :productCart="productCart"
-        :productFilter="category"
-      />
-    </div>
+    <Navbar @filterByType="getProduct" />
+    <RouterView @pushToCart="sentToCart" :productCart="productCart" :productFilter="category" />
   </div>
 </template>
 
