@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watchEffect } from "vue";
 import ContentSection from "../components/ContentSection.vue";
 import PopularItem from "../components/PopularItem.vue";
 import TopSaleItem from "../components/TopSaleItem.vue";
@@ -43,9 +43,7 @@ onMounted(() => {
     .sort((a, b) => b.rating.count - a.rating.count);
   });
 
-watch(
-  () => props.productFilter,
-  () => {
+watchEffect(() => {
     itemsToAll.value = props.productFilter;
     itemsToPop.value = props.productFilter;
     itemsToTop.value = props.productFilter;
@@ -73,6 +71,7 @@ watch(
     <ContentSection>
       <Carousel :itemList="images" />
     </ContentSection>
+    
     <!-- popularitem component -->
     <ContentSection>
       <PopularItem :typeShirt="itemsToPopSorted" />

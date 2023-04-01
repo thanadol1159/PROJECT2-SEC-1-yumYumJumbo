@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watchEffect } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import Carousel from "../components/Carousel.vue";
 import TablerStarFilled from "../components/icons/TablerStarFilled.vue";
@@ -9,6 +9,7 @@ const image = ref([]);
 const route = useRoute();
 const useRoutes = useRouter();
 const isSized = ref(false);
+defineEmits(['pushToCart'])
 
 // onMounted(async() => {
 //     const result = await fetch(`https://localhost:5000/items/${1}`)
@@ -18,7 +19,7 @@ const isSized = ref(false);
 // const props = defineProps({
 //     items: Object
 // })
-watch(async () => {
+watchEffect(async () => {
   try {
     const result = await fetch(
       `http://localhost:5000/items/${route.params.id}`,
@@ -49,7 +50,7 @@ const addSize = (size) => {
 <template>
   <div class="w-full h-full">
     <!-- <h1>Product {{ $route.params.id }} Detail</h1> -->
-    <div class="product flex justify-center items-center mt-20">
+    <div class="product flex justify-center items-center mt-32">
       <div class="flex image px-28">
         <Carousel :itemList="queryProduct?.images"></Carousel>
       </div>
