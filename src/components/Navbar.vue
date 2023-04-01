@@ -56,8 +56,12 @@ const showSearchIcon = ref(false);
 const dropdownHandler = (men) => {
   if (men === true) {
     mDropdown.value = !mDropdown.value;
+    dropdown.value = false;
+    showSearchIcon.value = false
   } else {
     wDropdown.value = !wDropdown.value;
+    dropdown.value = false;
+    showSearchIcon.value = false
   }
 };
 
@@ -96,6 +100,7 @@ const searchFilter = computed(() => {
               width="65"
               height="36"
               class="ml-9 flex justify-start"
+              @click="dropdown = false, showSearchIcon = false"
             />
           </RouterLink>
         </div>
@@ -106,6 +111,7 @@ const searchFilter = computed(() => {
             <button
               class="text-white transition duration-150 ease-in hover:text-[#eeb711]"
               :style="mDropdown ? { color: '#eeb711' } : { color: 'white' }"
+              @click="dropdown = false, showSearchIcon = false"
             >
               MEN
             </button>
@@ -148,6 +154,7 @@ const searchFilter = computed(() => {
             <button
               class="text-white transition duration-150 ease-in hover:text-[#eeb711]"
               :style="wDropdown ? { color: '#eeb711' } : { color: 'white' }"
+              @click="dropdown = false, showSearchIcon = false"
             >
               WOMEN
             </button>
@@ -245,6 +252,7 @@ const searchFilter = computed(() => {
               viewBox="0 0 24 24"
               width="32"
               height="32"
+              @click="dropdown = false, showSearchIcon = false"
             >
               <path fill="none" d="M0 0h24v24H0z" />
               <path
