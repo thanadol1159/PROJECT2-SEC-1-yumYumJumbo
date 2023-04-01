@@ -13,29 +13,17 @@ const props = defineProps({
   },
 });
 
-const itemsToPop = ref([])
-const itemsToTop = ref([])
-const itemsToAll = ref([])
+const itemsToPop = ref([]);
+const itemsToTop = ref([]);
+const itemsToAll = ref([]);
 
 const itemsToPopSorted = ref([]);
 const itemsToTopSorted = ref([]);
 
 const itemIMG = ref([]);
-const images = ref([])
+const images = ref([]);
 
-// onMounted(() => {
-//   items.value = props.productFilter;
-//   if (!props.productFilter) {
-//     itemIMG.value = [];
-//     items.value = props.productFilter;
-//   }
-//   for (const item of items.value) {
-//     itemIMG.value.push(item.images[0]);
-//   }
-//   images.value = itemIMG.value.slice(0, 5)
-// });
-
-watch(() => props.productFilter, () => {
+onMounted(() => {
   itemsToAll.value = props.productFilter;
   itemsToPop.value = props.productFilter;
   itemsToTop.value = props.productFilter;
@@ -46,16 +34,42 @@ watch(() => props.productFilter, () => {
   for (const item of itemsToAll.value) {
     itemIMG.value.push(item.images[0]);
   }
-  images.value = itemIMG.value.slice(0, 5)
-  itemsToPopSorted.value = itemsToPop.value.slice().sort((a, b) => b.rating.rate - a.rating.rate)
-  itemsToTopSorted.value = itemsToTop.value.slice().sort((a, b) => b.rating.count - a.rating.count);
-});
+  images.value = itemIMG.value.slice(0, 5);
+  itemsToPopSorted.value = itemsToPop.value
+    .slice()
+    .sort((a, b) => b.rating.rate - a.rating.rate);
+    itemsToTopSorted.value = itemsToTop.value
+    .slice()
+    .sort((a, b) => b.rating.count - a.rating.count);
+  });
 
+watch(
+  () => props.productFilter,
+  () => {
+    itemsToAll.value = props.productFilter;
+    itemsToPop.value = props.productFilter;
+    itemsToTop.value = props.productFilter;
+    itemIMG.value = []
+    if (!props.productFilter) {
+      itemIMG.value = [];
+      itemsToAll.value = props.productFilter;
+    }
+    for (const item of itemsToAll.value) {
+      itemIMG.value.push(item.images[0]);
+    }
+    images.value = itemIMG.value.slice(0, 5);
+    itemsToPopSorted.value = itemsToPop.value
+      .slice()
+      .sort((a, b) => b.rating.rate - a.rating.rate);
+    itemsToTopSorted.value = itemsToTop.value
+      .slice()
+      .sort((a, b) => b.rating.count - a.rating.count);
+  }
+);
 </script>
 
 <template>
   <div>
-
     <ContentSection>
       <Carousel :itemList="images" />
     </ContentSection>

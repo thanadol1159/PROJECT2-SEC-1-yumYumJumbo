@@ -238,16 +238,14 @@ const searchFilter = computed(() => {
         <!-- router link path -->
         <div class="flex justify-self-end gap-6">
           <!-- cart button -->
-          <RouterLink :to="{ name: 'cart' }">
+          <RouterLink :to="{ name: 'cart' }" class="mr-10">
             <svg
               class="fill-white transition ease-in duration-150 icons hover:scale-110"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               width="32"
               height="32"
-              aria-label="cart-label"
             >
-              <title id="cart-label">cart</title>
               <path fill="none" d="M0 0h24v24H0z" />
               <path
                 d="M4 16V4H2V2h3a1 1 0 0 1 1 1v12h12.438l2-8H8V5h13.72a1 1 0 0 1 .97 1.243l-2.5 10a1 1 0 0 1-.97.757H5a1 1 0 0 1-1-1zm2 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm12 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"
@@ -255,23 +253,6 @@ const searchFilter = computed(() => {
             </svg>
           </RouterLink>
 
-          <!-- proflie button -->
-          <RouterLink :to="{ name: 'profile' }" class="mr-10">
-            <svg
-              class="fill-white ease-in duration-150 hover:fill-sky-400 hover:scale-110"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              width="32"
-              height="32"
-              aria-label="profile-label"
-            >
-              <title id="profile-label">profile</title>
-              <path fill="none" d="M0 0h24v24H0z" />
-              <path
-                d="M5 20h14v2H5v-2zm7-2a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm0-2a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"
-              />
-            </svg>
-          </RouterLink>
         </div>
       </nav>
     </div>

@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from "vue-router";
 import NotFoundView from "../views/NotFoundView.vue";
 import HomeView from "../views/HomeView.vue";
 import Cart from "../views/Cart.vue";
-import ProfileView from "../views/ProfileView.vue";
 import CategoryView from "../views/CategoryView.vue";
 import ProductDetail from "../views/ProductDetail.vue";
 
@@ -23,11 +22,6 @@ const router = createRouter({
       path: "/cart",
       name: "cart",
       component: Cart,
-    },
-    {
-      path: "/profile",
-      name: "profile",
-      component: ProfileView,
     },
     {
       path: "/items/:id",
