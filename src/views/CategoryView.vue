@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watchEffect } from "vue";
+import { ref, onMounted, watchEffect, watch } from "vue";
 import ContentSection from "../components/ContentSection.vue";
 import PopularItem from "../components/PopularItem.vue";
 import TopSaleItem from "../components/TopSaleItem.vue";
@@ -33,15 +33,17 @@ onMounted(() => {
   itemsToPopSorted.value = itemsToAll.value
     .slice()
     .sort((a, b) => b.rating.rate - a.rating.rate);
-    itemsToTopSorted.value = itemsToAll.value
+  itemsToTopSorted.value = itemsToAll.value
     .slice()
     .sort((a, b) => b.rating.count - a.rating.count);
-  });
+});
 
-watchEffect(() => {
+watch(
+  () => props.productFilter,
+  () => {
     itemsToAll.value = props.productFilter;
 
-    itemIMG.value = []
+    itemIMG.value = [];
     if (!props.productFilter) {
       itemIMG.value = [];
       itemsToAll.value = props.productFilter;
@@ -65,7 +67,7 @@ watchEffect(() => {
     <ContentSection>
       <Carousel :itemList="images" />
     </ContentSection>
-    
+
     <!-- popularitem component -->
     <ContentSection>
       <PopularItem :typeShirt="itemsToPopSorted" />
