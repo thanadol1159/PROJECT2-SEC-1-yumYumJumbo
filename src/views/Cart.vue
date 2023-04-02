@@ -45,16 +45,22 @@ const filCart = () => {
       }
     }
   }
+  for (const item of resive.value) {
+      item.total_price = item.price * item.quantity
+    }
 }
 onMounted(() => {
+  
   if (props.productCart) {
     resive.value = props.productCart
     totals.value = 0
+    
     for (const item of resive.value) {
       item.quantity = 1
       totals.value += item.price
       item.total_price = item.price
     }
+
   }
   filCart()
 })
