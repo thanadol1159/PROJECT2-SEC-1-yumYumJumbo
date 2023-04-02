@@ -15,11 +15,10 @@
 | นายพิชญะ จันทรศรีวงศ์ | 64130500059 | TopSaleItem, PopularItem, ProductAll, FooterContact, CategoryView | 20% |
 | นายภคพล ทาอุบล | 64130500062 | AddressForm, Ordering, json server, Fix Bug | 20% |
 
-
 ## อ้างอิง
-> https://shopee.co.th/ - **ProductAll** 
-> https://www.nike.com/th/ - **NavBar**, **Product Slide Bar**
-> https://www.uniqlo.com/th/th/ **ProductDetails**
+> https://shopee.co.th/ - **ProductAll** <br/>
+> https://www.nike.com/th/ - **NavBar**, **Product Slide Bar** <br/>
+> https://www.uniqlo.com/th/th/ **ProductDetails** <br/>
 
 ## Features
 - Navbar ไปยังหน้าต่าง ๆ 
@@ -34,3 +33,6 @@
 - ระบบการกรองข้อมูล บันทึกข้อมูล
 - ระบบการสั่งซื้อสินค้า
 - ข้อความ Alert เท่ๆ
+
+## Link VDO
+https://youtu.be/PwBm0Jx76Wc
