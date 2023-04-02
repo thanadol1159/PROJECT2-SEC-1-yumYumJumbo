@@ -26,17 +26,6 @@ onMounted(() => {
                 }
             ],
             orders_Sum: ''
-            items: [
-                {
-                    product_id: '',
-                    product_name: '',
-                    quantity: '',
-                    size: '',
-                    unit_price: '',
-                    total_price: ''
-                }
-            ],
-            orders_Sum: ''
         };
     } else {
         newForm.value = props.userForm;
@@ -66,7 +55,6 @@ const sendNewForm = () => {
     <div class="fixed top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-80 flex items-center justify-center z-5">
         <div class="bg-white rounded-lg p-4 h-auto w-5/12">
             <!-- GoBack -->
-            <button class="" @click="$emit('closepopup', '')">
             <button class="" @click="$emit('closepopup', '')">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="inline w-12 h-12">
                     <path fill="none" d="M0 0h24v24H0z" />
