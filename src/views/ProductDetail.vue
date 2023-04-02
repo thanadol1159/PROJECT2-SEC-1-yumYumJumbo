@@ -122,7 +122,7 @@ const addSize = (size) => {
         </div>
         <div class="text-2xl">
           <button
-            @click="$emit('pushToCart', queryProduct)"
+            @click="$emit('pushToCart', queryProduct), isSized = false"
             class="p-4 rounded-xl bg-slate-200"
             :class="
               isSized

@@ -38,11 +38,9 @@ const randomPreview = () => {
     <ContentSection>
       <Carousel :item-list="randomPreview()"/>
     </ContentSection>
-
-    <ContentSection>
-      <ReccommandItem />
-    </ContentSection>
-
+    
+    <ReccommandItem :item-list="items"/>
     <FooterContact />
+   
   </div>
 </template>

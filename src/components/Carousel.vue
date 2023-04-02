@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, watch } from "vue";
+import { ref, computed, watch } from "vue";
 
 const props = defineProps({
   itemList: {
