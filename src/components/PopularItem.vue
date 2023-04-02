@@ -2,8 +2,11 @@
 import { ref, defineProps, onMounted,watch} from 'vue';
 import { RouterLink} from "vue-router";
 
+// const emits = defineEmits(['sendId'])
 const props = defineProps({
     typeShirt: {
+        type: Array,
+        default: []
         type: Array,
         default: []
     }
@@ -16,6 +19,8 @@ watch(() => props.typeShirt,()=>{
 
 })
 
+// console.log(typed.value);
+// console.log(queryProduct);
 </script>
  
 <template>

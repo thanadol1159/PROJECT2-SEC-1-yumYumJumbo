@@ -6,6 +6,8 @@ const props = defineProps({
     typeShirt: {
         type: Array,
         default: []
+        type: Array,
+        default: []
     }
 })
 
