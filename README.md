@@ -10,7 +10,7 @@
 | Name | Student ID |  Member’s Responsibility | Percentage |
 | - | - | - | :-: |
 | นายณัช พูลสวัสดิ์ | 64130500019 | HomeView, CategoryView, Carousel, Navbar, Diagram | 20% |
-| นายธนชาติ บุญฤทธิวรรณ | 64130500029 | ProductDetails, ReccommendItem, RouterLink, Diagram, Editor, Logo | 20% |
+| นายธนชาติ บุญฤทธิวรรณ | 64130500029 | ProductDetails, RecommendItem, RouterLink, Diagram, Editor, Logo | 20% |
 | นายธนาดล แสงสว่าง | 64130500035 | Cart, ReccommendItem, CSS,  | 20% | 
 | นายพิชญะ จันทรศรีวงศ์ | 64130500059 | TopSaleItem, PopularItem, ProductAll, FooterContact, CategoryView | 20% |
 | นายภคพล ทาอุบล | 64130500062 | AddressForm, Ordering, json server, Fix Bug | 20% |
