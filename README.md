@@ -18,7 +18,7 @@
 ## อ้างอิง
 > https://shopee.co.th/ - **ProductAll** <br/>
 > https://www.nike.com/th/ - **NavBar**, **Product Slide Bar** <br/>
-> https://www.uniqlo.com/th/th/ **ProductDetails** <br/>
+> https://www.uniqlo.com/th/th/ - **ProductDetails** <br/>
 
 ## Features
 - Navbar ไปยังหน้าต่าง ๆ 
