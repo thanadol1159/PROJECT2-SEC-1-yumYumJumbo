@@ -115,7 +115,7 @@ const removeItem = (index) => {
     <div v-if="popup === 'Cart'">
 
       <div class="flex bg-black justify-around h-16 items-center text-2xl">
-        <div class="flex  "></div>
+        <div class="flex"></div>
         <div class="flex text-slate-50 w-80">สินค้า</div>
         <div class="flex text-slate-50">ประเภท</div>
         <div class="flex text-slate-50">ขนาด</div>
@@ -129,7 +129,7 @@ const removeItem = (index) => {
 
         <!-- checkbox add to order -->
         <div class="flex text-slate-50" @change="addToBuy(item, index)">
-          <input type="checkbox" :id="index" :v-model="isChecked[index]" />
+          <input class=" w-6 cursor-pointer" type="checkbox" :id="index" :v-model="isChecked[index]" />
         </div>
 
         <div class="flex text-slate-50 w-80">
