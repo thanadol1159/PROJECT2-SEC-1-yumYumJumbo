@@ -23,7 +23,10 @@ https://www.uniqlo.com/th/th/ <br/>
 https://www.versace.com/international/en/home/
 
 ## Features
-
+filter product 
+เพิ่ม-ลดจำนวน ในตระกร้าสินค้า
+ลบสินค้าในตะกร้า
+เลือกสินค้าที่ต้องการสั่งซื้อ
 
 
 
