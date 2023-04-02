@@ -5,24 +5,24 @@ import Ordering from "../components/Buying/Ordering.vue";
 const totals = ref(0);
 const buy = ref(0);
 const sendToOrder = ref([]);
-const frommark = ref([]);
-const toName = ref([])
+const resive = ref([]);
+const send = ref([])
 const popup = ref('Cart')
 const isChecked = ref([]);
 
 const backToCart = () => {
   popup.value = 'Cart'
   sendToOrder.value = []
-  toName.value = []
+  send.value = []
   isChecked.value = []
   buy.value = 0
-  for (const item of frommark.value) {
+  for (const item of resive.value) {
     item.quantity = 1
   }
 }
 
 const setMode = (receiveOrders) => {
-  toName.value = receiveOrders
+  send.value = receiveOrders
   popup.value = 'Ordering'
   receiveOrders.value = []
 }
@@ -35,22 +35,22 @@ const props = defineProps({
 });
 
 const filCart = () => {
-  for (let i = 0; i < frommark.value.length; i++) {
-    for (let j = 0; j < frommark.value.length; j++) {
-      if (frommark.value[i].id === frommark.value[j].id
+  for (let i = 0; i < resive.value.length; i++) {
+    for (let j = 0; j < resive.value.length; j++) {
+      if (resive.value[i].id === resive.value[j].id
         && i !== j
-        && frommark.value[i].size === frommark.value[j].size) {
-        frommark.value[i].quantity++
-        frommark.value.splice(j, 1)
+        && resive.value[i].size === resive.value[j].size) {
+        resive.value[i].quantity++
+        resive.value.splice(j, 1)
       }
     }
   }
 }
 onMounted(() => {
   if (props.productCart) {
-    frommark.value = props.productCart
+    resive.value = props.productCart
     totals.value = 0
-    for (const item of frommark.value) {
+    for (const item of resive.value) {
       item.quantity = 1
       totals.value += item.price
       item.total_price = item.price
@@ -67,13 +67,11 @@ const addToBuy = (item, index) => {
   if (!isChecked.value[index]) {
     buy.value += item.total_price
     sendToOrder.value.push(item)
-    console.log(sendToOrder.value);
-    console.log(isChecked.value[index]);
+
   } else if (isChecked.value[index]) {
     buy.value -= item.total_price
     sendToOrder.value.splice(index, 1)
-    console.log(sendToOrder.item);
-    console.log(isChecked.value[index]);
+
   }
   isChecked.value[index] = !isChecked.value[index]
 
@@ -83,7 +81,6 @@ const changeQuantity = (num, item, index) => {
   if (num === 1) {
     item.quantity += num;
     item.total_price = item.quantity * item.price
-    console.log(isChecked.value[index]);
     if (isChecked.value[index]) {
       buy.value += item.price
 
@@ -93,7 +90,6 @@ const changeQuantity = (num, item, index) => {
   if (num === -1) {
     item.quantity += num;
     item.total_price = item.quantity * item.price
-    console.log(isChecked.value[index]);
     if (isChecked.value[index]) {
       buy.value -= item.price
 
@@ -103,7 +99,7 @@ const changeQuantity = (num, item, index) => {
 };
 
 const removeItem = (index) => {
-  frommark.value.splice(index, 1)
+  resive.value.splice(index, 1)
 }
 
 
@@ -121,8 +117,8 @@ const removeItem = (index) => {
         <div class="flex text-slate-50">ราคา</div>
         <div class="flex w-5"></div>
       </div>
-      <!-- v-for="item of frommark" -->
-      <div class="flex bg-orange-600 justify-around py-24 text-2xl" v-for="(item, index) in frommark " :key="index">
+      <!-- v-for="item of resive" -->
+      <div class="flex bg-orange-600 justify-around py-24 text-2xl" v-for="(item, index) in resive " :key="index">
 
 
         <!-- checkbox add to order -->
@@ -163,21 +159,21 @@ const removeItem = (index) => {
         <div class="flex items-center">
           <img
             class="w-6 cursor-pointer hover:-translate-y-1 hover:scale-110 transition ease-in-out delay-150 duration-300"
-            src="../assets/bin.png" @click="removeItem(index, frommark, item)">
+            src="../assets/bin.png" @click="removeItem(index, resive, item)">
         </div>
       </div>
       <!-- compare total price -->
 
 
       <!-- send data to order -->
-      <div class="flex justify-end pr-11 text-2xl pt-3 pb-3 bg-black text-white">
+      <div class="flex justify-end pr-11 text-2xl pt-3 pb-3 bg-black text-white" >
         <span class=" mx-5 flex items-center"> ราคารวม {{ buy }}</span>
         <button
           class=" bg-red-600 w-32 rounded-lg p-5 hover:-translate-y-1 hover:scale-110 transition ease-in-out delay-150 duration-300 "
           @click="setMode(sendToOrder)"> สั่งสินค้า </button>
       </div>
     </div>
-    <Ordering v-if="popup === 'Ordering'" :items_list="toName" @setPage="backToCart" />
+    <Ordering v-if="popup === 'Ordering'" :items_list="send" @setPage="backToCart" />
   </div>
 </template>
 
