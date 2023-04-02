@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineProps, onMounted ,watch} from 'vue';
+import { ref, watch } from 'vue';
 import { RouterLink } from "vue-router";
 
 const props = defineProps({
@@ -10,9 +10,8 @@ const props = defineProps({
 })
 
 const inputProps = ref([])
-watch(() => props.typeShirt,()=>{
+watch(() => props.typeShirt, () => {
     inputProps.value = props.typeShirt;
-    // inputCount.value.sort((a, b) => b.rating.count - a.rating.count)
 })
 
 </script>
@@ -23,7 +22,6 @@ watch(() => props.typeShirt,()=>{
         <div class="flex overflow-y-auto mt-2 pb-2">
             <div v-for="data in inputProps" :key="data.id">
                 <RouterLink :to="{ name: 'ProductDetail', params: { id: data.id } }">
-                    <!-- <div v-show="data.rating.count > 1000"> -->
                     <div>
                         <div
                             class="cursor-pointer bg-white h-60 w-48 rounded-2xl mx-3 shadow drop-shadow-2xl border border-black hover:border-red-500 hover:shadow-2xl hover:border-2 overflow-hidden ">

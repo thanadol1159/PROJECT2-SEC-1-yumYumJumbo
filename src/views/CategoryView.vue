@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watchEffect, watch } from "vue";
+import { ref, onMounted, watch } from "vue";
 import ContentSection from "../components/ContentSection.vue";
 import PopularItem from "../components/PopularItem.vue";
 import TopSaleItem from "../components/TopSaleItem.vue";

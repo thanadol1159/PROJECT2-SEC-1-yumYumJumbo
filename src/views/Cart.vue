@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watch, defineProps } from "vue";
+import { ref, onMounted } from "vue";
 import Ordering from "../components/Buying/Ordering.vue";
 
 const totals = ref(0);
@@ -46,15 +46,15 @@ const filCart = () => {
     }
   }
   for (const item of resive.value) {
-      item.total_price = item.price * item.quantity
-    }
+    item.total_price = item.price * item.quantity
+  }
 }
 onMounted(() => {
-  
+
   if (props.productCart) {
     resive.value = props.productCart
     totals.value = 0
-    
+
     for (const item of resive.value) {
       item.quantity = 1
       totals.value += item.price
@@ -172,7 +172,7 @@ const removeItem = (index) => {
 
 
       <!-- send data to order -->
-      <div class="flex justify-end pr-11 text-2xl pt-3 pb-3 bg-black text-white" >
+      <div class="flex justify-end pr-11 text-2xl pt-3 pb-3 bg-black text-white">
         <span class=" mx-5 flex items-center"> ราคารวม {{ buy }}</span>
         <button
           class=" bg-red-600 w-32 rounded-lg p-5 hover:-translate-y-1 hover:scale-110 transition ease-in-out delay-150 duration-300 "

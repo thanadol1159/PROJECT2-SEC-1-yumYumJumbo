@@ -3,7 +3,7 @@ import { ref, onMounted } from "vue";
 
 import ContentSection from "../components/ContentSection.vue";
 import Carousel from "../components/Carousel.vue";
-import ReccommandItem from "../components/ReccommandItem.vue";
+import RecommendItem from "../components/RecommendItem.vue";
 import FooterContact from "../components/FooterContact.vue";
 
 const items = ref([]);
@@ -21,8 +21,8 @@ onMounted(async () => {
   }
 });
 
-const randomPreview = () => { 
-  let image , images = [];
+const randomPreview = () => {
+  let image, images = [];
   for (const list of items.value) {
     image = list.images[0]
     images.push(image)
@@ -36,11 +36,11 @@ const randomPreview = () => {
 <template>
   <div>
     <ContentSection>
-      <Carousel :item-list="randomPreview()"/>
+      <Carousel :item-list="randomPreview()" />
     </ContentSection>
-    
-    <ReccommandItem :item-list="items"/>
+
+    <RecommendItem :item-list="items" />
     <FooterContact />
-   
+
   </div>
 </template>
