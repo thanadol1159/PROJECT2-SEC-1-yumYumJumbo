@@ -1,76 +1,54 @@
 <script setup>
-scroll = function () {
-  changeImage();
-};
+import { RouterLink } from "vue-router";
+const props = defineProps({
+  itemList: {
+    type: Array,
+    default: [],
+  },
+});
 
-function changeImage() {
-  let scroll = window.scrollY + window.innerHeight / 3;
-
-  [...document.getElementsByClassName("section")].forEach((el) => {
-    el.classList.remove("active");
-
-    if (el.offsetTop <= scroll && el.offsetTop + el.offsetHeight > scroll) {
-      el.classList.add("active");
-    }
-  });
-}
-changeImage();
 </script>
 
 <template>
-  <div class="flex justify-around">
-    <div> </div>
-    <div >
-          <div class="section">
-      <div class="image-container">
-       <button class="ml-44 image"><div class="image"><img src="../assets/IMGrec/blackshirt.jpg" /></div></button>
+  <div class="mt-5">    
+    <div
+    class="flex justify-around"
+    v-show="index >= 26 && index <= 29"
+    v-for="(items, index) in props.itemList"
+    :key="items.id"
+    :id="index"
+    >
+    <RouterLink :to="{ name: 'ProductDetail', params: { id: items.id } }">
+      <div class="section">
+        <div class="image-container">
+          <img :src="items.images[0]" alt="recommend_product"/>
+        </div>
       </div>
+    </RouterLink>
     </div>
-    <div class="section">
-      <div class="image-container">
-        <button><div class="image"><img src="../assets/IMGrec/tospace.jpg" /></div></button>
-      </div>
-    </div>
-    <div class="section">
-      <div class="image-container">
-        <button><div class="image"><img src="../assets/IMGrec/line.jpg" /></div></button>
-      </div>
-    </div>
-    <div class="section">
-      <div class="image-container">
-        <button><div class="image"><img src="../assets/IMGrec/dress.jpg" /></div></button>
-      </div>
-    </div>
-    </div>
-    <div> </div>
   </div>
+
 </template>
 <style scoped>
-body {
-  margin: 0;
-}
-
 .section {
   display: flex;
   min-height: 90vh;
-  /* position: relative; */
+  position: relative;
   justify-content: center;
+  background-color: rgb(17, 17, 17);
+  width: 100vh;
 }
 
 .image-container {
   position: relative;
   display: flex;
+  transition: 0.2s;
+  margin-bottom: 3vh;
+  cursor: pointer;
 }
-
-.image {
-  height: 100vh;
-  /* position: fixed; */
-  width: 100%;
-  top: 0;
-  mix-blend-mode: multiply;
-  filter: blur(30px);
-  opacity: 0;
-  transition: filter 0.5s ease, opacity 0.5s ease;
+.image-container :hover {
+  transform: scale(1.05);
+  transition: 0.2s;
 }
 
 .section.active .image {

@@ -41,7 +41,7 @@
     },
     {
       "id": 3,
-      "name": "สื้อโอเวอร์ไซส์ เสื้อยืด Oversized COTTON 100%",
+      "name": "เสื้อโอเวอร์ไซส์ เสื้อยืด Oversized COTTON 100%",
       "price": 135,
       "description": "เสื้อโอเวอร์ไซส์ Oversize สีดำ COTTON 100% (รูปถ่ายสินค้าจริง) เสื้อยืดสีพื้น สไตล์เกาหลี หลากสี ชาย",
       "category": "men's clothing",
@@ -82,7 +82,7 @@
       "name": "T0862 เสื้อยืดคอกลม เสื้อยืด เสื้อยืดแขนสั้น เสื้อยืดลายแฟชั่น",
       "price": 695,
       "description": "ผลิตภัณฑ์ทั้งหมดในร้านเป็นประกันคุณภาพโปรดมั่นใจในการซื้อ เราจะให้บริการหลังการขายที่สมบูรณ์แบบ",
-      "category": "women's clothing",
+      "category": "men's clothing",
       "type": [
         "เสื้อยืด",
         "เสื้อลาย"
@@ -291,7 +291,7 @@
       "name": "LOOKER - เสื้อช็อป",
       "price": 290,
       "description": "เสื้อเชิ้ตแขนสั้น WorkWear LOOKER ⚒⛓",
-      "category": "women's clothing",
+      "category": "men's clothing",
       "type": [
         "เสื้อเชิ้ต"
       ],
@@ -747,21 +747,27 @@
   ],
   "orders": [
     {
-      "id": "",
-      "customerName": "",
-      "customerAddress": "",
-      "customerPhone": "",
-      "items":[
+      "customerName": "ภคพล ทาอุบล",
+      "customerAddress": "หอแถวหลังมอ ถนนพุทธบูชา",
+      "customerPhone": "0922165424",
+      "items": [
         {
-          "product_id": "",
-          "product_name": "",
-          "quantity": "",
-          "size": "",
-          "unit_price": "",
-          "total_price": ""
+          "product_id": 1,
+          "product_name": "LOOKER - เสื้อยืดสกรีนนูน",
+          "quantity": 3,
+          "unit_price": 200,
+          "total_price": 600
+        },
+        {
+          "product_id": 2,
+          "product_name": "เสื้อยืดชาย oversize คอกลม แขนสั้น",
+          "quantity": 2,
+          "unit_price": 85,
+          "total_price": 170
         }
       ],
-      "orders_Sum": ""
+      "orderTotal": 770,
+      "id": "p42Fbbo"
     }
   ]
 }

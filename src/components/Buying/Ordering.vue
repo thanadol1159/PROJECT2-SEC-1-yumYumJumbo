@@ -1,25 +1,44 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onBeforeMount } from 'vue';
+import { RouterLink, useRouter } from "vue-router";
 import AddressForm from './AddressForm.vue';
-import SendOrder from './SendOrder.vue';
+import Swal from 'sweetalert2'
 
-const ordersFromUser = ref({
-    customerName: '',
-    customerAddress: '',
-    customerPhone: '',
-    items: [
-        {
-            product_id: '',
-            product_name: '',
-            quantity: '',
-            size: '',
-            unit_price: '',
-            total_price: ''
+const emit = defineEmits(['setPage']);
+const props = defineProps({
+    items_list: { type: Array },
+});
+const router = useRouter()
+const orders = ref({})
+
+onBeforeMount(() => {
+    if (!props.items_list) {
+        orders.value = {
+            customerName: '',
+            customerAddress: '',
+            customerPhone: '',
+            items: [
+                {
+                    product_id: '',
+                    product_name: '',
+                    quantity: '',
+                    size: '',
+                    unit_price: '',
+                    total_price: ''
+                }
+            ],
+            orderTotal: ''
+        };
+    } else {
+        orders.value.items = props.items_list
+        // OrderSum
+        let sum = 0
+        for (const item of orders.value.items) {
+            sum += item.total_price
         }
-    ],
-    orders_Sum: ''
+        orders.value.orderTotal = sum
+    }
 })
-// console.log(ordersFromUser.value);
 
 // PopUp
 const popup = ref('')
@@ -31,61 +50,130 @@ function setNewPopup(newPopup) {
 // Add
 const addNewForm = (newForm) => {
     btnAddAddress.value = false
-    // setNewPopup('')
-    console.log(newForm);
-    ordersFromUser.value.customerName = newForm.customerName
-    ordersFromUser.value.customerAddress = newForm.customerAddress
-    ordersFromUser.value.customerPhone = newForm.customerPhone
-    console.log(ordersFromUser.value);
+    orders.value.customerName = newForm.customerName
+    orders.value.customerAddress = newForm.customerAddress
+    orders.value.customerPhone = newForm.customerPhone
 }
 // EDIT
-const editForm = ref(undefined)
+const thisForm = ref(undefined)
 const setEditMode = (oldForm) => {
-    editForm.value = oldForm
+    thisForm.value = oldForm
     setNewPopup('AddressForm')
 }
+
+// Json Sever
+const sendOrder = async (newOrder) => {
+    if (!newOrder.orderTotal) {
+        Swal.fire(
+            'เกิดข้อผิดพลาด',
+            'คุณไม่มีสินค้าในการสั่งซื้อ',
+            'question'
+        )
+    }
+    else if (!newOrder.customerName) {
+        Swal.fire(
+            'เกิดข้อผิดพลาด',
+            'คุณยังไม่ได้กรอกที่อยู่การจัดส่งสินค้า',
+            'error'
+        )
+    }
+    else {
+        try {
+            const res = await fetch('http://localhost:5000/orders/', {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                    customerName: newOrder.customerName,
+                    customerAddress: newOrder.customerAddress,
+                    customerPhone: newOrder.customerPhone,
+                    // items: newOrder.items,
+                    items: newOrder.items.map(item => ({
+                        product_id: item.id,
+                        product_name: item.name,
+                        quantity: item.quantity,
+                        size: item.size,
+                        unit_price: item.price,
+                        total_price: item.total_price
+                    })),
+                    orderTotal: newOrder.orderTotal
+                })
+            })
+            if (res.status === 201) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'การสั่งซื้อเสร็จสิ้น',
+                    showConfirmButton: false,
+                    timer: 2500
+                })
+                Swal.showLoading()
+                setTimeout(() => {
+                    router.push({ name: 'home' })
+                }, 3000)
+            } else {
+                throw new Error('cannot add!')
+            }
+        }
+        catch (err) {
+            Swal.fire(
+                'เกิดข้อผิดพลาดที่ไม่คาดคิด',
+                'ขออภัยในความไม่สะดวก',
+                'error'
+            )
+        }
+    }
+}
+
 </script>
 
 <template>
-    <div class="m-8 ml-32 flex">
+    <div class="m-8 mx-16 flex">
         <div class="w-7/12">
             <!-- กดกลับหน้าตระกร้า -->
-            <button class="pb-4" @click="">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="inline w-12 h-12">
-                    <path fill="none" d="M0 0h24v24H0z" />
-                    <path d="M10.828 12l4.95 4.95-1.414 1.414L8 12l6.364-6.364 1.414 1.414z" fill="rgba(96,47,126,1)" />
-                </svg>
-                <span class="text-xl font-bold"> ขั้นตอนการสั่งซื้อ</span>
-            </button>
+            <RouterLink :to="{ name: 'cart' }">
+                <button class="pb-4" @click="$emit('setPage')">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="inline w-12 h-12">
+                        <path fill="none" d="M0 0h24v24H0z" />
+                        <path d="M10.828 12l4.95 4.95-1.414 1.414L8 12l6.364-6.364 1.414 1.414z" fill="rgba(96,47,126,1)" />
+                    </svg>
+                    <span class="text-xl font-bold"> กลับไปยังตะกร้า </span>
+                </button>
+            </RouterLink>
             <!-- ฟอร์ม -->
             <div class="w-full">
                 <p class="bg-[#EFEFEF] text-xl p-3 pl-8">ที่อยู่การจัดส่งสินค้า</p>
+                <!-- if -->
                 <div class="w-full h-80 py-4" v-if="btnAddAddress">
                     <button type="button"
                         class="text-lg text-white btn border-none bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 px-10"
                         @click="setNewPopup('AddressForm')">เพิ่มที่อยู่</button>
                 </div>
+                <!-- else -->
                 <div v-else>
                     <div class="w-full h-80 py-4">
                         <div class="bg-[#F6F6F6] w-96 h-full p-4">
                             <div class=" h-48 w-auto">
                                 <p class="text-xl">ชื่อ:
-                                    <span class="text-[#602F7E] font-bold"> {{ ordersFromUser?.customerName }} </span>
+                                    <span class="text-[#602F7E] font-bold"> {{ orders?.customerName }} </span>
                                 </p>
-                                <p class="text-lg pt-2">ที่อยู่: {{ ordersFromUser?.customerAddress }} </p>
+                                <p class="text-lg pt-2">ที่อยู่: {{ orders?.customerAddress }} </p>
                                 <p class="text-xl pt-4">เบอร์:
-                                    <span class="font-bold">{{ ordersFromUser?.customerPhone }} </span>
+                                    <span class="font-bold">{{ orders?.customerPhone }} </span>
                                 </p>
                             </div>
                             <button type="button"
                                 class="text-lg text-white btn border-none bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 px-10"
-                                @click="setEditMode(ordersFromUser)">
+                                @click="setEditMode(orders)">
                                 แก้ไข
                             </button>
                         </div>
                     </div>
                 </div>
-                <AddressForm @add="addNewForm" @close="setNewPopup" v-if="popup === 'AddressForm'" :userForm="editForm" />
+                <AddressForm @addform="addNewForm" @closepopup="setNewPopup" v-if="popup === 'AddressForm'"
+                    :userForm="thisForm" />
             </div>
 
             <!-- ช่องทางชำระ -->
@@ -124,7 +212,7 @@ const setEditMode = (oldForm) => {
                         <div class="bg-white rounded-lg p-8 mx-auto h-auto w-3/12 text-2xl">
                             <img src="https://mpics.mgronline.com/pics/Images/564000004884401.JPEG">
                             <p class="pt-4">อาร์มิน อาร์เลอร์ท</p>
-                            <p class="pt-1 text-[#602F7E]">0123456789</p>
+                            <p class="pt-1 text-[#602F7E] font-bold">0123456789</p>
                         </div>
                     </div>
                     <div class="fixed top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-80 flex items-center justify-center z-50"
@@ -139,8 +227,51 @@ const setEditMode = (oldForm) => {
         </div>
 
         <!-- ใบบอกจำนวน -->
-        <div class="w-5/12 pt-12">
-            <!-- <SendOrder /> -->
+        <div class="w-5/12">
+            <div class="text-center">
+                <div class="bg-[#EFEFEF] w-full h-auto mx-4 py-4">
+                    <div class="w-auto px-4 pt-3">
+                        <div class="w-full flex h-auto items-center">
+                            <div class="h-auto w-9/12 text-center ">
+                                <span class="text-xl font-bold"> รายการ </span>
+                            </div>
+                            <div class="h-auto w-1/12 text-left">
+                                <span class="text-xl font-bold"> จำนวน </span>
+                            </div>
+                            <div class="h-auto w-2/12 text-center">
+                                <span class="text-xl font-bold"> ราคา </span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- สินค้า -->
+                    <div class="mt-4 h-96 w-auto px-4 overflow-y-scroll">
+                        <div class="w-full flex h-auto items-center border-b-2 border-slate-300 pl-4 py-5"
+                            v-for="item of orders.items">
+                            <div class="h-auto w-9/12 text-left">
+                                <span class=" text-lg font-medium">{{ item.name }}</span>
+                            </div>
+                            <div class="h-auto w-1/12 text-center">
+                                <span class="text-lg">{{ item.quantity }}</span>
+                            </div>
+                            <div class="h-auto w-2/12 text-center">
+                                <span class="text-lg text-[#602F7E] font-bold">{{ item.total_price }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- สรุปราคา -->
+                    <div class="grid grid-cols-2 font-bold pt-4">
+                        <span class="text-2xl">รวมทั้งหมด</span>
+                        <span class="text-2xl text-[#602F7E]">THB {{ orders.orderTotal }}</span>
+                    </div>
+                </div>
+                <!-- ปุ่มยืนยัน -->
+                <div class="pt-4 pl-12">
+                    <button type="button"
+                        class="text-lg text-white btn border-none bg-[#602F7E] hover:bg-slate-500 active:bg-slate-700 rounded-lg py-3 w-52"
+                        @click="sendOrder(orders)">ยืนยันคำสั่งซื้อ
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </template>

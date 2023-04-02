@@ -1,27 +1,13 @@
 <script setup>
-import { onMounted, ref, defineEmits, defineProps, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 
-const emit = defineEmits(['addform', 'closepop']);
+const emit = defineEmits(['addform', 'closepopup']);
 const props = defineProps({
     userForm: { type: Object },
 });
-const newForm = ref({
-    id: '',
-    customerName: '',
-    customerAddress: '',
-    customerPhone: '',
-    items: [
-        {
-            product_id: '',
-            product_name: '',
-            quantity: '',
-            size: '',
-            unit_price: '',
-            total_price: ''
-        }
-    ],
-    orders_Sum: ''
-})
+
+const newForm = ref({})
+const alertText = ref('')
 
 onMounted(() => {
     if (!props.userForm) {
@@ -40,37 +26,47 @@ onMounted(() => {
                 }
             ],
             orders_Sum: ''
+            items: [
+                {
+                    product_id: '',
+                    product_name: '',
+                    quantity: '',
+                    size: '',
+                    unit_price: '',
+                    total_price: ''
+                }
+            ],
+            orders_Sum: ''
         };
     } else {
         newForm.value = props.userForm;
     }
 })
 
-const alertText = ref('')
 const sendNewForm = () => {
     if (newForm.value.customerName && newForm.value.customerAddress && newForm.value.customerPhone) {
-        emit('addform', newForm.value);
-        emit('closepopup', '');
+        if (!isNaN(newForm.value.customerName)) {
+            alertText.value = 'ข้อมูลชื่อไม่ถูกต้อง'
+        } else if (!isNaN(newForm.value.customerAddress)) {
+            alertText.value = 'ข้อมูลที่อยู่ไม่ถูกต้อง'
+        } else if (isNaN(newForm.value.customerPhone) || newForm.value.customerPhone.length !== 10) {
+            alertText.value = 'เบอร์โทรศัพท์ไม่ถูกต้อง'
+        }
+        else {
+            emit('addform', newForm.value);
+            emit('closepopup', '');
+        }
     } else {
         alertText.value = 'กรุณากรอกข้อมูลให้ครบ'
     }
 };
-
-// watch(
-//     () => newForm,
-//     () => {
-//         if (newForm.customerName && newForm.customerAddress && newForm.customerPhone) {
-//             error.value = false;
-//         }
-//     },
-//     { deep: true }
-// );
 
 </script>
 <template>
     <div class="fixed top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-80 flex items-center justify-center z-5">
         <div class="bg-white rounded-lg p-4 h-auto w-5/12">
             <!-- GoBack -->
+            <button class="" @click="$emit('closepopup', '')">
             <button class="" @click="$emit('closepopup', '')">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="inline w-12 h-12">
                     <path fill="none" d="M0 0h24v24H0z" />
@@ -103,8 +99,7 @@ const sendNewForm = () => {
                         เบอร์ติดต่อ
                     </label>
                     <input class="border rounded-xl border-gray-400 p-2 h-auto w-3/4 text-lg" type="tel" name="phone"
-                        id="phone" placeholder="Ex 0922161111" pattern="[0-9]*" inputmode="numeric"
-                        v-model="newForm.customerPhone" />
+                        id="phone" placeholder="0912345678" v-model="newForm.customerPhone" />
                 </div>
                 <!-- Error -->
                 <div class="mb-3" v-if="alertText">
