@@ -1,8 +1,6 @@
 <script setup>
 import { ref, onMounted, watch, defineProps } from "vue";
 import Ordering from "../components/Buying/Ordering.vue";
-import Navbar from "../components/Navbar.vue";
-import ProductDetail from "./ProductDetail.vue";
 
 const totals = ref(0);
 const buy = ref(0);
@@ -11,6 +9,17 @@ const frommark = ref([]);
 const toName = ref([])
 const popup = ref('Cart')
 const isChecked = ref([]);
+
+const backToCart = () => {
+  popup.value = 'Cart'
+  sendToOrder.value = []
+  toName.value = []
+  isChecked.value = []
+  buy.value = 0
+  for (const item of frommark.value) {
+    item.quantity = 1
+  }
+}
 
 const setMode = (receiveOrders) => {
   toName.value = receiveOrders
@@ -25,6 +34,18 @@ const props = defineProps({
   }
 });
 
+const filCart = () => {
+  for (let i = 0; i < frommark.value.length; i++) {
+    for (let j = 0; j < frommark.value.length; j++) {
+      if (frommark.value[i].id === frommark.value[j].id
+        && i !== j
+        && frommark.value[i].size === frommark.value[j].size) {
+        frommark.value[i].quantity++
+        frommark.value.splice(j, 1)
+      }
+    }
+  }
+}
 onMounted(() => {
   if (props.productCart) {
     frommark.value = props.productCart
@@ -35,29 +56,49 @@ onMounted(() => {
       item.total_price = item.price
     }
   }
+  filCart()
 })
 
+
+
+
 const addToBuy = (item, index) => {
+
   if (!isChecked.value[index]) {
-    buy.value = item.quantity * item.price
-    // toName.value.push(item)
+    buy.value += item.total_price
     sendToOrder.value.push(item)
+    console.log(sendToOrder.value);
+    console.log(isChecked.value[index]);
   } else if (isChecked.value[index]) {
+    buy.value -= item.total_price
     sendToOrder.value.splice(index, 1)
+    console.log(sendToOrder.item);
+    console.log(isChecked.value[index]);
   }
   isChecked.value[index] = !isChecked.value[index]
+
 }
 
-const changeQuantity = (num, item) => {
+const changeQuantity = (num, item, index) => {
   if (num === 1) {
     item.quantity += num;
     item.total_price = item.quantity * item.price
-    totals.value += item.price
+    console.log(isChecked.value[index]);
+    if (isChecked.value[index]) {
+      buy.value += item.price
+
+    }
+
   }
   if (num === -1) {
     item.quantity += num;
     item.total_price = item.quantity * item.price
-    totals.value -= item.price
+    console.log(isChecked.value[index]);
+    if (isChecked.value[index]) {
+      buy.value -= item.price
+
+    }
+
   }
 };
 
@@ -72,13 +113,13 @@ const removeItem = (index) => {
     <div v-if="popup === 'Cart'">
 
       <div class="flex bg-black justify-around h-16 items-center text-2xl">
-        <div class="flex"></div>
-        <div class="flex text-slate-50 w-96 ">สินค้า</div>
-        <div class="flex text-slate-50 ">ประเภท</div>
+        <div class="flex  "></div>
+        <div class="flex text-slate-50 w-80">สินค้า</div>
+        <div class="flex text-slate-50">ประเภท</div>
         <div class="flex text-slate-50">ขนาด</div>
         <div class="flex text-slate-50">จำนวน</div>
         <div class="flex text-slate-50">ราคา</div>
-        <div></div>
+        <div class="flex w-5"></div>
       </div>
       <!-- v-for="item of frommark" -->
       <div class="flex bg-orange-600 justify-around py-24 text-2xl" v-for="(item, index) in frommark " :key="index">
@@ -86,7 +127,7 @@ const removeItem = (index) => {
 
         <!-- checkbox add to order -->
         <div class="flex text-slate-50" @change="addToBuy(item, index)">
-          <input type="checkbox" :v-model="isChecked[index]" />
+          <input type="checkbox" :id="index" :v-model="isChecked[index]" />
         </div>
 
         <div class="flex text-slate-50 w-80">
@@ -102,14 +143,15 @@ const removeItem = (index) => {
         <div class="flex text-slate-50 items-center">
 
           <!-- button delete quantity item -->
-          <button :disabled="item.quantity == 1" class="border w-5 h-6 text-base solid px-1 bg-white text-stone-900"
-            @click="changeQuantity(-1, item)">
+          <button :disabled="item.quantity == 1" :id="index"
+            class="border w-5 h-6 text-base solid px-1 bg-white text-stone-900" @click="changeQuantity(-1, item, index)">
             -
           </button>
           <span class="px-3">{{ item.quantity }}</span>
 
           <!-- button add more item -->
-          <button class="border w-5 h-6 text-base solid px-1 bg-white text-stone-900" @click="changeQuantity(1, item)">
+          <button class="border w-5 h-6 text-base solid px-1 bg-white text-stone-900" :id="index"
+            @click="changeQuantity(1, item, index)">
             +
           </button>
         </div>
@@ -119,16 +161,24 @@ const removeItem = (index) => {
         </div>
         <!-- delete product -->
         <div class="flex items-center">
-          <img class="w-6 cursor-pointer" src="../assets/bin.png" @click="removeItem(index, frommark, item)">
+          <img
+            class="w-6 cursor-pointer hover:-translate-y-1 hover:scale-110 transition ease-in-out delay-150 duration-300"
+            src="../assets/bin.png" @click="removeItem(index, frommark, item)">
         </div>
-
       </div>
       <!-- compare total price -->
-      total {{ buy }}
+
 
       <!-- send data to order -->
-      <button @click="setMode(sendToOrder)">ส่ง</button>
+      <div class="flex justify-end pr-11 text-2xl pt-3 pb-3 bg-black text-white">
+        <span class=" mx-5 flex items-center"> ราคารวม {{ buy }}</span>
+        <button
+          class=" bg-red-600 w-32 rounded-lg p-5 hover:-translate-y-1 hover:scale-110 transition ease-in-out delay-150 duration-300 "
+          @click="setMode(sendToOrder)"> สั่งสินค้า </button>
+      </div>
     </div>
-    <Ordering v-if="popup === 'Ordering'" :items_list="toName" @setPage="popup = 'Cart'" />
+    <Ordering v-if="popup === 'Ordering'" :items_list="toName" @setPage="backToCart" />
   </div>
 </template>
+
+<style scoped></style>
