@@ -5,7 +5,8 @@ import Navbar from "./components/Navbar.vue";
 
 const productCart = ref([]);
 const sentToCart = (product) => {
-  productCart.value.push(product);
+  productCart.value.push(JSON.parse(JSON.stringify(product)));
+  
 };
 
 const category = ref([]);
