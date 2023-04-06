@@ -230,25 +230,31 @@ const sendOrder = async (newOrder) => {
         <div class="w-5/12">
             <div class="text-center">
                 <div class="bg-[#EFEFEF] w-full h-auto mx-4 py-4">
-                    <div class="w-auto px-4 pt-3">
+                    <div class="w-auto px-4 pt-2">
                         <div class="w-full flex h-auto items-center">
-                            <div class="h-auto w-9/12 text-center ">
-                                <span class="text-xl font-bold"> รายการ </span>
+                            <div class="h-auto w-8/12 text-center ">
+                                <span class="text-lg font-bold"> รายการ </span>
                             </div>
-                            <div class="h-auto w-1/12 text-left">
-                                <span class="text-xl font-bold"> จำนวน </span>
+                            <div class="h-auto w-1/12 text-center">
+                                <span class="text-lg font-bold"> ไซส์ </span>
+                            </div>
+                            <div class="h-auto w-1/12 text-center">
+                                <span class="text-lg font-bold text-right"> จำนวน </span>
                             </div>
                             <div class="h-auto w-2/12 text-center">
-                                <span class="text-xl font-bold"> ราคา </span>
+                                <span class="text-lg font-bold"> ราคา </span>
                             </div>
                         </div>
                     </div>
                     <!-- สินค้า -->
-                    <div class="mt-4 h-96 w-auto px-4 overflow-y-scroll">
+                    <div class="mt-1 h-96 w-auto px-4 overflow-y-scroll">
                         <div class="w-full flex h-auto items-center border-b-2 border-slate-300 pl-4 py-5"
                             v-for="item of orders.items">
-                            <div class="h-auto w-9/12 text-left">
+                            <div class="h-auto w-8/12 text-left">
                                 <span class=" text-lg font-medium">{{ item.name }}</span>
+                            </div>
+                            <div class="h-auto w-1/12 text-center">
+                                <span class="text-lg text-[#602F7E] font-bold">{{ item.size }}</span>
                             </div>
                             <div class="h-auto w-1/12 text-center">
                                 <span class="text-lg">{{ item.quantity }}</span>
@@ -256,6 +262,7 @@ const sendOrder = async (newOrder) => {
                             <div class="h-auto w-2/12 text-center">
                                 <span class="text-lg text-[#602F7E] font-bold">{{ item.total_price }}</span>
                             </div>
+                            
                         </div>
                     </div>
                     <!-- สรุปราคา -->
