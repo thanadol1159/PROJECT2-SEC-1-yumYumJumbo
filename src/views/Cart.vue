@@ -106,6 +106,8 @@ const changeQuantity = (num, item, index) => {
 
 const removeItem = (index) => {
   resive.value.splice(index, 1)
+  buy.value = 0
+  isChecked.value[index] = false
 }
 
 
@@ -123,7 +125,6 @@ const removeItem = (index) => {
         <div class="flex text-slate-50">ราคา</div>
         <div class="flex w-5"></div>
       </div>
-      <!-- v-for="item of resive" -->
       <div class="flex bg-orange-600 justify-around py-24 text-2xl" v-for="(item, index) in resive " :key="index">
 
 
@@ -168,7 +169,6 @@ const removeItem = (index) => {
             src="../assets/bin.png" @click="removeItem(index, resive, item)">
         </div>
       </div>
-      <!-- compare total price -->
 
 
       <!-- send data to order -->
